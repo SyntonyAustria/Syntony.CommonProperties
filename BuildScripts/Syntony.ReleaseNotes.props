@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+$(Company).ReleaseNotes.props
+***********************************************************************************************
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+        ***********************************************************************************************
+        This file is used to set ReleaseNotes properties for all solutions
+        ***********************************************************************************************
+    -->
+    <!--
+        IMPORTANT: Properties defined
+        IsCompanyReleaseNotesPropsFileImported      ... set to 'true'
+    -->
+    <PropertyGroup>
+        <IsCompanyReleaseNotesPropsFileImported>true</IsCompanyReleaseNotesPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(MSBuildProjectName)'=='$(Company).Common.NullableAttributes'">
+        <PackageReleaseNotes Condition="$(VersionPrefix.Contains('1.0.'))">
+            <![CDATA[
+            * Final release includes all C# 8 nullable attributes
+            This release covers the following attributes:
+
+            - AllowNullAttribute
+            - DisallowNullAttribute
+            - DoesNotReturnAttribute
+            - DoesNotReturnIfAttribute
+            - MaybeNullAttribute
+            - MaybeNullWhenAttribute
+            - NotNullAttribute
+            - NotNullIfNotNullAttribute
+            - NotNullWhenAttribute
+            ]]>
+        </PackageReleaseNotes>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(MSBuildProjectName)'=='Syntony.Common.Core'">
+        <!-- Release notes for the package. -->
+        <PackageReleaseNotes Condition="$(VersionPrefix.Contains('0.1.0'))">
+            <![CDATA[
+            Bug fixes:
+            * First package - base concept
+            ]]>
+        </PackageReleaseNotes>
+        <PackageReleaseNotes Condition="$(VersionPrefix.Contains('0.1.4'))">
+            <![CDATA[
+            Bug fixes:
+            * stable concept of interfaces and classes
+            ]]>
+        </PackageReleaseNotes>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(MSBuildProjectName)'=='Syntony.Common'">
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageReleaseNotes Condition="'$(PackageReleaseNotes)' == ''">PackageReleaseNotes for $(MSBuildProjectName) - $(VersionPrefix).</PackageReleaseNotes>
+        <ImportCompanyReleaseNotesIncluded>true</ImportCompanyReleaseNotesIncluded>
+    </PropertyGroup>
+</Project>

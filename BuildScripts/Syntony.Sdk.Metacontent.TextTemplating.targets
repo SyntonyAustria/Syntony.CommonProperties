@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Metacontent.TextTemplating.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set the Metacontent *.tt / t4 handling dependend properties and
+          extends the build process with CustomPreTransform and CustomPostTransform.
+          A metacontent file has properties about the assembly iteselfg and the build process
+***********************************************************************************************
+Imported by: Director.Build.targets
+***********************************************************************************************
+Properties defined
+    IsMetacontentTextTemplatingTargtesFileImported  ... set to 'true'
+    SetMetaconentFile                   ... sets a MetacontentFile to the project
+    BuildMetacontent                    ... rebuilds all tt / T4 files on every build if BuildMetacontent is 'true'
+
+    If Condition="'$(BuildMetacontent)' == 'true'" the following properties are set:
+        TransformOnBuild                ... set to 'true'
+        OverwriteReadOnlyOutputFiles    ... set to 'true'
+        TransformOutOfDateOnly          ... set to 'false'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- This is used to determine whether Metacontent.TextTemplating.targtes is already imported -->
+    <PropertyGroup Label="Imported">
+        <IsMetacontentTextTemplatingTargtesFileImported>true</IsMetacontentTextTemplatingTargtesFileImported>
+    </PropertyGroup>
+
+    <!-- METACONTENT AND T4 -->
+    <PropertyGroup Condition="'$(IsBenchmarkProject)' == 'true' OR '$(IsTrialAndErrorConsole)' == 'true' OR '$(IsNotCompileProject)' == 'true'">
+        <!-- this projects need no metacontene file by default -->
+        <SetMetaconentFile Condition="'$(SetMetaconentFile)' == ''">false</SetMetaconentFile>
+        <BuildMetacontent Condition="'$(BuildMetacontent)' == '' ">false</BuildMetacontent>
+    </PropertyGroup>
+
+    <PropertyGroup Label="SetMetaconentFile">
+        <SetMetaconentFile Condition="'$(SetMetaconentFile)' == ''">true</SetMetaconentFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(BuildMetacontent)' == ''">
+        <!-- Rebuilds all tt / T4 files on every build if BuildMetacontent is true. We use this option only at RELEASE builds by default. -->
+        <BuildMetacontent>$(SetMetaconentFile)</BuildMetacontent>
+        <BuildMetacontent Condition="'$(IsReleaseConfiguration)' != 'true'">false</BuildMetacontent>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(SetMetaconentFile)' == 'true'">
+        <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == '' AND '$(TargetName)' != ''">$(TargetName.Replace(".", ""))</MetacontentClassPrefix>
+        <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(MSBuildProjectName.Replace(".", ""))</MetacontentClassPrefix>
+        <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(AssemblyName.Replace(".", ""))</MetacontentClassPrefix>
+        <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(PackageId.Replace(".", ""))</MetacontentClassPrefix>
+        <MetacontentFile Condition="'$(MetacontentFile)' == ''">Metacontent</MetacontentFile>
+        <MetacontentOutputFileName Condition="'$(MetacontentOutputFileName)' == ''">$(MetacontentClassPrefix)$(MetacontentFile)</MetacontentOutputFileName>
+        <MetacontentOutputDirectory Condition="'$(MetacontentOutputDirectory)' == ''">$([MSBuild]::EnsureTrailingSlash($(MSBuildProjectDirectory)))Properties</MetacontentOutputDirectory>
+
+        <!-- if output file does NOT exist we must build it independent of BuildMetacontent is set or not-->
+        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' AND !Exists('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs')">true</BuildMetacontent>
+
+        <!-- if output file is older than this file or older than tt file we must build it independent of BuildMetacontent is set or not-->
+        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
+            AND ($([System.IO.File]::GetLastWriteTime('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
+        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
+            AND ($([System.IO.File]::GetLastWriteTime('$(MSBuildThisFileFullPath)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(SetMetaconentFile)' == 'true'">
+        <!-- Add more T4ReferencePath items here if necessary -->
+        <T4ReferencePath Include="$(VsIdePath)PublicAssemblies\" />
+
+        <!-- used for T4 *.tt files -->
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+
+        <!-- be sure to exclude Metacontent.cs files -->
+        <None Remove="$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).cs" Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).cs')"/>
+        <None Remove="$(MetacontentOutputDirectory)\$(MetacontentFile).cs" Condition="Exists('$(MetacontentOutputDirectory)\$(MetacontentFile).cs')"/>
+        <None Include="$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt" Link="Properties\$(MetacontentFile).tt">
+            <Generator>TextTemplatingFileGenerator</Generator>
+            <OutputFileName>$(MetacontentOutputFileName).cs</OutputFileName>
+            <OutputFilePath>$(MetacontentOutputDirectory)</OutputFilePath>
+            <!-- The name of the file that was created by any file generator that ran on this item. -->
+            <LastGenOutput>$(MetacontentOutputFileName).cs</LastGenOutput>
+        </None>
+        <Compile Update="Properties\$(MetacontentOutputFileName).cs">
+            <DesignTime>true</DesignTime>
+            <AutoGen>true</AutoGen>
+            <!-- Optional boolean. Indicates whether the file was generated for the project by the Visual Studio integrated development environment (IDE). -->
+            <DependentUpon>$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(BuildMetacontent)' == 'true'">
+        <!-- 
+            https://www.thomaslevesque.com/2017/11/13/transform-t4-templates-as-part-of-the-build-AND-pass-variables-from-the-project/ 
+            https://github.com/jazzdelightsme/UnofficialT4BuildTasks/tree/master/Package
+            https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process?view=vs-2019
+            https://www.codeproject.com/Tips/5160335/Auto-Transform-T4-Text-Template-Transformation-Too
+        -->
+        <!-- https://github.com/github/VisualStudio/blob/master/lib/Microsoft.TextTemplating.targets -->
+        <!-- This is what will cause the templates to be transformed when the project is built (default is false) -->
+        <TransformOnBuild>true</TransformOnBuild>
+        <!-- Set to true to force overwriting of read-only output files, e.g. if they're not checked out (default is false) -->
+        <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+        <!-- Set to false to transform files even if the output appears to be up-to-date (default is true)  -->
+        <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+    </PropertyGroup>
+
+    <!-- Some more T4 PROPERTIES for Metacontent -->
+    <PropertyGroup>
+        <_CompileItems>@(Compile->Count())</_CompileItems>
+        <_EmbeddedResourceItems>@(EmbeddedResource->Count())</_EmbeddedResourceItems>
+        <_ContentItems>@(Content->Count())</_ContentItems>
+        <_ReferenceItems>@(Reference->Count())</_ReferenceItems>
+        <_ProjectReferenceItems>@(ProjectReference->Count())</_ProjectReferenceItems>
+        <_PackageReferenceItems>@(PackageReference->Count())</_PackageReferenceItems>
+    </PropertyGroup>
+
+    <PropertyGroup Label="EXTEND TRANSFORM BUILD PROCESS">
+       <!-- 
+             Text transformation happens before other tasks in the build process. You can define tasks that are invoked before and after transformation, by setting the properties $(BeforeTransform) and $(AfterTransform).
+             https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process?view=vs-2022 
+        -->
+        <!-- List of targets that should be run before the transforming. By default, no pre-processing is carried out. The next line is effectively a no-op: it is only here as placeholder to document this customisation point. -->
+        <BeforeTransform>CustomPreTransform</BeforeTransform>
+
+        <!-- List of targets that should be run after transforming.
+             By default, a target is called that will issue warnings for all read-only files that were overwritten, and for all files that were not overwritten.
+             You can override this behaviour by providing a custom target to handle post-processing e.g. in a source code control scenario, you could check out files that have been overwritten.
+         -->
+        <AfterTransform>CustomPostTransform</AfterTransform>
+    </PropertyGroup>
+
+    <!--
+                                            | FirstAssembly    | FirstAssemblyDefaultBehavior   | 
+        $(Company).Common.Core.Basics       | true             | false                          | delete, update and write $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
+        any other project from Framework    | false            | false                          | read $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
+        every other project                 | true             | true                           | ignore $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
+    -->
+    <PropertyGroup Condition="'$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName)' == '$(Company).Common.Core.Basics')">
+        <!-- ATTENTION: for all framework projects $(FirstAssembly) == 'true' except for the first one '$(Company).Common.Core.Basics' -->
+        <FirstAssembly Condition="'$(FirstAssembly)' == ''">true</FirstAssembly>
+        <FirstAssemblyDefaultBehavior>false</FirstAssemblyDefaultBehavior>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName)' != '$(Company).Common.Core.Basics')">
+        <!-- ATTENTION: for all framework projects $(FirstAssembly) == 'true' except for the first one '$(Company).Common.Core.Basics' -->
+        <FirstAssembly Condition="'$(FirstAssembly)' == ''">false</FirstAssembly>
+        <FirstAssemblyDefaultBehavior>false</FirstAssemblyDefaultBehavior>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- if building the FIRST assembyl of a solution, some properties are set like $(Now) by default every new project is a single application, so we have to set 'true' to update $(Now) -->
+        <FirstAssembly Condition="'$(FirstAssembly)' == ''">true</FirstAssembly>
+        <!-- FirstAssemblyDefaultBehavior be default NOT set -->
+        <FirstAssemblyDefaultBehavior Condition="'$(FirstAssemblyDefaultBehavior)' == ''">true</FirstAssemblyDefaultBehavior>
+    </PropertyGroup>
+
+    <!-- 
+        ***********************************************************************************************
+        T4 Metacontent Targets
+        ***********************************************************************************************
+    -->
+    <Target Label="CustomPostTransform -T4 Metacontent build" Name="CustomPostTransform">
+        <!-- This message will be shown in Output window right after the transformation. It also shows the Generated Files. -->
+        <Message Text="In CustomPostTransform...@(GeneratedFiles)" Importance="$(BuildMessageImportance)" />
+        <PropertyGroup Condition="'$(TransformOnBuild)' == 'true' AND '$(IsMultiTargeted)' == 'true'">
+            <TransformOnBuild>false</TransformOnBuild>
+        </PropertyGroup>
+    </Target>
+
+    <Target Label="T4 Metacontent CustomPreTransform" Name="CustomPreTransform" Condition="'$(TransformOnBuild)' == 'true'">
+        <!-- https://github.com/github/VisualStudio/blob/master/lib/Microsoft.TextTemplating.targets -->
+        <Message Text="T4 Metacontent CustomPreTransform for '$(MSBuildProjectName)': $(Configuration) with $(TargetFramework) on $(OS) ... TransformOnBuild: $(TransformOnBuild)" Importance="$(BuildMessageImportance)" />
+        <Message Text="TargetName: '$(TargetName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildProjectName: '$(MSBuildProjectName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildSolutionDirectory: '$(BuildSolutionDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildProjectDirectory: '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Property 'StartTick' BEFORE update from file '$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)': '$(StartTicks)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="FirstAssembly:                                  '$(FirstAssembly)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="FirstAssemblyDefaultBehavior:                   '$(FirstAssemblyDefaultBehavior)'" Importance="$(BuildMessageImportance)" />
+
+        <!-- at first we try to set the $(StartTicks) property to the first file in the solution -->
+        <PropertyGroup>
+            <__StartTicks>$(StartTicks)</__StartTicks>
+        </PropertyGroup>
+
+        <!-- we must read file for StartTicks property if present otherweise we have to write it -->
+        <ReadLinesFromFile File="$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)" Condition="Exists('$(TEMP)\StartTicks(MsBuildPropertyToFileExtension)') AND '$(FirstAssemblyDefaultBehavior)' == 'false'">
+            <Output TaskParameter="Lines" PropertyName="StartTicksProperty" />
+        </ReadLinesFromFile>
+
+        <PropertyGroup Condition="'$(FirstAssemblyDefaultBehavior)' == 'false'">
+            <StartTicks>$(StartTicksProperty)</StartTicks>
+        </PropertyGroup>
+
+        <Message Text="Success: Property 'Now' update: form '$(__StartTicks)' to '$(StartTicks)' for '$(MSBuildProjectName)' on $(TargetFramework) / $(OS)" Importance="$(BuildMessageImportance)" Condition="'$(FirstAssemblyDefaultBehavior)' == 'false'"/>
+
+        <Message Text="Error: StartTicks property NOT set by file! Run 'Clean Solution' first." Importance="high" Condition="'$(StartTicks)' == ''" />
+        <PropertyGroup Condition="'$(StartTicks)' == ''">
+            <StartTicks>$([System.DateTimeOffset]::UtcNow.Ticks)</StartTicks>
+        </PropertyGroup>
+        
+        <PropertyGroup Label="Update Timestamp from Directory.Build.props">
+            <!--
+                ATTENTION ATTENTION ATTENTION ATTENTION ATTENTION
+                Changes to this PropertyGroup should also be written to Directory.Build.props to to PropertyGroup Label="Timestamp"
+                ATTENTION ATTENTION ATTENTION ATTENTION ATTENTION
+            -->
+
+            <BuildTimestamp>$([System.DateTime]::new($(StartTicks)).ToString("$(BuildTimestampFormat)"))</BuildTimestamp>
+            <UnixTimestamp>$([MSBuild]::Subtract($([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::new($(StartTicks)).Ticks), 10000000)))), 62135596800))</UnixTimestamp>
+            <DaysSinceEpoch>$([System.DateTime]::op_Subtraction($([System.DateTime]::new($(StartTicks)).Date),$([System.DateTime]::new(621355968000000000))).TotalDays.ToString("00000"))</DaysSinceEpoch>
+            <!--
+                Note that, since this causes our version number to tick over every minute, we see a (far less severe) variant of dotnet/project-system#1457
+                where VS decides to restore packages at seemingly random times. https://github.com/Unity-Technologies/ProjNet4GeoAPI/blob/master/src/Directory.Build.props#L38
+            -->
+            <MinutesSinceStartOfUtcDay>$([System.DateTime]::new($(StartTicks)).TimeOfDay.TotalMinutes.ToString("0000"))</MinutesSinceStartOfUtcDay>
+
+            <!-- Now represents the UTC build date & time -->
+            <Now>$([System.DateTime]::New($(StartTicks)).ToString("$(BuildDateTimeFormat)"))</Now>
+            <Today>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("$(BuildDateFormat)"))</Today>
+            <Year>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("yyyy"))</Year>
+            <Month>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("MM"))</Month>
+            <Day>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("dd"))</Day>
+            <Time>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("$(BuildTimeFormat)"))</Time>
+
+            <!-- Date of Build for a .Net assembly https://www.meziantou.net/getting-the-date-of-build-of-a-dotnet-assembly-at-runtime.htm -->
+            <!-- file://C:/Program%20Files/dotnet/sdk/7.0.402/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.GenerateAssemblyInfo.targets -->
+            <!-- use of AssemblyInformationalVersionAttribute The value of SourceRevisionId is added to the metadata section of the version (after the +). The value is of the following form: 1.2.3+build20180101120000 -->
+            <SourceRevisionId>build$(BuildTimestamp)</SourceRevisionId>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <_TotalConfigurationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).$(Configuration).BuildCounter$(MsBuildPropertyToFileExtension)</_TotalConfigurationFile>
+            <_TotalProjectFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).BuildCounter$(MsBuildPropertyToFileExtension)</_TotalProjectFile>
+        </PropertyGroup>
+
+        <!-- adjust TargetFileName for inside use -->
+        <PropertyGroup>
+            <__IsExecutable>false</__IsExecutable>
+            <__IsExecutable Condition="'$(OutputType)' == 'Exe' OR '$(OutputType)'=='WinExe'">true</__IsExecutable>
+            <SyntonyTargetFileName>$(TargetFileName)</SyntonyTargetFileName>
+            <SyntonyTargetFileName Condition="'$(__IsExecutable)' == 'true'">$(TargetName).exe</SyntonyTargetFileName>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <!-- 
+            Specifies the path to the default resource. see also task for resx file: https://www.codeproject.com/Articles/104313/Automatic-ResX-Comment-Checking-with-MSBuild-Integ
+            Different locations can be defined by adding a ';' between the locations. For example: "Resources.String1; Resources.String2".
+            this property is handled by DefaultResourceLocationAttribute
+            The resx files are listed in "EmbeddedResource"
+            https://learn.microsoft.com/en-us/visualstudio/msbuild/item-functions?view=vs-2022
+            https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-well-known-item-metadata?view=vs-2022
+            @(EmbeddedResource->Reverse()->'%(RelativeDir)%(Filename)%(Extension)')
+
+            <_defaultResourceLocationPath>@(EmbeddedResource->Reverse()->'$(RootNamespace)\%(RelativeDir)%(Filename)')</_defaultResourceLocationPath>
+            <DefaultResourceLocationPath Condition="'$(DefaultResourceLocationPath)'==''">$(_defaultResourceLocationPath.Replace('\', '.').Replace('/', '.'))</DefaultResourceLocationPath>
+            -->
+        </PropertyGroup>
+
+        <!-- Configuration counter -->
+        <ReadLinesFromFile File="$(_TotalConfigurationFile)" Condition="Exists('$(_TotalConfigurationFile)')">
+            <Output TaskParameter="Lines" PropertyName="_ConfigurationCounterProperty" />
+        </ReadLinesFromFile>
+
+        <!-- Project counter -->
+        <ReadLinesFromFile File="$(_TotalProjectFile)" Condition="Exists('$(_TotalProjectFile)')">
+            <Output TaskParameter="Lines" PropertyName="_ProjectCounterProperty" />
+        </ReadLinesFromFile>
+
+        <!-- ensure 'Properties' directory is existing -->
+        <CallTarget Targets="EnsurePropertiesDiretcoryAndContent"/>
+
+        <!-- MSBuild Properties TO T4 -->
+        <ItemGroup>
+            <T4ParameterValues Include="BuildMetacontent" Condition="'$(BuildMetacontent)' != ''">
+                <Value>$(BuildMetacontent)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="UserSecretsId" Condition="'$(UserSecretsId)' != ''">
+                <Value>$(UserSecretsId)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TransformOnBuild" Condition="'$(TransformOnBuild)' != ''">
+                <Value>$(TransformOnBuild)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MSBuildProjectName" Condition="'$(MSBuildProjectName)' != ''">
+                <Value>$(MSBuildProjectName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MSBuildProjectDirectory" Condition="'$(MSBuildProjectDirectory)' != ''">
+                <Value>$(MSBuildProjectDirectory)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Platform" Condition="'$(Platform)' != ''">
+                <Value>$(Platform)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="ProjectFileName" Condition="'$(ProjectFileName)' != ''">
+                <Value>$(ProjectFileName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="SyntonyTargetFileName" Condition="'$(SyntonyTargetFileName)' != ''">
+                <Value>$(SyntonyTargetFileName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TargetFileName" Condition="'$(TargetFileName)' != ''">
+                <Value>$(TargetFileName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TargetName" Condition="'$(TargetName)' != ''">
+                <Value>$(TargetName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="RootNamespace" Condition="'$(RootNamespace)' != ''">
+                <Value>$(RootNamespace)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TargetFramework" Condition="'$(TargetFramework)' != ''">
+                <Value>$(TargetFramework)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TargetFrameworks" Condition="'$(TargetFrameworks)' != ''">
+                <Value>$(TargetFrameworks)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="SolutionName" Condition="'$(SolutionName)' != ''">
+                <Value>$(SolutionName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Configurations" Condition="'$(Configurations)' != ''">
+                <Value>$(Configurations)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Configuration" Condition="'$(Configuration)' != ''">
+                <Value>$(Configuration)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Company" Condition="'$(Company)' != ''">
+                <Value>$(Company)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="CLSCompliantAttribute" Condition="'$(CLSCompliantAttribute)' != ''">
+                <Value>$(CLSCompliantAttribute)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="ComVisibleAttribute" Condition="'$(ComVisibleAttribute)' != ''">
+                <Value>$(ComVisibleAttribute)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="PackageDescription" Condition="'$(PackageDescription)' != ''">
+                <Value>$(PackageDescription)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="PackageId" Condition="'$(PackageId)' != ''">
+                <Value>$(PackageId)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Title" Condition="'$(Title)' != ''">
+                <Value>$(Title)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Description" Condition="'$(Description)' != ''">
+                <Value>$(Description)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="PackageTags" Condition="'$(PackageTags)' != ''">
+                <Value>$(PackageTags)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Authors" Condition="'$(Authors)' != ''">
+                <Value>$(Authors)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Copyright" Condition="'$(Copyright)' != ''">
+                <Value>$(Copyright)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Trademark" Condition="'$(Trademark)' != ''">
+                <Value>$(Trademark)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="AssemblyCulture" Condition="'$(AssemblyCulture)' != ''">
+                <Value>$(AssemblyCulture)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="NeutralResourcesLanguage" Condition="'$(NeutralResourcesLanguage)' != ''">
+                <Value>$(NeutralResourcesLanguage)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="CompanyEmail" Condition="'$(CompanyEmail)' != ''">
+                <Value>$(CompanyEmail)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="CompanyLinkHomepage" Condition="'$(CompanyLinkHomepage)' != ''">
+                <Value>$(CompanyLinkHomepage)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="CopyrightTimeSpan" Condition="'$(CopyrightTimeSpan)' != ''">
+                <Value>$(CopyrightTimeSpan)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="StartDate" Condition="'$(StartDate)' != ''">
+                <Value>$(StartDate)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="ExpirationDate" Condition="'$(ExpirationDate)' != ''">
+                <Value>$(ExpirationDate)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="DefaultResourceLocationPath" Condition="'$(DefaultResourceLocationPath)' != ''">
+                <Value>$(DefaultResourceLocationPath)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MetacontentClassPrefix" Condition="'$(MetacontentClassPrefix)' != ''">
+                <Value>$(MetacontentClassPrefix)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MetacontentFile" Condition="'$(MetacontentFile)' != ''">
+                <Value>$(MetacontentFile)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MetacontentOutputFileName" Condition="'$(MetacontentOutputFileName)' != ''">
+                <Value>$(MetacontentOutputFileName)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="MetacontentOutputDirectory" Condition="'$(MetacontentOutputDirectory)' != ''">
+                <Value>$(MetacontentOutputDirectory)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsSyntonyTestProject" Condition="'$(IsSyntonyTestProject)' != ''">
+                <Value>$(IsSyntonyTestProject)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="AssemblyToTest" Condition="'$(AssemblyToTest)' != ''">
+                <Value>$(AssemblyToTest)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsExampleProject" Condition="'$(IsExampleProject)' != ''">
+                <Value>$(IsExampleProject)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsBenchmarkProject" Condition="'$(IsBenchmarkProject)' != ''">
+                <Value>$(IsBenchmarkProject)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsQuickBenchmarkProject" Condition="'$(IsQuickBenchmarkProject)' != ''">
+                <Value>$(IsQuickBenchmarkProject)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsLocalizationProject" Condition="'$(IsLocalizationProject)' != ''">
+                <Value>$(IsLocalizationProject)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="DefineConstants" Condition="'$(DefineConstants)' != ''">
+                <Value>$(DefineConstants)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="LangVersion" Condition="'$(LangVersion)' != ''">
+                <Value>$(LangVersion)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Deterministic" Condition="'$(Deterministic)' != ''">
+                <Value>$(Deterministic)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Nullable" Condition="'$(Nullable)' != ''">
+                <Value>$(Nullable)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_CompileItems" Condition="'$(_CompileItems)' != ''">
+                <Value>$(_CompileItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_EmbeddedResourceItems" Condition="'$(_EmbeddedResourceItems)' != ''">
+                <Value>$(_EmbeddedResourceItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_ContentItems" Condition="'$(_ContentItems)' != ''">
+                <Value>$(_ContentItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_ReferenceItems" Condition="'$(_ReferenceItems)' != ''">
+                <Value>$(_ReferenceItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_ProjectReferenceItems" Condition="'$(_ProjectReferenceItems)' != ''">
+                <Value>$(_ProjectReferenceItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="_PackageReferenceItems" Condition="'$(_PackageReferenceItems)' != ''">
+                <Value>$(_PackageReferenceItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Major" Condition="'$(Major)' != ''">
+                <Value>$(Major)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Minor" Condition="'$(Minor)' != ''">
+                <Value>$(Minor)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Patch" Condition="'$(Patch)' != ''">
+                <Value>$(Patch)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="BuildNumber" Condition="'$(BuildNumber)' != ''">
+                <Value>$(BuildNumber)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="VersionPrefix" Condition="'$(VersionPrefix)' != ''">
+                <Value>$(VersionPrefix)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="VersionSuffix" Condition="'$(VersionSuffix)' != ''">
+                <Value>$(VersionSuffix)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="InformationalVersion" Condition="'$(InformationalVersion)' != ''">
+                <Value>$(InformationalVersion)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Version" Condition="'$(Version)' != ''">
+                <Value>$(Version)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="BuildMetaData" Condition="'$(BuildMetaData)' != ''">
+                <Value>$(BuildMetaData)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="PackageVersion" Condition="'$(PackageVersion)' != ''">
+                <Value>$(PackageVersion)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsReleaseVersion" Condition="'$(IsReleaseVersion)' != ''">
+                <Value>$(IsReleaseVersion)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsShipping" Condition="'$(IsShipping)' != ''">
+                <Value>$(IsShipping)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsShippingAssembly" Condition="'$(IsShippingAssembly)' != ''">
+                <Value>$(IsShippingAssembly)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsShippingPackage" Condition="'$(IsShippingPackage)' != ''">
+                <Value>$(IsShippingPackage)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="IsShippingVsix" Condition="'$(IsShippingVsix)' != ''">
+                <Value>$(IsShippingVsix)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="UsePackageReference" Condition="'$(UsePackageReference)' != ''">
+                <Value>$(UsePackageReference)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="UseProjectReference" Condition="'$(UseProjectReference)' != ''">
+                <Value>$(UseProjectReference)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="BuildDateTimeFormat" Condition="'$(BuildDateTimeFormat)' != ''">
+                <Value>$(BuildDateTimeFormat)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="BuildDateFormat" Condition="'$(BuildDateFormat)' != ''">
+                <Value>$(BuildDateFormat)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="BuildTimeFormat" Condition="'$(BuildTimeFormat)' != ''">
+                <Value>$(BuildTimeFormat)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="RepositoryUrl" Condition="'$(RepositoryUrl)' != ''">
+                <Value>$(RepositoryUrl)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="Now" Condition="'$(Now)' != ''">
+                <Value>$(Now)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+
+            <T4ParameterValues Include="TotalReleaseBuildCounter" Condition="'$(TotalReleaseBuildCounter)' != ''">
+                <Value>$(TotalReleaseBuildCounter)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TotalReleaseBuildCounter" Condition="'$(TotalReleaseBuildCounter)' == ''">
+                <Value>0</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            
+            <T4ParameterValues Include="TotalProjectBuildCounter" Condition="'$(TotalProjectBuildCounter)' != ''">
+                <Value>$(TotalProjectBuildCounter)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="TotalProjectBuildCounter" Condition="'$(TotalProjectBuildCounter)' == ''">
+                <Value>0</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+        </ItemGroup>
+    </Target>
+</Project>

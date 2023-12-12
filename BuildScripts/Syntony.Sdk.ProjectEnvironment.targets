@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.ProjectEnvironment.targets
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set properties and directories for the current project
+***********************************************************************************************
+Imported by:        '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+        Imports:    'Syntony.Sdk.LanguageSettings.props' from this directory
+        Imports:    'Syntony.Sdk.SolutionConfigurationSettings.props' from this directory
+        Imports:    'Syntony.Sdk.NuGetSettings.props' from this directory
+        Imports:    '$(SolutionName).Build.props' from this directory
+        Imports:    '$(MSBuildProjectName).Build.props' from this directory
+***********************************************************************************************
+Properties defined
+    PotentialEditorConfigFiles
+    EditorConfigFiles
+    GlobalAnalyzerConfigFiles
+    JetBrainsAnnotationsSet
+
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsProjectEnvironmentTargetsFileImported>true</IsProjectEnvironmentTargetsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Strong naming" Condition="'$(SignAssembly)' != 'true'">
+        <PublicKey></PublicKey>
+        <PublicKeyToken></PublicKeyToken>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Strong naming" Condition="'$(SignAssembly)' == 'true'">
+        <!--
+            All assemblies, packages and VSIXes are signed by default, regardless of whether they are shipping or not.
+            https://www.christianfindlay.com/blog/net-how-to-sign-an-assembly-in-visual-studio-2019
+            https://github.com/dotnet/docs/blob/main/docs/standard/assembly/sign-strong-name.md
+            https://stackoverflow.com/questions/52496611/sign-file-msbuild-with-incremental-build
+            
+            https://learn.microsoft.com/en-us/dotnet/standard/assembly/sign-strong-name
+            https://learn.microsoft.com/en-us/dotnet/standard/assembly/delay-sign
+            https://learn.microsoft.com/en-us/visualstudio/ide/managing-assembly-and-manifest-signing?view=vs-2022
+            
+            https://blog.matrixpost.net/sign-visual-studio-applications/ (BEST)
+
+            Error: "Cannot import the following key file: mykey.pfx. The key file may be password protected."
+            Solution 1: sn -i "c:\Pathtofile\.pfx" VS_KEY_C1D3ACB8FBF1AGK4
+            https://learn.microsoft.com/en-us/windows-hardware/drivers/install/importing-an-spc-into-a-certificate-store
+            signing an assembly makes it unusable for open source repositories 
+
+            If you turn on signing, others will not be able to compile the assembly unless they know your password or turn off signing. 
+            There is a good workaround. You can turn off signing for the "Debug" configuration. 
+            That means that by default, the assembly won't have an SNK. 
+            Developers will be able to compile your project after they download the repo, and you will still be able to sign the assembly in the release config.
+        -->
+        <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' AND Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx')">$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' AND Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx')">$(MSBuildProjectDirectory)\Properties\KeyPair.pfx</AssemblyOriginatorKeyFile>
+        <ManifestKeyFile Condition="'$(ManifestKeyFile)' == '' AND '$(IsVSTOProject)' == 'true'">$(AssemblyOriginatorKeyFile)</ManifestKeyFile>
+
+        <PublicKey Condition="'$(PublicKey)' == ''">$(SyntonyPublicKey)</PublicKey>
+        <PublicKeyToken Condition="'$(PublicKeyToken)' == ''">$(SyntonyPublicKeytoken)</PublicKeyToken>
+        <SingConstants>SignAssembly</SingConstants>
+        <DefineConstants Condition="'$(DefineConstants)' != ''">$(DefineConstants);$(SingConstants)</DefineConstants>
+        <DefineConstants Condition="'$(DefineConstants)' == ''">$(SingConstants)</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsBaseProject)' == 'true' AND '$(IsShipping)' != 'true'">
+        <GenerateSyntonyInternalsVisibleToAttributes Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == ''">true</GenerateSyntonyInternalsVisibleToAttributes>
+    </PropertyGroup>
+
+    <ItemGroup Label="All internals visible to all tests if assembly not shipped" Condition="'$(IsBaseProject)' == 'true' AND '$(IsShipping)' != 'true'">
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).Tests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).Tests.Net.NetFramework" />
+
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).UnitTests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).UnitTests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).UnitTests.NetFramework" />
+
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).PerformanceTests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).PerformanceTests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).PerformanceTests.NetFramework" />
+
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).SecurityTests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).SecurityTests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).SecurityTests.NetFramework" />
+
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).BenchmarkTests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).BenchmarkTests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).BenchmarkTests.NetFramework" />
+
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).QuickBenchmarkTests" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).QuickBenchmarkTests.Net" />
+        <SyntonyInternalsVisibleTo Include="$(MSBuildProjectName).QuickBenchmarkTests.NetFramework" />
+    </ItemGroup>
+
+    <ItemGroup Label=".editorconfig, .globalconfig">
+        <!-- 
+            https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig 
+            https://github.com/dotnet/roslyn/blob/main/src/Compilers/Core/MSBuildTask/Microsoft.Managed.Core.targets#L126
+            Do NOT insert the code from link above because it's done by .Net SDK
+        -->
+    </ItemGroup>
+
+    <PropertyGroup Label="JetBrainsAnnotations">
+        <!--
+            https://github.com/JetBrains/JetBrains.Annotations/blob/main/src/Annotations.cs
+            https://stackoverflow.com/questions/12957061/how-do-i-test-for-compiler-directives-with-an-msbuild-condition-in-a-csproj-fil
+            To check if $(DefineConstants) includes a definition of a constant "JETBRAINS_ANNOTATIONS" use Regular Expression instead of String.Contains().
+            In case you use MSBuild 4 or higher, I suggest using Regular Expression instead of String.Contains(). 
+            The reason for this is that even though String.Contains() usually works well, there are some cases you might get into problems.
+            For example:
+            Consider case when you use directives CONST-1 and CONST-12 in your code. However, you decide to define only CONST-12 directive for current build.
+            Now Condition="$(DefineConstants.Contains('CONST-1'))" evaluates to True even though CONST-1 is not defined.
+            Solution with RegularExpressions.RegEx:
+        -->
+        <JetBrainsAnnotationsSet Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*JETBRAINS_ANNOTATIONS(;.*)*$'))">true</JetBrainsAnnotationsSet>
+        <JetBrainsAnnotationsVersion>2023.3.0</JetBrainsAnnotationsVersion>
+    </PropertyGroup>
+    <ItemGroup Label="JetBrainsAnnotations">
+        <!-- for all environments
+            ReSharper Annotations help reduce false positive warnings, explicitly declare purity and nullability in your code, deal with implicit usages of members, support special semantics of APIs in ASP.NET 
+            and XAML frameworks and otherwise increase accuracy of ReSharper code inspections.
+            All usages of ReSharper Annotations attributes are erased from metadata by default, which means no actual binary reference to 'JetBrains.Annotations.dll' assembly is produced. 
+            If you need to preserve these attributes in metadata, just define 'JETBRAINS_ANNOTATIONS' conditional compilation symbol in your projects.
+            To use annotations in an application that no-one will reference as code: Include a reference to the JetBrains.Annotations package, and DO NOT define the JETBRAINS_ANNOTATIONS symbol. 
+            The JetBrains.Annotations.dll reference is design time only, and does not need need to be deployed with your application.
+            However, if you do define JETBRAINS_ANNOTATIONS, you should also include the full NuGet package reference.
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        -->
+        <PackageReference Condition="'$(JetBrainsAnnotationsSet)' == 'true'" Include="JetBrains.Annotations" Version="*" />
+        <PackageReference Condition="'$(JetBrainsAnnotationsSet)' != 'true'" Include="JetBrains.Annotations" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>all</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Label="REMOVE all MsBuildPropertyToFileExtension files and default files ITEMS">
+        <None Remove="**\*$(MsBuildPropertyToFileExtension)" />
+        <None Remove="**\*.DotSettings" />
+        <None Remove="**\desktop.ini" />
+    </ItemGroup>
+
+</Project>

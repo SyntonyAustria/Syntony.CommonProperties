@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+**************************************************************************************
+Syntony.Framework.Build.props
+**************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+**************************************************************************************
+Function: set solution-specific properties
+**************************************************************************************
+Imported by:            '$(BuildRootName)' => build.root
+    Imported by:        'Default.Settings.props'
+        Imported by:    'ProjectEnvironment.props'
+**************************************************************************************
+Properties defined
+    IsSolutionNameBuildPropsImported    ... set to 'true'
+    UsePackageReference                 ... set to 'false' if not already set
+    UseProjectReference                 ... set to 'true' if not already set
+**************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsSolutionNameBuildPropsImported>true</IsSolutionNameBuildPropsImported>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- 
+            This file sets the properties for building the full solution of the Syntony framework. 
+            Therefore it uses <UseProjectReference> instead of <UsePackageReference> 
+        -->
+        <UsePackageReference Condition="'$(UsePackageReference)'==''">false</UsePackageReference>
+        <UseProjectReference Condition="'$(UseProjectReference)'==''">true</UseProjectReference>
+        <IncludeSyntonyCommonCoreBasics>false</IncludeSyntonyCommonCoreBasics>
+    </PropertyGroup>
+</Project>

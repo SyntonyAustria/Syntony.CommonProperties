@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+$(Company).Version.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: sets company wide version properties (calculates the version from
+          The project (Version.props) may set VersionPrefix, MajorVersion, MinorVersion, 
+          or AutoGenerateAssemblyVersion properties, which are consumed below.
+Imported by: Directory.Build.targets (AFTER PROJECT specific version files)
+***********************************************************************************************
+Properties defined
+    IsCompanyVersionTargetsFileImported       ... 'true'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- 
+        NUGET package 
+        https://learn.microsoft.com/en-us/dotnet/core/tools/csproj 
+        https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets 
+        https://learn.microsoft.com/en-us/dotnet/core/tools/project-json-to-csproj#common-top-level-properties 
+        https://github.com/dotnet/docs/blob/master/docs/core/tools/csproj.md
+        https://stackoverflow.com/questions/42183300/what-is-the-difference-between-various-msbuild-version-properties-such-as-versi
+        
+        https://github.com/dotnet/arcade/blob/main/Documentation/CorePackages/Versioning.md
+        Syntony repositories should use SemVer2 for their asset versioning scheme. 
+        Package versions take the general form of: MAJOR.MINOR.PATCH-PRERELEASE+BUILDMETADATA
+    -->
+    <PropertyGroup Label="Imported">
+        <IsCompanyVersionTargetsFileImported>true</IsCompanyVersionTargetsFileImported>
+    </PropertyGroup>
+
+    <!-- 
+        ***********************************************************************************************
+        ther are the following important properties:
+        $(Version)          ... the full version
+                                Format: major.minor.patch[.build][-prerelease]
+                                Examples: 0.1.0, 1.2.3.5, 99.0.3-rc-preview-2-final
+                                Default: VersionPrefix-VersionSuffix (or just VersionPrefix if VersionSuffix is empty)
+
+        $(VersionPrefix)    ... Typically used to set the overall SemVer version number for your assembly
+                                Format: major.minor.patch[.build]
+                                Examples: 0.1.0, 1.2.3, 100.4.222, 1.0.0.3
+                                Default: 1.0.0
+                                by default set as $(Major).$(Minor).$(Patch)
+
+        $(VersionSuffix)    ... is used to set the pre-release label of the version number
+                                Format: Alphanumberic (+ hyphen) string: [0-9A-Za-z-]*
+                                Examples: alpha, beta, rc-preview-2-final
+                                Default: '' (blank)
+
+        If $(Version) is set: use it as it is. If the $(Version) property is hardcoded in the project’s file, 
+                              then passing $(VersionPrefix) and $(VersionSuffix) from the outside has no effect.
+                              
+        ***********************************************************************************************
+    -->
+
+    <!--
+        Version numbers in build process
+        https://www.codeproject.com/Tips/5343784/Classic-or-Custom-Build-and-Version-Numbers-for-As
+        https://www.codeproject.com/Tips/1231820/NET-Core-Versioning-Demystified
+    -->
+
+    <!-- latest version $(Company).Framework -->
+    <PropertyGroup>
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.0-beta</LatestSyntonyFrameworkVersion>
+        <SyntonyVersion>$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
+        <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Label="OfficialRelease">
+        <IsSyntonyPreRelease>false</IsSyntonyPreRelease>
+        <IsSyntonyPreRelease Condition="$(SyntonyVersion.Contains('-'))">true</IsSyntonyPreRelease>
+        <IsOfficialRelease Condition="'$(IsOfficialRelease)' == ''">false</IsOfficialRelease>
+    </PropertyGroup>
+
+    <!-- some default version settings if no version set -->
+    <Choose>
+        <!-- default $(Company) Framework and C$(Company) VisualStudio Framework libraries -->
+        <When Condition="('$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName.StartsWith($(Company)))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == ''))) 
+              OR (('$(MSBuildProjectName.StartsWith($(Company).VisualStudio))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
+              OR (('$(MSBuildProjectName.StartsWith($(Company).Common))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))">
+            <!-- Version, a specific version number in the form Major.Minor.Patch[-Suffix] where -Suffix identifies pre-release versions. If not specified, the default value is 1.0.0. -->
+            <PropertyGroup>
+                <Version>$(LatestSyntonyFrameworkVersion)</Version>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <!-- this is the DEFAULT version for all nuget packages produced in the repo -->
+            <PropertyGroup>
+                <!-- Central place to set the versions of all nuget packages produced in the repo -->
+                <Version Condition="'$(Version)' == ''">$(DefaultEverythingVersion)</Version>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+    <!-- no valid version defined -->
+    <PropertyGroup Condition="('$(Version)' == '' OR '$(Version)' == '$(DefaultEverythingVersion)') AND ('$(MajorVersion)' == '' AND '$(MinorVersion)' == '')">
+        <Version>$(DefaultEverythingVersion)</Version>
+    </PropertyGroup>
+
+    <!-- if $(MajorVersion) and $(MinorVersion) (and $(PatchVersion)) are defined so we build $(Version) -->
+    <PropertyGroup Condition="('$(Version)' == '' OR '$(Version)' == '$(DefaultEverythingVersion)') AND '$(MajorVersion)' != ''">
+        <Version>$(MajorVersion).$([MSBuild]::ValueOrDefault('$(MinorVersion)', '0')).$([MSBuild]::ValueOrDefault('$(PatchVersion)', '0'))</Version>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(UseVersionDateSuffix)' == 'true'">
+        <_BuildNumber>$([System.DateTime]::Now.ToString(yyyyMMdd)).1</_BuildNumber>
+        <_BuildNumberYY>$(_BuildNumber.Substring(2, 2))</_BuildNumberYY>
+        <_BuildNumberMM>$(_BuildNumber.Substring(4, 2))</_BuildNumberMM>
+        <_BuildNumberDD>$(_BuildNumber.Substring(6, 2))</_BuildNumberDD>
+        <_BuildNumberR>$(_BuildNumber.Substring(9))</_BuildNumberR>
+
+        <!-- SHORT_DATE := yy * 1000 + mm * 50 + dd -->
+        <VersionSuffixDateStamp>$([MSBuild]::Add($([MSBuild]::Add($([MSBuild]::Multiply($(_BuildNumberYY), 1000)), $([MSBuild]::Multiply($(_BuildNumberMM), 50)))), $(_BuildNumberDD)))</VersionSuffixDateStamp>
+
+        <!-- REVISION := r -->
+        <VersionSuffixBuildOfTheDay>$(_BuildNumberR)</VersionSuffixBuildOfTheDay>
+        <VersionSuffixBuildOfTheDayPadded>$(VersionSuffixBuildOfTheDay.PadLeft(2, $([System.Convert]::ToChar(`0`))))</VersionSuffixBuildOfTheDayPadded>
+
+        <!-- PATCHVERSION := (SHORT_DATE - VersionBaseShortDate) * 100 + r -->
+        <PatchVersion>$([MSBuild]::Add($([MSBuild]::Multiply($([MSBuild]::Subtract($(VersionSuffixDateStamp), $([MSBuild]::ValueOrDefault($(VersionBaseShortDate), 19000)))), 100)), $(_BuildNumberR)))</PatchVersion>
+    </PropertyGroup>
+
+    <!-- Fallback for local builds and CI environments we don't recognize -->
+    <PropertyGroup>
+        <NtsBuildMetadata Condition=" '$(NtsBuildMetadata)' == '' ">local</NtsBuildMetadata>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <!-- use <Version> to set any version for current sproject -->
+        <!-- Version represents the full version used like the following examples: 0.1.0, 1.2.3.5, 99.0.3-rc-preview-2-final -->
+        <!-- The pre-release label of the version number. Used to determine the ending of a Version value. Default: empty Format: [0-9A-Za-z-]* (arbitrary string) Examples: alpha, beta, build0123, rc4-build201701 -->
+        <VersionSuffix Condition="'$(Version)' != '' AND $(Version.IndexOf('-')) &gt; -1 AND '$(VersionSuffix)' == ''">$(Version.Split('-')[1])</VersionSuffix>
+
+        <VersionSuffix Condition=" '$(VersionSuffix)' == '' AND '$(IsOfficialRelease)' != 'true' ">pre.$(DaysSinceEpoch)$(MinutesSinceStartOfUtcDay)+$(NtsBuildMetadata)</VersionSuffix>
+
+        <!-- version when you make incompatible API changes -->
+        <Major Condition="'$(Version)' == '' AND '$(Major)' == ''">$([MSBuild]::ValueOrDefault('$(MajorVersion)', '$(AnswerToEverything)'))</Major>
+        <Major Condition="'$(Version)' != '' AND '$(Major)' == ''">$(Version.Split('.')[0])</Major>
+
+        <!-- version when you add functionality in a backwards-compatible manner -->
+        <Minor Condition="'$(Version)' == '' AND '$(Minor)' == ''">$([MSBuild]::ValueOrDefault('$(MinorVersion)', '$(AnswerToEverything)'))</Minor>
+        <Minor Condition="'$(Version)' != '' AND '$(Minor)' == ''">$(Version.Split('.')[1])</Minor>
+
+        <!-- version when you make backwards-compatible bug fixes -->
+        <Patch Condition="'$(Version)' == '' AND '$(Patch)' == ''">$([MSBuild]::ValueOrDefault('$(PatchVersion)', '0'))</Patch>
+        <_tempPatch Condition="'$(Version)' != '' AND '$(Patch)' == ''">$(Version.Split('.')[2])</_tempPatch>
+        <Patch Condition="'$(Version)' != '' AND '$(Patch)' == ''">$([MSBuild]::ValueOrDefault('$(_tempPatch)', '0'))</Patch>
+        <Patch Condition="'$(Patch)' != '' AND $(Patch.IndexOf('-')) &gt; -1">$(Patch.Split('-')[0])</Patch>
+
+        <!-- The normal part of the semver version number. This is used to determine the beginning of the Version value. Format: major.minor.patch -->
+        <VersionPrefix>$(Major).$(Minor).$(Patch)</VersionPrefix>
+    </PropertyGroup>
+
+    <!-- for all none $(Company) projects where Version is not set: set to $(DefaultStandardVersion) "1.0.0" -->
+    <!-- https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.DefaultAssemblyInfo.targets -->
+    <PropertyGroup Condition="'$(Version)' == '' OR ('$(Version)' == '$(DefaultEverythingVersion)' AND '$(IsSyntonyProject)' != 'true')">
+        <VersionPrefix Condition="'$(VersionPrefix)' == '' AND '$(DefaultStandardVersion)' != ''">$(DefaultStandardVersion)</VersionPrefix>
+        <VersionPrefix Condition="'$(VersionPrefix)' == ''">1.0.0</VersionPrefix>
+        <Version Condition="'$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix)</Version>
+        <Version Condition="'$(Version)' == '' ">$(VersionPrefix)</Version>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!--
+            PackageVersion is the only version number that isn't embedded in the output dll directly. Instead, it's used to control the version number of the NuGet package that's generated when you call dotnet pack.
+            By default, PackageVersion takes the same value as Version, so it's typically a three value SemVer version number, with or without a pre-release label. 
+            As with all the other version numbers, it can be overridden at build time, so it can differ from all the other assembly version numbers.        
+        -->
+        <PackageVersion Condition="'$(PackageVersion)' == '' AND '$(Version)' != ''">$(Version)</PackageVersion>
+        <PreReleaseVersionLabel>$(VersionSuffix)</PreReleaseVersionLabel>
+        <!-- If a package is designated to be a release assembly/package (PreReleaseVersionLabel is empty)  -->
+        <IsReleaseVersion>false</IsReleaseVersion>
+        <IsReleaseVersion Condition="'$(PreReleaseVersionLabel)' == ''">true</IsReleaseVersion>
+        <IsPreReleaseVersion>false</IsPreReleaseVersion>
+        <IsPreReleaseVersion Condition="$(Version.Contains('-'))">true</IsPreReleaseVersion>
+    </PropertyGroup>
+
+    <!-- 
+        ***********************************************************************************************
+        IMPORT $(Company).ReleaseNotes.props, 
+        IMPORT $(MSBuildProjectName).ReleaseNotes.props, 
+        IMPORT $(ProjectBuildScriptsDirectory) ReleaseNotes.props
+        ***********************************************************************************************
+    -->
+    <PropertyGroup>
+        <ReleaseNotesFileName>ReleaseNotes.props</ReleaseNotesFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)" Condition="'$(Company)' != '$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)')"/>
+    <Import Project="$(ProjectBuildScriptsDirectory)$(ReleaseNotesFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(ReleaseNotesFileName)')"/>
+</Project>

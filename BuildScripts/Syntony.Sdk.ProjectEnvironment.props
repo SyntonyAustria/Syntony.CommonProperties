@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.ProjectEnvironment.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set properties and directories for the current project
+***********************************************************************************************
+Imported by:        '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+        Imports:    'Syntony.Sdk.Language.props' (throws error if not exists)
+        Imports:    'Syntony.Sdk.SolutionConfigurationSettings.props' from this directory
+        Imports:    'Syntony.Sdk.NuGet.props' from this directory
+        Imports:    '$(SolutionName).Build.props' from this directory
+        Imports:    '$(MSBuildProjectName).Build.props' from this directory
+***********************************************************************************************
+Properties defined
+    IsProjectEnvironmentPropsFileImported                    ... set to 'true'
+
+    DefaultEverythingVersion                            ... set to '42.42.42.4242' (wrong version identifier)
+    DefaultStandardVersion                              ... set to '1.0.0'
+    Version                                             ... set to '42.42.42.4242' (wrong version)
+
+    BuildSolutionDirectory                              ... the directory where the solution file is loacted or the BuildRootDirectory
+    SharedBinariesDirectoryName                         ... 'SharedBinaries'
+    SharedSourcesDirectoryName                          ... 'SharedSources'
+    SharedToolsDirectoryName                            ... 'Tools'
+    LicensesDirectoryName                               ... 'Licenses'
+    IconsDirectoryName                                  ... 'Icons'
+    CommonPropertiesSharedBinariesDirectory             ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    CommonPropertiesSharedSourcesDirectory              ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
+    CommonPropertiesToolsDirectory                      ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common tools. Include the final backslash in the path.
+    CommonPropertiesLicensesDirectory                   ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
+    CommonPropertiesIconsDirectory                      ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common icons. Include the final backslash in the path.
+    
+    GlobalCommonPropertiesDirectory                     ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
+    GlobalCommonPropertiesBuildScriptsDirectory         ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    GlobalCommonPropertiesSharedBinariesDirectory       ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    GlobalCommonPropertiesSharedSourcesDirectory        ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
+    GlobalCommonPropertiesToolsDirectory                ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common tools. Include the final backslash in the path.
+    GlobalCommonPropertiesLicensesDirectory             ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
+    GlobalCommonPropertiesIconsDirectory                ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common icons. Include the final backslash in the path.
+    
+    DiscoverEditorConfigFiles                           ... 'true'
+    DiscoverGlobalAnalyzerConfigFiles                   ... 'true'
+    Language                                            ... 'CSharp' OR 'VisuaBasic' OR 'FSharp' OR 'Cpp'
+    LanguageShort                                       ... 'C#' OR 'VB' OR 'F#' OR 'C++'
+    
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsProjectEnvironmentPropsFileImported>true</IsProjectEnvironmentPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Default Versioning">
+        <!-- 42 is the "Answer to the Ultimate Question of Life, the Universe, and Everything" in The Hitchhiker's Guide to the Galaxy books. -->
+        <AnswerToEverything>42</AnswerToEverything>
+        <DefaultEverythingVersion>$(AnswerToEverything).$(AnswerToEverything).$(AnswerToEverything).$(AnswerToEverything)$(AnswerToEverything)</DefaultEverythingVersion>
+        <DefaultStandardVersion>1.0.0</DefaultStandardVersion>
+        <!-- we set Version to DefaultEverythingVersion to detect explizit settings in *.csproj. -->
+        <Version>$(DefaultEverythingVersion)</Version>
+    </PropertyGroup>
+
+    <!-- When building inside Visual Studio, the property $(BuildingInsideVisualStudio) is set to true.-->
+    <PropertyGroup Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+        <!-- running inside a Visual Studio build $(SolutionDir)  AND $(MSBuildSolutionDirectory) should be defined. -->
+        <!-- 
+             IMPORTANT: SolutionDir
+             The directory of the solution (defined as drive + path); includes the trailing backslash '\'. Defined only when building a solution in the IDE.
+             https://learn.microsoft.com/en-us/cpp/build/reference/common-macros-for-build-commands-and-properties?view=msvc-170#list-of-common-macros
+        -->
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == '' AND '$(SolutionDir)' != ''">$(SolutionDir)</BuildSolutionDirectory>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == '' AND '$(MSBuildSolutionDirectory)' != ''">$(MSBuildSolutionDirectory)</BuildSolutionDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(BuildingInsideVisualStudio)' != 'true'">
+        <!-- running a CMD build $(MSBuildSolutionDirectory) is NOT set because $(MSBuildSolutionDirectory) defined only when building a solution in the IDE. -->
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(MSBuildProjectName).sln'))</BuildSolutionDirectory>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(MSBuildProjectName).Framework.sln'))</BuildSolutionDirectory>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(Company).Framework.sln'))</BuildSolutionDirectory>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), '$(Company).sln'))</BuildSolutionDirectory>
+
+        <!-- BuildRootDirectory is set inside build.root / .build / .msbuild we asume it could be the solution directory -->
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' == ''">$(BuildRootDirectory)</BuildSolutionDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' != '' AND !Exists('$(BuildSolutionDirectory)')"></BuildSolutionDirectory>
+        <BuildSolutionDirectory Condition="'$(BuildSolutionDirectory)' != ''">$([MSBuild]::EnsureTrailingSlash($(BuildSolutionDirectory)))</BuildSolutionDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="CommonProperties sub-directories">
+        <SharedBinariesDirectoryName Condition="'$(SharedBinariesDirectoryName)' == ''">SharedBinaries</SharedBinariesDirectoryName>
+        <SharedSourcesDirectoryName Condition="'$(SharedSourcesDirectoryName)' == ''">SharedSources</SharedSourcesDirectoryName>
+        <SharedToolsDirectoryName Condition="'$(SharedToolsDirectoryName)' == ''">Tools</SharedToolsDirectoryName>
+        <LicensesDirectoryName Condition="'$(LicensesDirectoryName)' == ''">Licenses</LicensesDirectoryName>
+        <IconsDirectoryName Condition="'$(IconsDirectoryName)' == ''">Icons</IconsDirectoryName>
+    </PropertyGroup>
+
+    <PropertyGroup Label="The $(CommonPropertiesDirectory) sub-directories" Condition="Exists('$(CommonPropertiesDirectory)')">
+        <CommonPropertiesSharedBinariesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedBinariesDirectoryName)))</CommonPropertiesSharedBinariesDirectory>
+        <CommonPropertiesSharedBinariesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesSharedBinariesDirectory)))</CommonPropertiesSharedBinariesDirectory>
+
+        <CommonPropertiesSharedSourcesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedSourcesDirectoryName)))</CommonPropertiesSharedSourcesDirectory>
+        <CommonPropertiesSharedSourcesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesSharedSourcesDirectory)))</CommonPropertiesSharedSourcesDirectory>
+
+        <CommonPropertiesToolsDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedToolsDirectoryName)))</CommonPropertiesToolsDirectory>
+        <CommonPropertiesToolsDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesToolsDirectory)))</CommonPropertiesToolsDirectory>
+
+        <CommonPropertiesLicensesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(LicensesDirectoryName)))</CommonPropertiesLicensesDirectory>
+        <CommonPropertiesLicensesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesLicensesDirectory)))</CommonPropertiesLicensesDirectory>
+
+        <CommonPropertiesIconsDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(IconsDirectoryName)))</CommonPropertiesIconsDirectory>
+        <CommonPropertiesIconsDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesIconsDirectory)))</CommonPropertiesIconsDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="GLOBAL common properties build directory">
+        <!-- The global common properties e.g.: D:\Syntony\CommonProperties\  -->
+        <_GlobalCommonPropertiesDirectory Condition="(('$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')) AND '$(Company)' != '') ">$(SolutionDrive)$(Company)\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' != '' AND !Exists('$(_GlobalCommonPropertiesDirectory)')"></_GlobalCommonPropertiesDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('$(_GlobalCommonPropertiesDirectory)')">
+        <GlobalCommonPropertiesDirectory>$([MSBuild]::EnsureTrailingSlash($(_GlobalCommonPropertiesDirectory)))</GlobalCommonPropertiesDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="The $(GlobalCommonPropertiesDirectory) sub-directories" Condition="Exists('$(GlobalCommonPropertiesDirectory)')">
+        <GlobalCommonPropertiesBuildScriptsDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(BuildScriptsDirectoryName)))</GlobalCommonPropertiesBuildScriptsDirectory>
+        <GlobalCommonPropertiesBuildScriptsDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesBuildScriptsDirectory)))</GlobalCommonPropertiesBuildScriptsDirectory>
+
+        <GlobalCommonPropertiesSharedBinariesDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(SharedBinariesDirectoryName)))</GlobalCommonPropertiesSharedBinariesDirectory>
+        <GlobalCommonPropertiesSharedBinariesDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesSharedBinariesDirectory)))</GlobalCommonPropertiesSharedBinariesDirectory>
+
+        <GlobalCommonPropertiesSharedSourcesDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(SharedSourcesDirectoryName)))</GlobalCommonPropertiesSharedSourcesDirectory>
+        <GlobalCommonPropertiesSharedSourcesDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesSharedSourcesDirectory)))</GlobalCommonPropertiesSharedSourcesDirectory>
+
+        <GlobalCommonPropertiesToolsDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(SharedToolsDirectoryName)))</GlobalCommonPropertiesToolsDirectory>
+        <GlobalCommonPropertiesToolsDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesToolsDirectory)))</GlobalCommonPropertiesToolsDirectory>
+
+        <GlobalCommonPropertiesLicensesDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(LicensesDirectoryName)))</GlobalCommonPropertiesLicensesDirectory>
+        <GlobalCommonPropertiesLicensesDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesLicensesDirectory)))</GlobalCommonPropertiesLicensesDirectory>
+
+        <GlobalCommonPropertiesIconsDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(IconsDirectoryName)))</GlobalCommonPropertiesIconsDirectory>
+        <GlobalCommonPropertiesIconsDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesIconsDirectory)))</GlobalCommonPropertiesIconsDirectory>
+
+        <_PackageSourceDirectory>$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Language" Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+        <LanguageShort>C#</LanguageShort>
+        <Language>CSharp</Language>
+        <DefaultLanguageSourceExtension>.cs</DefaultLanguageSourceExtension>
+    </PropertyGroup>
+    <PropertyGroup Label="Language" Condition="'$(MSBuildProjectExtension)' == '.vbproj'">
+        <LanguageShort>VB</LanguageShort>
+        <Language>VisualBasic</Language>
+        <DefaultLanguageSourceExtension>.vb</DefaultLanguageSourceExtension>
+    </PropertyGroup>
+    <PropertyGroup Label="Language" Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
+        <LanguageShort>F#</LanguageShort>
+        <Language>FSharp</Language>
+        <DefaultLanguageSourceExtension>.fs</DefaultLanguageSourceExtension>
+    </PropertyGroup>
+    <PropertyGroup Label="Language" Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
+        <LanguageShort>C++</LanguageShort>
+        <Language>Cpp</Language>
+        <DefaultLanguageSourceExtension>.cpp</DefaultLanguageSourceExtension>
+    </PropertyGroup>
+
+    <Import Label="default language settings" Project="$(_DefaultSdkImportPreFilename)Language.props" Condition="'$(IsLanguagePropsFileImported)' != 'true'" />
+    <Import Label="project specific language" Project="$(_DefaultSdkImportPreFilename)$(Language).props" Condition="Exists('$(_DefaultSdkImportPreFilename)$(Language).props')" />
+
+    <!-- IMPORT the default language C# settings for our projects, throws error if Syntony.Sdk.SolutionConfiguration.props not exists -->
+    <Import Project="$(_DefaultSdkImportPreFilename)SolutionConfiguration.props" Condition="'$(IsSolutionConfigurationFileImported)' != 'true'" />
+
+    <!-- IMPORT the default NuGet package settings for our projects, throws error if Syntony.Sdk.NuGet.props not exists -->
+    <Import Project="$(_DefaultSdkImportPreFilename)NuGet.props" Condition="'$(IsNuGetPropsFileImported)' != 'true'" />
+
+    <PropertyGroup>
+        <_BuildPropsFileName>Build.props</_BuildPropsFileName>
+    </PropertyGroup>
+    <Import Label="$(SolutionName).Build.props" Project="$(CommonPropertiesBuildScriptsDirectory)$(SolutionName).$(_BuildPropsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(SolutionName).$(_BuildPropsFileName)')" />
+    <Import Label="$(MSBuildProjectName).Build.props" Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_BuildPropsFileName)" Condition="'$(SolutionName)' != '$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_BuildPropsFileName)')" />
+
+    <PropertyGroup Label=".editorconfig, .globalconfig ">
+        <!-- 
+            https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig 
+            https://github.com/dotnet/roslyn/blob/main/src/Compilers/Core/MSBuildTask/Microsoft.Managed.Core.targets#L126
+        -->
+        <DiscoverEditorConfigFiles>true</DiscoverEditorConfigFiles>
+        <DiscoverGlobalAnalyzerConfigFiles>true</DiscoverGlobalAnalyzerConfigFiles>
+    </PropertyGroup>
+</Project>

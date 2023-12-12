@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Syntony.Sdk.Analyzers.PackageReference.targets
+***********************************************************************************************
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: sets all default PackageReference for TEST and BENCHMARK environment
+***********************************************************************************************
+Imported by:    Directory.Build.targets
+***********************************************************************************************
+Properties defined
+    IsCompanyAnalyzersPackageReferenceFileImported  ... 'true'
+    NoWarn                                          ... adds AD0001
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsCompanyAnalyzersPackageReferenceFileImported>true</IsCompanyAnalyzersPackageReferenceFileImported>
+    </PropertyGroup>
+
+    <!-- default Packages: Analyzers, JetBrains.Annotations etc. https://nugetmusthaves.com/Tag/analyzers or https://www.meziantou.net/the-roslyn-analyzers-i-use.htm -->
+    <ItemGroup Label="ANALYZERS PACKAGES">
+        <!-- 
+            Microsoft.CodeAnalysis.NetAnalyzers https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
+            This is the primary analyzer package for this repo that contains all the .NET code analysis rules (CAxxxx) that are built into the .NET SDK starting .NET5 release. 
+            The documentation for CA rules can be found at learn.microsoft.com/visualstudio/code-quality/code-analysis-for-managed-code-warnings.
+            You do not need to manually install this NuGet package to your project if you are using .NET5 SDK or later. These analyzers are enabled by default for projects targeting .NET5 or later. 
+            For projects targeting earlier .NET frameworks, you can enable them in your MSBuild project file by setting one of the following properties:
+            <PackageReference Include="Microsoft.CodeAnalysis" Version="4.3.0-2.final" Condition="'$(IsVsixProject)' != 'true'"/>
+        -->
+        <!-- https://github.com/dotnet/reproducible-builds, https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/   <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" /> -->
+        <!-- https://security-code-scan.github.io/ https://github.com/security-code-scan/security-code-scan <PackageReference Include="SecurityCodeScan.VS2019" Version="5.2.1" PrivateAssets="All" /> -->
+        <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
+        <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablenetanalyzers NET code quality analysis is enabled, by default, for projects that target .NET 5 or a later version. -->
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="*" PrivateAssets="All" />
+        <PackageReference Include="AsyncFixer" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Meziantou.Analyzer" Version="*" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Label="set analyzers package references for VSIX projects" Condition="'$(IsVsixProject)' == 'true'">
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="*" PrivateAssets="All" />
+    </ItemGroup>
+</Project>

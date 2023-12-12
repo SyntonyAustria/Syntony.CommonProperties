@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+User.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set the default user name and the default UserSecretsId
+Imported by:        '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+***********************************************************************************************
+Properties defined
+    IsUserPropsFileImported         ... 'true'
+    Author                          ... '$(USERNAME)'
+    AuthorLongName                  ... '$(USERNAME)'
+    AuthorEmail                     ... '$(CompanyEmail)'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Label="Imported">
+        <IsUserPropsFileImported>true</IsUserPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="User settings">
+        <Author>$(USERNAME)</Author>
+        <AuthorLongName>$(USERNAME)</AuthorLongName>
+        <AuthorEmail>$(CompanyEmail)</AuthorEmail>
+    </PropertyGroup>
+
+</Project>

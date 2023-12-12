@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.PackageReference.targets
+***********************************************************************************************
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: sets all default PackageReference
+***********************************************************************************************
+Imported by: Directory.Build.targets
+***********************************************************************************************
+Properties defined
+    IsSyntonyPackageReferenceFileImported   ... 'true'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsSyntonyPackageReferenceFileImported>true</IsSyntonyPackageReferenceFileImported>
+        <_ReferenceItemToSet>$(BaseAssembly)</_ReferenceItemToSet>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReference)' =='true' AND !Exists('@(ProjectReference -> WithMetadataValue('Filename', '$(_ReferenceItemToSet)'))')">
+        <ProjectReference Condition="Exists('..\Source\$(_ReferenceItemToSet).csproj')" Include="..\Source\$(_ReferenceItemToSet).csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(UseProjectReference)' =='true' AND !Exists('@(ProjectReference -> WithMetadataValue('Filename', '$(_ReferenceItemToSet)'))')">
+        <ProjectReference Condition="Exists('..\..\$(_ReferenceItemToSet)\Source\$(_ReferenceItemToSet).csproj')" Include="..\..\$(_ReferenceItemToSet)\Source\$(_ReferenceItemToSet).csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(PackageReference)' =='true' AND !Exists('@(PackageReference -> WithMetadataValue('Name', '$(_ReferenceItemToSet)'))')">
+        <PackageReference Include="$(_ReferenceItemToSet)" Version="*" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IncludeSyntonyCommonCoreBasics)' == 'true'">
+        <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(SyntonyCommonCoreBasicsVersion)" />
+    </ItemGroup>
+
+</Project>

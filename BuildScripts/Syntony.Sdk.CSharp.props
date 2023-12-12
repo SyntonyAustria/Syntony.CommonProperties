@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*************************************************************************************
+Syntony.Sdk.CSharp.props
+*************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+*************************************************************************************
+Function: set properties and directories for C# language compilation
+*************************************************************************************
+Imported by:    '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+        Imported by:    'Syntony.Sdk.ProjectEnvironment.props'
+*************************************************************************************
+Properties defined
+    IsCSharpLanguageFileImported                  ... 'true'
+*************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsCSharpLanguageFileImported>true</IsCSharpLanguageFileImported>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Syntony.Common.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+        ***********************************************************************************************
+        Function: set NuGet Infos if '$(Configuration)'=='Release'
+                  the RootNamespace and finally adds the extesion to AssemblyToTest
+        Imported by: Directory.Build.targets
+        Imports: $(Company).Test.PackageReference.props
+        ***********************************************************************************************
+    -->
+    <!--
+        IMPORTANT: Properties defined
+        IsSyntonyTestPackageReferenceFileImported   ... 'true'
+        AssemblyToTest
+        RootNamespace
+        
+        IMPORTANT: Targets defined
+        ForceGenerationOfBindingRedirects
+        SyntonyValidateStartup
+        PrintProperties
+        PostBuild
+        DisplayPackMessages
+        CopyPackage
+        SyntonyBeforeClean
+        SyntonyAfterClean
+        GenerateProperties
+        GeneratePropertiesOnce
+        WriteToFile
+        _RetryDeleteDirectory
+        DeleteDirectory
+        SyntonyAfterBuild
+        SyntonyShowElapsedTime
+        SyntonyBuildError
+        DisableRoslynTarget
+        SearchPackage
+        UnzipPackage
+    -->
+
+    <!-- https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2017 -->
+
+    <!-- 
+        ***********************************************************************************************
+        PrintProperties
+        ***********************************************************************************************
+    -->
+    <Target Name="PrintProperties" BeforeTargets="Build" AfterTargets="BeforeClean" Condition="'$(MSBuildDebug)'=='true'">
+        <PropertyGroup>
+            <_tmpBuildMessageImportance>$(BuildMessageImportance)</_tmpBuildMessageImportance>
+            <!-- set to "high" to get messages in the Output window.  This parameter can have a value of "high", "normal" or "low". -->
+            <BuildMessageImportance>High</BuildMessageImportance>
+        </PropertyGroup>
+        <PropertyGroup>
+            <_ExistsMetacontentFile>false</_ExistsMetacontentFile>
+            <_ExistsMetacontentFile Condition="Exists('$(MetacontentOutputDirectory)\$(MetacontentFile).cs')">true</_ExistsMetacontentFile>
+        </PropertyGroup>
+
+        <Message Text=" " Importance="$(BuildMessageImportance)"/>
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Properties before Target 'Build' for '$(MSBuildProjectName)': $(Configuration) with $(TargetFramework) on $(OS)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildProjectDirectory:                        '$(MSBuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildProjectDirectory:                          '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildDebug:                                   '$(MSBuildDebug)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="StartTicks:                                     '$(StartTicks)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildTimestamp:                                 '$(BuildTimestamp)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="UnixTimestamp:                                  '$(UnixTimestamp)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DaysSinceEpoch:                                 '$(DaysSinceEpoch)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MinutesSinceStartOfUtcDay:                      '$(MinutesSinceStartOfUtcDay)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Now:                                            '$(Now)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="SourceRevisionId:                               '$(SourceRevisionId)'" Importance="$(BuildMessageImportance)"/>
+
+        <!-- NUGet Pack Properties -->
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackItem:                                       '$(PackProjectInputFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageFiles:                                   '@(_PackageFiles)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageFilesToExclude:                          '@(_PackageFilesToExclude)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageVersion:                                 '$(PackageVersion)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageId:                                      '$(PackageId)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Title:                                          '$(Title)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Authors:                                        '$(Authors)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Description:                                    '$(PackageDescription)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Copyright:                                      '$(Copyright)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RequireLicenseAcceptance:                       '$(PackageRequireLicenseAcceptance)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="LicenseUrl:                                     '$(PackageLicenseUrl)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ProjectUrl:                                     '$(PackageProjectUrl)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IconUrl:                                        '$(PackageIconUrl)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ReleaseNotes:                                   '$(PackageReleaseNotes)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Tags:                                           '$(PackageTags)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DevelopmentDependency:                          '$(DevelopmentDependency)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildOutputInPackage:                           '@(_BuildOutputInPackage)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ProjectReferencesWithVersions:                  '@(_ProjectReferencesWithVersions)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TargetPathsToSymbols:                           '@(_TargetPathsToSymbols)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TargetFrameworks:                               '@(_TargetFrameworks)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="FrameworksWithSuppressedDependencies:           '@(_FrameworksWithSuppressedDependencies)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AssemblyName:                                   '$(AssemblyName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageOutputPath:                              '$(PackageOutputAbsolutePath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeSymbols:                                 '$(IncludeSymbols)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeSource:                                  '$(IncludeSource)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageTypes:                                   '$(PackageType)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsTool:                                         '$(IsTool)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RepositoryUrl:                                  '$(RepositoryUrl)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RepositoryType:                                 '$(RepositoryType)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RepositoryBranch:                               '$(RepositoryBranch)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RepositoryCommit:                               '$(RepositoryCommit)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SourceFiles:                                    '@(_SourceFiles->Distinct())'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NoPackageAnalysis:                              '$(NoPackageAnalysis)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NoDefaultExcludes:                              '$(NoDefaultExcludes)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MinClientVersion:                               '$(MinClientVersion)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Serviceable:                                    '$(Serviceable)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="FrameworkAssemblyReferences:                    '@(_FrameworkAssemblyReferences)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ContinuePackingAfterGeneratingNuspec:           '$(ContinuePackingAfterGeneratingNuspec)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NuspecOutputPath:                               '$(NuspecOutputAbsolutePath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeBuildOutput:                             '$(IncludeBuildOutput)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildOutputFolders:                             '$(BuildOutputTargetFolder)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ContentTargetFolders:                           '$(ContentTargetFolders)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RestoreOutputPath:                              '$(RestoreOutputAbsolutePath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NuspecFile:                                     '$(NuspecFileAbsolutePath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NuspecBasePath:                                 '$(NuspecBasePath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="NuspecProperties:                               '$(NuspecProperties)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyAssemblyAttributesPath:                  '$(SyntonyAssemblyAttributesPath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DefaultLanguageSourceExtension:                 '$(DefaultLanguageSourceExtension)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="AllowedOutputExtensionsInPackageBuildOutputFolder:        '$(AllowedOutputExtensionsInPackageBuildOutputFolder)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder: '$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="NoWarn:                                         '$(NoWarn)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="WarningsAsErrors:                               '$(WarningsAsErrors)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="WarningsNotAsErrors:                            '$(WarningsNotAsErrors)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TreatWarningsAsErrors:                          '$(TreatWarningsAsErrors)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildWarningsAsMessages:                      '$(MSBuildWarningsAsMessages)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="OutputFileNamesWithoutVersion:                  '$(OutputFileNamesWithoutVersion)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="InstallPackageToOutputPath:                     '$(InstallPackageToOutputPath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SymbolPackageFormat:                            '$(SymbolPackageFormat)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="_PackageLicenseFile:                            '$(_PackageLicenseFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageLicenseFile:                             '$(PackageLicenseFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageLicenseExpression:                       '$(PackageLicenseExpression)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageLicenseExpressionVersion:                '$(PackageLicenseExpressionVersion)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="_PackageReadmeFile:                             '$(_PackageReadmeFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageReadmeFile:                              '$(PackageReadmeFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Deterministic:                                  '$(Deterministic)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageIcon:                                    '$(PackageIcon)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsDirectoryBuildPropsFileImported:              '$(IsDirectoryBuildPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsDirectoryBuildTargetsFileImported:            '$(IsDirectoryBuildTargetsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsBuildRootFileImported:                        '$(IsBuildRootFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsProjectDefaultSettingsPropsFileImported:      '$(IsProjectDefaultSettingsPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsNuGetPropsFileImported:                       '$(IsNuGetPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsDefaultItemsPropsFileImported:                '$(IsDefaultItemsPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsCompanyPropsFileImported:                     '$(IsCompanyPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsProjectEnvironmentPropsFileImported:          '$(IsProjectEnvironmentPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsLanguagePropsFileImported:                    '$(IsLanguagePropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsCompanyVersionTargetsFileImported:            '$(IsCompanyVersionTargetsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsCompanyShippingPropsFileImported:             '$(IsCompanyShippingPropsFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsProjectNameBuildPropsImported:                '$(IsProjectNameBuildPropsImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsSolutionNameBuildPropsImported:               '$(IsSolutionNameBuildPropsImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsCompanyAnalyzersPackageReferenceFileImported: '$(IsCompanyAnalyzersPackageReferenceFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsDefaultItemsTargtesFileImported:              '$(IsDefaultItemsTargtesFileImported)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsProjectEnvironmentTargetsFileImported:        '$(IsProjectEnvironmentTargetsFileImported)'" Importance="$(BuildMessageImportance)" />
+        
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="FirstAssembly:                                  '$(FirstAssembly)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="FirstAssemblyDefaultBehavior:                   '$(FirstAssemblyDefaultBehavior)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="MsBuildPropertyToFileExtension:                 '$(MsBuildPropertyToFileExtension)'" Importance="$(BuildMessageImportance)" />
+        
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsRunningFromVisualStudio:                      '$(IsRunningFromVisualStudio)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="UsingMicrosoftNETSdk:                           '$(UsingMicrosoftNETSdk)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsSyntonyProject:                               '$(IsSyntonyProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsCompanyProject:                               '$(IsCompanyProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsSyntonyFrameworkProject:                      '$(IsSyntonyFrameworkProject)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsSyntonyFrameworkSubProject:                   '$(IsSyntonyFrameworkSubProject)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsSyntonyTestProject:                           '$(IsSyntonyTestProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsBenchmarkProject:                             '$(IsBenchmarkProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsQuickBenchmarkProject:                        '$(IsQuickBenchmarkProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsExampleProject:                               '$(IsExampleProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsVsixProject:                                  '$(IsVsixProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsTrialAndErrorConsole:                         '$(IsTrialAndErrorConsole)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsNotCompileProject:                            '$(IsNotCompileProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageReleaseNotes:                            '$(PackageReleaseNotes)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="NuGetPackageRoot:                               '$(NuGetPackageRoot)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AssemblyToTest:                                 '$(AssemblyToTest)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="BaseAssembly:                                   '$(BaseAssembly)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsCrossTargetingBuild:                          '$(IsCrossTargetingBuild)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsMultiTargeted:                                '$(IsMultiTargeted)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsShipping:                                     '$(IsShipping)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsPackable:                                     '$(IsPackable)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="GeneratePackageOnBuild:                         '$(GeneratePackageOnBuild)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="SignAssembly:                                   '$(SignAssembly)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="PublicKey:                                      '$(PublicKey)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="UsePackageReference:                            '$(UsePackageReference)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="UseProjectReference:                            '$(UseProjectReference)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TotalProjectBuildCounter:                       '$(TotalProjectBuildCounter)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="TotalReleaseBuildCounter:                       '$(TotalReleaseBuildCounter)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="TotalDebugBuildCounter:                         '$(TotalDebugBuildCounter)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="TotalCodeAnalysisBuildCounter:                  '$(TotalCodeAnalysisBuildCounter)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="ProjectReference: %(ProjectReference.Identity) => $([System.IO.Path]::GetFileNameWithoutExtension('%(ProjectReference.Identity)'))" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="PackageReference: %(PackageReference.Identity) => $([System.IO.Path]::GetFileNameWithoutExtension('%(PackageReference.Identity)'))" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="InternalsVisibleTo: %(InternalsVisibleTo.Identity)" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="VersionPrefix:                                  '$(VersionPrefix)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="VersionSuffix:                                  '$(VersionSuffix)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="FullVersion:                                    '$(VersionPrefix)'" Condition="'$(VersionSuffix)'==''" Importance="$(BuildMessageImportance)" />
+        <Message Text="FullVersion:                                    '$(VersionPrefix)-$(VersionSuffix)'" Condition="'$(VersionSuffix)' != ''" Importance="$(BuildMessageImportance)" />
+        <Message Text="CodeAnalysisRuleSet:                            '$(CodeAnalysisRuleSet)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildRuntimeType:                             '$(MSBuildRuntimeType)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="VSToolsPath:                                    '$(VSToolsPath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DevEnvDir:                                      '$(DevEnvDir)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="StartProgram:                                   '$(StartProgram)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="StartArguments:                                 '$(StartArguments)'" Importance="$(BuildMessageImportance)"/>
+        
+        <Message Text="BuildRootDirectory:                             '$(BuildRootDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildProjectDirectory:                          '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildProjectPropertiesDirectory:                '$(BuildProjectPropertiesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="BuildSolutionDirectory:                         '$(BuildSolutionDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SolutionDrive:                                  '$(SolutionDrive)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="CommonPropertiesDirectory:                      '$(CommonPropertiesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesSharedSourcesDirectory:         '$(CommonPropertiesSharedSourcesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesBuildScriptsDirectory:          '$(CommonPropertiesBuildScriptsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesSharedBinariesDirectory:        '$(CommonPropertiesSharedBinariesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesToolsDirectory:                 '$(CommonPropertiesToolsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesLicensesDirectory:              '$(CommonPropertiesLicensesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CommonPropertiesIconsDirectory:                 '$(CommonPropertiesIconsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesDirectory:                '$(GlobalCommonPropertiesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesSharedSourcesDirectory:   '$(GlobalCommonPropertiesSharedSourcesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesBuildScriptsDirectory:    '$(GlobalCommonPropertiesBuildScriptsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesSharedBinariesDirectory:  '$(GlobalCommonPropertiesSharedBinariesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesToolsDirectory:           '$(GlobalCommonPropertiesToolsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesLicensesDirectory:        '$(GlobalCommonPropertiesLicensesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GlobalCommonPropertiesIconsDirectory:           '$(GlobalCommonPropertiesIconsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GenerateDocumentationFile:                      '$(GenerateDocumentationFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DocumentationFile:                              '$(DocumentationFile)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SetMetaconentFile:                              '$(SetMetaconentFile)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="BuildMetacontent:                               '$(BuildMetacontent)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="Exits Metacontent*.cs file:                     '$(_ExistsMetacontentFile)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="TransformOnBuild:                               '$(TransformOnBuild)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="MetacontentClassPrefix:                         '$(MetacontentClassPrefix)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="MetacontentOutputFileName:                      '$(MetacontentOutputFileName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MetacontentOutputDirectory:                     '$(MetacontentOutputDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MetacontentFile:                                '$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile)'" Importance="$(BuildMessageImportance)" Condition="'$(MetacontentFile)' != ''"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Company:                                        '$(Company)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="__IsExecutable:                                 '$(__IsExecutable)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TargetFramework:                                '$(TargetFramework)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TargetFileName:                                 '$(TargetFileName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyTargetFileName:                          '$(SyntonyTargetFileName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="TargetName:                                     '$(TargetName)' for '$(TargetFramework)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildProjectName:                             '$(MSBuildProjectName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="RootNamespace:                                  '$(RootNamespace)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Language:                                       '$(Language)'" Importance="$(BuildMessageImportance)"/>
+        
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="EnableNETAnalyzers:                             '$(EnableNETAnalyzers)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AnalysisLevel:                                  '$(AnalysisLevel)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DefineConstants:                                '$(DefineConstants)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GeneratePkgDefFile:                             '$(GeneratePkgDefFile)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeAssemblyInVSIXContainer:                 '$(IncludeAssemblyInVSIXContainer)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeDebugSymbolsInVSIXContainer:             '$(IncludeDebugSymbolsInVSIXContainer)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeDebugSymbolsInLocalVSIXDeployment:       '$(IncludeDebugSymbolsInLocalVSIXDeployment)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CopyBuildOutputToOutputDirectory:               '$(CopyBuildOutputToOutputDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CopyOutputSymbolsToOutputDirectory:             '$(CopyOutputSymbolsToOutputDirectory)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsSyntonyPackageReferenceFileImported:          '$(IsSyntonyPackageReferenceFileImported)'" Importance="$(BuildMessageImportance)"/>
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <PropertyGroup>
+            <BuildMessageImportance>$(_tmpBuildMessageImportance)</BuildMessageImportance>
+        </PropertyGroup>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        SyntonyValidateStartup
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyValidateStartup" BeforeTargets="Build">
+        <Error Condition="'$(BuildMessageImportance)'==''" Text="BuildMessageImportance property not defined."/>
+        <Error Condition="'$(_BuildRoot)'==''" Text="BuildRoot file not found. '$(_BuildRoot)'"/>
+        <Error Condition="'$(VSToolsPath)'==''" Text="VSToolsPath not set. '$(VSToolsPath)'"/>
+        <Error Condition="'$(DevEnvDir)'==''" Text="DevEnvDir not set. '$(DevEnvDir)'"/>
+        
+        <Error Condition="'$(Company)'==''" Text="Company property not defined."/>
+        <Error Condition="'$(PackageIcon)'==''" Text="PackageIcon property not defined."/>
+        <Error Condition="'$(RootNamespace)'==''" Text="RootNamespace property not defined."/>
+        <Error Condition="'$(AssemblyToTest)'!='' AND '$(IsSyntonyTestProject)'=='false'" Text="AssemblyToTest property invalid: '$(AssemblyToTest)'."/>
+        <Error Condition="'$(AssemblyToTest)'=='' AND '$(IsSyntonyTestProject)'=='true'" Text="Is TestProject but AssemblyToTest property not defined."/>
+        <Error Condition="'$(PackageReleaseNotes)'==''" Text="PackageReleaseNotes property not defined."/>
+        <Warning Condition="'$(Version)'=='$(DefaultEverythingVersion)'" Text="Invalid Version property: '$(DefaultEverythingVersion)'. Set explicit Version in your project file."/>
+
+        <Error Condition="'$(MetacontentFile)'!='' AND !Exists('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt')" Text="Metacontentfile.tt not found in directory: '$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt'."/>
+        <Error Condition="'$(TransformOnBuild)'==''" Text="TransformOnBuild property not defined."/>
+        <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentClassPrefix)'==''" Text="TransformOnBuild is true but MetacontentClassPrefix is not defined."/>
+        <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputFileName)'==''" Text="TransformOnBuild is true but MetacontentOutputFileName is not defined."/>
+        <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputDirectory)'==''" Text="TransformOnBuild is true but MetacontentOutputDirectory is not defined."/>
+
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND (!Exists('Properties\$(Company).ico') OR !Exists('Properties\Icon.ico') OR !Exists('Properties\$(MSBuildProjectName).ico'))" Text="Invalid Syntony Icon."/>
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(SignAssembly)' != 'true'" Text="Syntony project not signed."/>
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(SignAssembly)' == 'true' AND (!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') OR !Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx'))" Text="Syntony project invalid key for siging."/>
+
+        <Error Condition="'$(BuildRootDirectory)'==''" Text="BuildRootDirectory property not defined."/>
+        <Error Condition="!Exists('$(BuildRootDirectory)')" Text="BuildRootDirectory not found: '$(BuildRootDirectory)'."/>
+        <Error Condition="'$(BuildSolutionDirectory)'==''" Text="BuildSolutionDirectory property not defined."/>
+        <Error Condition="!Exists('$(BuildSolutionDirectory)')" Text="BuildSolutionDirectory not found: '$(BuildSolutionDirectory)'."/>
+        <Error Condition="'$(BuildProjectDirectory)'==''" Text="BuildProjectDirectory property not defined."/>
+        <Error Condition="!Exists('$(BuildProjectDirectory)')" Text="BuildProjectDirectory not found: '$(BuildProjectDirectory)'."/>
+        <Error Condition="'$(CommonPropertiesDirectory)'==''" Text="CommonPropertiesDirectory property not defined."/>
+        <Error Condition="!Exists('$(CommonPropertiesDirectory)')" Text="CommonPropertiesDirectory not found: '$(CommonPropertiesDirectory)'."/>
+        <Error Condition="'$(CommonPropertiesSharedSourcesDirectory)'==''" Text="CommonPropertiesSharedSourcesDirectory property not defined."/>
+        <Error Condition="!Exists('$(CommonPropertiesSharedSourcesDirectory)')" Text="CommonPropertiesSharedSourcesDirectory not found: '$(CommonPropertiesSharedSourcesDirectory)'."/>
+        <Error Condition="'$(CommonPropertiesBuildScriptsDirectory)'==''" Text="CommonPropertiesBuildScriptsDirectory property not defined."/>
+        <Error Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')" Text="CommonPropertiesBuildScriptsDirectory not found: '$(CommonPropertiesBuildScriptsDirectory)'."/>
+        <Error Condition="'$(CommonPropertiesIconsDirectory)'==''" Text="CommonPropertiesIconsDirectory property not defined."/>
+        <Error Condition="!Exists('$(CommonPropertiesIconsDirectory)')" Text="CommonPropertiesIconsDirectory not found: '$(CommonPropertiesIconsDirectory)'."/>
+
+        <Error Condition="!Exists('$(CommonPropertiesIconsDirectory)$(PackageIcon)')" Text="PackageIcon not found: '$(CommonPropertiesIconsDirectory)$(PackageIcon)'."/>
+
+        <Error Condition="'$(GenerateDocumentationFile)'==''" Text="GenerateDocumentationFile property not defined."/>
+        <Error Condition="'$(GenerateDocumentationFile)'=='true' AND '$(DocumentationFile)'==''" Text="GenerateDocumentationFile is true but DocumentationFile not set."/>
+        <Error Condition="'$(GenerateDocumentationFile)'=='false' AND '$(DocumentationFile)'!=''" Text="GenerateDocumentationFile is false but DocumentationFile is set."/>
+        
+        <Error Condition="'$(BuildMetacontent)'=='true' AND '$(SetMetaconentFile)'!='true'" Text="BuildMetacontent is true but SetMetaconentFile is '$(SetMetaconentFile)'."/>
+        <Error Condition="'$(IsShipping)'=='true' AND '$(IsSyntonyTestProject)'=='true'" Text="TestProject but IsShipping set to 'true'."/>
+        <Error Condition="'$(IsShipping)'=='true' AND '$(IsExampleProject)'=='true'" Text="ExampleProject but IsShipping set to 'true'."/>
+
+        <Warning Condition="'$(BuildProjectDirectory)'=='$(BuildSolutionDirectory)'" Text="BuildProjectDirectory and BuildSolutionDirectory are equal. Is that intentional?"/>
+        <Warning Condition="'$(DisableRoslynDesignTime)' == 'true'" Text="Roslyn language services are disabled. Is that intentional?" />
+        
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="$(Company.ToUpper()) - MSBuild-Environment validation succeeded" Importance="$(BuildMessageImportance)"/>
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+
+        <OnError ExecuteTargets="SyntonyBuildError" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        PostBuild
+        ***********************************************************************************************
+    -->
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <!-- copy files to topmost (global) CommonPropertiesDirectory -->
+        <Exec Command="xcopy %22$(TargetDir)$(TargetName).*%22 $(GlobalCommonPropertiesDirectory)Assemblies\Syntony /y" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        DisplayPackMessages
+        ***********************************************************************************************
+    -->
+    <Target Name="DisplayPackMessages" BeforeTargets="CopyPackage" Condition="'$(MSBuildDebug)'=='true'">
+        <PropertyGroup>
+            <_tmpBuildMessageImportance>$(BuildMessageImportance)</_tmpBuildMessageImportance>
+            <!-- set to "high" to get messages in the Output window. -->
+            <BuildMessageImportance>High</BuildMessageImportance>
+        </PropertyGroup>
+        <Message Text="Project Extension = $(MSBuildStartupDirectory)" Importance="$(BuildMessageImportance)" />
+        <Message Text="Project Extension = $(MSBuildThisFileDirectory)..\" Importance="$(BuildMessageImportance)" />
+        <Message Text="Project Extension = $(MSBuildThisFileDirectory)" Importance="$(BuildMessageImportance)" />
+        <Message Text="Project Extension = $(MSBuildThisFileDirectory)$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" Importance="$(BuildMessageImportance)" />
+        <Message Text="Project Extension = $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" Importance="$(BuildMessageImportance)" />
+        <Message Text="TargetName: $(TargetName)" Importance="$(BuildMessageImportance)" />
+        <Message Text="MSBuildProjectName: $(MSBuildProjectName)" Importance="$(BuildMessageImportance)" />
+        <Message Text="GeneratePackageOnBuild: $(GeneratePackageOnBuild)" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsPackable: $(IsPackable)" Importance="$(BuildMessageImportance)" />
+        <Message Text="WarnOnPackingNonPackableProject: $(WarnOnPackingNonPackableProject)" Importance="$(BuildMessageImportance)" />
+        <Message Text="OutputPath = '$(OutputPath)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="'$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg'" Importance="$(BuildMessageImportance)" />
+        <Message Text="Exists('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg'): true" Importance="$(BuildMessageImportance)" Condition="Exists('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg')"/>
+        <Message Text="Exists('$(OutputPath)$(PackageId).$(PackageVersion).nupkg'): true" Importance="$(BuildMessageImportance)" Condition="Exists('$(OutputPath)$(PackageId).$(PackageVersion).nupkg')"/>
+        <Message Text="File $(PackageId).$(PackageVersion).nupkg NOT found" Importance="$(BuildMessageImportance)" Condition="!Exists('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg') AND !Exists('$(OutputPath)$(PackageId).$(PackageVersion).nupkg')"/>
+        <PropertyGroup>
+            <BuildMessageImportance>$(_tmpBuildMessageImportance)</BuildMessageImportance>
+        </PropertyGroup>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        CopyPackage
+        ***********************************************************************************************
+    -->
+    <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(GeneratePackageOnBuild)'=='true' AND '$(IsPackable)'=='true'">
+        <PropertyGroup>
+            <!-- $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
+            <_PackageSourceDirectory Condition="'$(_PackageSourceDirectory)' == ''">$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>
+            <_nuget Condition="Exists('$(CommonPropertiesToolsDirectory)')">$(CommonPropertiesToolsDirectory)nuget.exe</_nuget>
+            <_nuget Condition="'$(_nuget)'==''">nuget.exe</_nuget>
+
+            <_outputPath Condition="Exists('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg')">$([MSBuild]::NormalizePath('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg'))</_outputPath>
+            <_outputPath Condition="'$(_outputPath)'=='' AND Exists('$(OutputPath)$(PackageId).$(PackageVersion).nupkg')">$([MSBuild]::NormalizePath('$(OutputPath)$(PackageId).$(PackageVersion).nupkg'))</_outputPath>
+            <snupkg_outputPath Condition="'$(_outputPath)'!=''">$(_outputPath.Remove($(_outputPath.IndexOf('.nupkg')))).snupkg</snupkg_outputPath>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <_DirectoryToDelete>$(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)</_DirectoryToDelete>
+        </PropertyGroup>
+
+        <Message Text="$(Company) Nuget Directory to delete: '$(_DirectoryToDelete)'" Importance="$(BuildMessageImportance)" />
+        <RemoveDir Directories="$(_DirectoryToDelete)" ContinueOnError="true" Condition="Exists('$(_DirectoryToDelete)')"/>
+        <RemoveDir Directories="$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)" ContinueOnError="true" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
+        <Message Text="ERROR: Directory '$(_DirectoryToDelete)' STILL Exists!" Importance="high" Condition="Exists('$(_DirectoryToDelete)')"/>
+        <Message Text="ERROR: Directory '$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)' STILL Exists!" Importance="high" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
+
+        <Message Text="nuget $(_nuget)" Importance="high"/>
+        <Message Text="STARTING nuget add $(PackageId).$(PackageVersion).nupkg -source $(_PackageSourceDirectory)" Importance="high"/>
+
+        <!-- https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-add Adds a specified package to a non-HTTP package source. 
+        $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
+        <Exec Command="$(_nuget) add $(_outputPath) -source $(_PackageSourceDirectory)" Condition="'$(_outputPath)'!=''" ContinueOnError="true"/>
+        <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
+
+        <Message Text="ERROR: nuget add failed" Condition="'$(_outputPath)'==''" Importance="high"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        PushNugetPackage
+        ***********************************************************************************************
+    -->
+    <Target Name="PushNugetPackage" AfterTargets="CopyPackage" Condition="'$(IsPushNugetPackageConfiguration)' == 'true'">
+        <PropertyGroup>
+            <!-- $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
+            <_PackageSourceDirectory Condition="'$(_PackageSourceDirectory)' == ''">$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>
+            <_nuget Condition="Exists('$(CommonPropertiesToolsDirectory)')">$(CommonPropertiesToolsDirectory)nuget.exe</_nuget>
+            <_nuget Condition="'$(_nuget)'==''">nuget.exe</_nuget>
+
+            <_outputPath Condition="Exists('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg')">$([MSBuild]::NormalizePath('$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg'))</_outputPath>
+            <_outputPath Condition="'$(_outputPath)'=='' AND Exists('$(OutputPath)$(PackageId).$(PackageVersion).nupkg')">$([MSBuild]::NormalizePath('$(OutputPath)$(PackageId).$(PackageVersion).nupkg'))</_outputPath>
+            <snupkg_outputPath Condition="'$(_outputPath)'!=''">$(_outputPath.Remove($(_outputPath.IndexOf('.nupkg')))).snupkg</snupkg_outputPath>
+
+            <_NugetPackageDirectory>$(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)</_NugetPackageDirectory>
+            <_FullPathOfNugetPackage>$(_NugetPackageDirectory)\$(PackageId).$(PackageVersion).nupkg</_FullPathOfNugetPackage>
+        </PropertyGroup>
+
+        <Message Text="Nuget push command cannot be executed. '$(_FullPathOfNugetPackage)' NOT exists." Importance="high" Condition="!Exists('$(_FullPathOfNugetPackage)')"/>
+        <Message Text="Nuget push command: '$(_nuget) push $(_FullPathOfNugetPackage)'" Importance="high" Condition="Exists('$(_FullPathOfNugetPackage)')"/>
+
+        <!-- 
+            https://learn.microsoft.com/en-us/nuget/nuget-org/publish-a-package#use-the-nuget-cli
+            https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-push
+            we assume that your API key ist stored in your NuGet configuration
+            nuget push YourPackage.nupkg -Source https://api.nuget.org/v3/index.json
+            
+            The SkipDuplicate option is used with the nuget push command. When you push a NuGet package to a repository, if a package with the same Id and version already exists in the repository, the push operation fails with an error.
+            If you use the SkipDuplicate option, NuGet will ignore the error if a package with the same Id and version already exists. 
+            Instead of failing, the push operation completes successfully, but the existing package in the repository is NOT overwritten.
+        -->
+        <Exec Command="$(_nuget) push $(_FullPathOfNugetPackage) -Source https://api.nuget.org/v3/index.json -SkipDuplicate -Verbosity detailed" Condition="Exists('$(_FullPathOfNugetPackage)')" ContinueOnError="true"/>
+        </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        CleanAll
+        ***********************************************************************************************
+    -->
+    <Target Name="CleanAll">
+        <CallTarget Targets="Clean solutions" />
+        <CallTarget Targets="Clean files" />
+        <CallTarget Targets="Clean output" />
+    </Target>
+
+    <Target Name="Clean solutions">
+        <ItemGroup>
+            <SolutionFiles Include="$(MSBuildProjectDirectory)\**\*.sln" />
+        </ItemGroup>
+        <MSBuild Projects="@(SolutionFiles)" Targets="CleanAll" BuildInParallel="true" />
+    </Target>
+
+    <Target Name="Clean files">
+        <ItemGroup>
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*crunchproject*" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*crunchsolution*" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.csproj.user" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.csproj.vs10x" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.dotCover" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.Resharper.user" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.sln.docstates" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.TeamCity.user" />
+            <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.vcxproj.user" />
+        </ItemGroup>
+        <Delete Files="@(UnwantedFiles)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+    </Target>
+
+    <Target Name="Clean output">
+        <ItemGroup>
+            <ProjFiles Include="$(MSBuildProjectDirectory)\**\*.csproj" />
+            <ProjFiles Include="$(MSBuildProjectDirectory)\**\*.wixproj" />
+        </ItemGroup>
+        <RemoveDir Directories="%(ProjFiles.RelativeDir)bin\" ContinueOnError="true" />
+        <RemoveDir Directories="%(ProjFiles.RelativeDir)obj\" ContinueOnError="true" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        BeforeClean
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyBeforeClean" Condition="'$(FirstAssembly)'=='true'" AfterTargets="BeforeClean">
+        <Message Text="In BeforeClean for TargetFramework $(TargetFramework)" Importance="$(BuildMessageImportance)" />
+        <Delete Files="$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" Condition="Exists('$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)')"/>
+        <Delete Files="$(TEMP)\*$(MsBuildPropertyToFileExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+        <Message Text="All '$(TEMP)\*$(MsBuildPropertyToFileExtension)' files deleted." Importance="$(BuildMessageImportance)" Condition="!Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')"/>
+
+        <ItemGroup Condition="Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')">
+            <__FilesToDelete Include="$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)" />
+            <__FilesToDelete Include="$(TEMP)\*$(MsBuildPropertyToFileExtension)" />
+        </ItemGroup>
+        <Delete Files="@(__FilesToDelete)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" Condition="Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')"/>
+
+        <PropertyGroup Condition="Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')">
+            <__FilesToDeletAsString>@(__FilesToDelete, ';')</__FilesToDeletAsString>
+        </PropertyGroup>
+
+        <MSBuild Projects="$(MSBuildProjectFullPath)" Properties="FilesToDelete=$(__FilesToDeletAsString)" Targets="DeleteReadOnly" ContinueOnError="true" Condition="Exists('$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)')"/>
+
+        <Message Text="ERROR: File '$(TEMP)\*$(MsBuildPropertyToFileExtension)' STILL Exists!" Importance="high" Condition="Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        AfterClean
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyAfterClean" Condition="'$(IsReleaseConfiguration)'=='true'" AfterTargets="AfterClean">
+        <PropertyGroup>
+            <__PackageAndVersion>Packages\$(Company)\$(PackageId)\$(PackageVersion)</__PackageAndVersion>
+            <_DirectoryToDelete>$(CommonPropertiesDirectory)$(__PackageAndVersion)</_DirectoryToDelete>
+            <_GlobalDirectoryToDelete>$(GlobalCommonPropertiesDirectory)$(__PackageAndVersion)</_GlobalDirectoryToDelete>
+        </PropertyGroup>
+        <Message Text="In AfterClean for TargetFramework $(TargetFramework)" Importance="$(BuildMessageImportance)" />
+        <Message Text="$(Company) Nuget Directory to delete: '$(_DirectoryToDelete)'" Importance="$(BuildMessageImportance)" />
+        <Delete Files="$(OutDir)\$(TargetName).*" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+        <RemoveDir Directories="$(OutDir)" ContinueOnError="true" Condition="Exists('$(OutDir)')" />
+        <RemoveDir Directories="$(_DirectoryToDelete)" ContinueOnError="true" Condition="Exists('$(_DirectoryToDelete)')"/>
+        <RemoveDir Directories="$(_GlobalDirectoryToDelete)" ContinueOnError="true" Condition="Exists('$(_GlobalDirectoryToDelete)')"/>
+        <RemoveDir Directories="$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)" ContinueOnError="true" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
+
+        <!-- Remove obj folder -->
+        <RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)" Condition="Exists('$(ProjectDir)$(BaseIntermediateOutputPath))')" ContinueOnError="true"/>
+
+        <!-- Remove the directory of the primary output file for the build (defined as drive + path); includes the trailing backslash '\'. -->
+        <RemoveDir Directories="$(TargetDir)" Condition="Exists('$(TargetDir)')" ContinueOnError="true"/>
+        <!--
+        <RemoveDir Directories="$(BaseOutputPath)" Condition="Exists('$(BaseOutputPath)')" ContinueOnError="true"/>
+        -->
+
+        <Message Text="ERROR: Directory '$(OutDir)' STILL Exists!" Importance="high" Condition="Exists('$(OutDir)')"/>
+        <Message Text="ERROR: Directory '$(_DirectoryToDelete)' STILL Exists!" Importance="high" Condition="Exists('$(_DirectoryToDelete)')"/>
+        <Message Text="ERROR: Directory '$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)' STILL Exists!" Importance="high" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        GeneratePropertiesOnce
+        ***********************************************************************************************
+    -->
+    <Target Name="GeneratePropertiesOnce">
+        <Message Text="GeneratePropertiesOnce called by $(Syntony_Caller_Target) for $(MSBuildProjectName)-$(Configuration) with $(TargetFramework) on $(OS)" Importance="$(BuildMessageImportance)" />
+        <PropertyGroup>
+            <_StartTicksPropertyFile>$(TEMP)\StartTicks(MsBuildPropertyToFileExtension)</_StartTicksPropertyFile>
+        </PropertyGroup>
+
+        <Delete Files="$(_StartTicksPropertyFile)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true">
+            <Output TaskParameter="DeletedFiles" ItemName="FilesDeleted" />
+        </Delete>
+        <Message Text="Deleted files: @(FilesDeleted)" Importance="$(BuildMessageImportance)"/>
+
+        <MSBuild Projects ="$(MSBuildProjectFullPath)" Properties="SyntonyPropertyFile=StartTicks;SyntonyPropertyValue=$(StartTicks)" Targets="WritePropertyToFile" ContinueOnError="true"/>
+        <PropertyGroup Condition="Exists('$(_StartTicksPropertyFile)')">
+            <_PropertiesUpdated>true</_PropertiesUpdated>
+        </PropertyGroup>
+        <Message Text="Succeeded - Properties generated for '$(MSBuildProjectName)' on $(TargetFramework) / $(OS)" Importance="$(BuildMessageImportance)" Condition="'$(_PropertiesUpdated)' == 'true'"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        IncrementTotalBuildCounters
+        ***********************************************************************************************
+    -->
+    <Target Name="IncrementTotalBuildCounters">
+        <Message Text="IncrementTotalBuildCounters called by $(Syntony_Caller_Target) for $(MSBuildProjectName)-$(Configuration) with $(TargetFramework) on $(OS)" Importance="$(BuildMessageImportance)" />
+        <PropertyGroup>
+            <_TotalProjectFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).TotalBuildCounter$(MsBuildPropertyToFileExtension)</_TotalProjectFile>
+            <_TotalConfigurationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).$(Configuration).BuildCounter$(MsBuildPropertyToFileExtension)</_TotalConfigurationFile>
+            <TotalProjectBuildCounter>0</TotalProjectBuildCounter>
+            <TotalReleaseBuildCounter>0</TotalReleaseBuildCounter>
+            <TotalDebugBuildCounter>0</TotalDebugBuildCounter>
+            <TotalCodeAnalysisBuildCounter>0</TotalCodeAnalysisBuildCounter>
+            <__NumberToIncrement>1</__NumberToIncrement>
+        </PropertyGroup>
+
+        <!-- Project counter -->
+        <ReadLinesFromFile File="$(_TotalProjectFile)" Condition="Exists('$(_TotalProjectFile)')">
+            <Output TaskParameter="Lines" PropertyName="_ProjectCounterProperty" />
+        </ReadLinesFromFile>
+        <PropertyGroup>
+            <_ProjectCounterProperty Condition="'$(_ProjectCounterProperty)' == ''">0</_ProjectCounterProperty>
+        </PropertyGroup>
+        
+        <!-- Configuration counter -->
+        <ReadLinesFromFile File="$(_TotalConfigurationFile)" Condition="Exists('$(_TotalConfigurationFile)')">
+            <Output TaskParameter="Lines" PropertyName="_ConfigurationCounterProperty" />
+        </ReadLinesFromFile>
+        <PropertyGroup>
+            <_ConfigurationCounterProperty Condition="'$(_ConfigurationCounterProperty)' == ''">0</_ConfigurationCounterProperty>
+        </PropertyGroup>
+
+        <IncrementValue Condition="'$(_ProjectCounterProperty)' != ''" Value="$(_ProjectCounterProperty)">
+            <Output TaskParameter="Value" PropertyName="ProjectCounterProperty" />
+        </IncrementValue>
+        <IncrementValue Condition="'$(_ConfigurationCounterProperty)' != ''" Value="$(_ConfigurationCounterProperty)">
+            <Output TaskParameter="Value" PropertyName="ConfigurationCounterProperty" />
+        </IncrementValue>
+
+        <PropertyGroup>
+            <TotalProjectBuildCounter Condition="'$(ProjectCounterProperty)' != ''">$(ProjectCounterProperty)</TotalProjectBuildCounter>
+            <TotalReleaseBuildCounter Condition="'$(ConfigurationCounterProperty)' != '' AND '$(IsReleaseConfiguration)' == 'true'">$(ConfigurationCounterProperty)</TotalReleaseBuildCounter>
+            <TotalDebugBuildCounter Condition="'$(ConfigurationCounterProperty)' != '' AND '$(Configuration)' == 'Debug'">$(ConfigurationCounterProperty)</TotalDebugBuildCounter>
+            <TotalCodeAnalysisBuildCounter Condition="'$(ConfigurationCounterProperty)' != '' AND '$(Configuration)' == 'CodeAnalysis'">$(ConfigurationCounterProperty)</TotalCodeAnalysisBuildCounter>
+        </PropertyGroup>
+
+        <WriteLinesToFileWithRetry File="$(_TotalProjectFile)" Lines="$(TotalProjectBuildCounter)" Overwrite="true" RetryDelayMilliseconds="250" Retries="7" ContinueOnError="true">
+            <Output TaskParameter="RetryCount" PropertyName="RetryCountTotal"/>
+        </WriteLinesToFileWithRetry>
+
+        <WriteLinesToFileWithRetry File="$(_TotalConfigurationFile)" Lines="$(ConfigurationCounterProperty)" Overwrite="true" RetryDelayMilliseconds="250" Retries="7" ContinueOnError="true">
+            <Output TaskParameter="RetryCount" PropertyName="RetryCountConfiguration"/>
+        </WriteLinesToFileWithRetry>
+
+        <Message Text="IncrementTotalBuildCounters UPDATED total project build counter from '$(_ProjectCounterProperty)' to '$(TotalProjectBuildCounter)' for $(MSBuildProjectName)-$(Configuration) with $(TargetFramework) on $(OS) with $(RetryCountTotal) retries." Importance="$(BuildMessageImportance)" />
+        <Message Text="IncrementTotalBuildCounters UPDATED $(Configuration) project build counter from '$(_ConfigurationCounterProperty)' to '$(ConfigurationCounterProperty)' for $(MSBuildProjectName)-$(Configuration) with $(TargetFramework) on $(OS) with $(RetryCountConfiguration) retries." Importance="$(BuildMessageImportance)" />
+        <OnError ExecuteTargets="SyntonyBuildError" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        WriteToFile ... overwrite ... file is deleted first
+        ***********************************************************************************************
+    -->
+    <Target Name="WritePropertyToFile" Condition="$(SyntonyPropertyFile) != '' AND '$(SyntonyPropertyValue)' != ''">
+        <PropertyGroup>
+            <_WritePropertyToFileFullPath Condition="'$(MsBuildPropertyToFileExtension)' != ''">$(TEMP)\$(SyntonyPropertyFile)$(MsBuildPropertyToFileExtension)</_WritePropertyToFileFullPath>
+        </PropertyGroup>
+        <Delete Files="$(_WritePropertyToFileFullPath)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+        <Message Text="Write to file '$(_WritePropertyToFileFullPath)' with value '$(SyntonyPropertyValue)'" Importance="$(BuildMessageImportance)"/>
+
+        <!-- https://learn.microsoft.com/en-us/visualstudio/msbuild/writelinestofile-task?view=vs-2022 -->
+        <WriteLinesToFileWithRetry File="$(_WritePropertyToFileFullPath)" Lines="$(SyntonyPropertyValue)" Overwrite="true" RetryDelayMilliseconds="250" Retries="7" ContinueOnError="true">
+            <Output TaskParameter="RetryCount" PropertyName="RetryCount"/>
+        </WriteLinesToFileWithRetry>
+
+        <Message Text="Write to file '$(_WritePropertyToFileFullPath)' with value '$(SyntonyPropertyValue)' succeeded with '$(RetryCount)' retries." Importance="$(BuildMessageImportance)"/>
+        <OnError ExecuteTargets="SyntonyBuildError" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        DeleteDirectory
+        ***********************************************************************************************
+    -->
+    <Target Name="_RetryDeleteDirectory">
+        <Message Text="[$(MSBuildThisFileName)] Retry $(_CurrentRetry): Delete directory '$(Directory)'" Importance="$(BuildMessageImportance)" />
+        <MSBuild Projects="$(MSBuildThisFile)" Targets="DeleteDirectory" />
+    </Target>
+
+    <!--
+        # Required parameters:
+        # - Directory: The directory that gets deleted.
+        # Optional parameters:
+        # - Retries: Number of retries. Default is '0'.
+    -->
+    <Target Name="DeleteDirectory" Condition="'$(Directory)' != '' And Exists('$(Directory)')">
+        <ItemGroup>
+            <_Files Include="$(Directory)\**\*" />
+            <_Directories Include="$([System.IO.Directory]::GetDirectories(`$(Directory)`, `*`, System.IO.SearchOption.AllDirectories))" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <_TaskOnceFailed>false</_TaskOnceFailed>
+        </PropertyGroup>
+
+        <Delete Files="@(_Files)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+
+        <PropertyGroup>
+            <_TaskOnceFailed Condition="'$(MSBuildLastTaskResult)' == 'false'">true</_TaskOnceFailed>
+        </PropertyGroup>
+
+        <RemoveDir Directories="@(_Directories)" ContinueOnError="true" Condition="'$(_TaskOnceFailed)' != 'true'" />
+
+        <PropertyGroup>
+            <_TaskOnceFailed Condition="'$(MSBuildLastTaskResult)' == 'false'">true</_TaskOnceFailed>
+        </PropertyGroup>
+
+        <RemoveDir Directories="$(Directory)" ContinueOnError="true" Condition="'$(_TaskOnceFailed)' != 'true'" />
+
+        <PropertyGroup>
+            <_TaskOnceFailed Condition="'$(MSBuildLastTaskResult)' == 'false'">true</_TaskOnceFailed>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <_CurrentRetry Condition="'$(_CurrentRetry)' == ''">0</_CurrentRetry>
+            <_CurrentRetry>$([MSBuild]::Add($(_CurrentRetry), 1))</_CurrentRetry>
+            <Retries Condition="'$(Retries)' == ''">0</Retries>
+            <Retries>$([MSBuild]::Subtract($(Retries), 1))</Retries>
+
+            <RetryDeleteDirectoryMSBuildPropertes>
+                Retries=$(Retries);
+                _CurrentRetry=$(_CurrentRetry)
+            </RetryDeleteDirectoryMSBuildPropertes>
+        </PropertyGroup>
+
+        <Sleep Delay="250" />
+        <MSBuild Projects="$(MSBuildThisFileDirectory)$(MSBuildThisFile)" ContinueOnError="true" Targets="_RetryDeleteDirectory" Properties="$(RetryDeleteDirectoryMSBuildPropertes)" Condition="'$(_TaskOnceFailed)' == 'true' And $(Retries) >= 0" />
+
+        <!-- Throw error when last result in last procedure failed. -->
+        <Error Text="[$(MSBuildThisFileName)] The task failed to delete the directory $(Directory)." Condition="'$(_TaskOnceFailed)' == 'true' And $(Retries) &lt; 0" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        SyntonyAfterBuild
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyAfterBuild" AfterTargets="AfterBuild" Condition="'$(Company)'=='Syntony'">
+        <Message Importance="$(BuildMessageImportance)" Text=" " />
+        <Message Importance="$(BuildMessageImportance)" Text="$(MessageSeparator)" />
+        <Message Importance="$(BuildMessageImportance)" Text="S Y N T O N Y   -   A F T E R   B U I L D"/>
+        <Message Importance="$(BuildMessageImportance)" Text="$(MessageSeparator)" />
+        <PropertyGroup>
+            <FinishTicks>$([System.DateTime]::UtcNow.Ticks)</FinishTicks>
+            <ElapsedTicks>$([MSBuild]::Subtract($(FinishTicks), $(StartTicks)))</ElapsedTicks>
+            <Elapsed>$([System.TimeSpan]::FromTicks($(ElapsedTicks)).ToString("s\.fff"))</Elapsed>
+        </PropertyGroup>
+        <MSBuild Projects="$(MSBuildProjectFile)" Properties="Elapsed=$(Elapsed);Operation=AfterBuild;__Message=Information" Targets="SyntonyShowElapsedTime"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        SyntonyShowElapsedTime
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyShowElapsedTime" >
+        <Message Text=" " Importance="high"/>
+        <Message Text="$(MessageSeparator)" Importance="high"/>
+        <Message Text="$(__Message) - elapsed time: $(Elapsed) seconds for TargetFramework '$(TargetFramework)' - '$(AssemblyName)' ($(Configuration)|$(Platform))" Importance="high"/>
+        <Message Text="$(MessageSeparator)" Importance="high"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        SyntonyBuildError
+        ***********************************************************************************************
+    -->
+    <Target Name="SyntonyBuildError" >
+        <MSBuild Projects="$(MSBuildProjectFile)" Properties="Elapsed=$(Elapsed);Operation=AfterBuild;__Message=MSBuildError" Targets="SyntonyShowElapsedTime"/>
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        SearchPackage
+        ***********************************************************************************************
+          # Target searches for single package.
+          # It does not support searching recursively.
+          # It needs the following properties:
+          # - SearchPackageDirectory: The location where to search.
+          # - SearchPackageId: The base package name without '-<version>'.
+          # Target returns a single package represented as a collection (ItemGroup) of _FoundPackage.
+    -->
+    <Target Name="SearchPackage" Returns="@(_FoundPackage)">
+        <Message Text="[$(MSBuildThisFileName)] Try to find package $(SearchPackageId) in $(SearchPackageDirectory)" Importance="$(BuildMessageImportance)" />
+
+        <ItemGroup>
+            <__FoundPackageFiles Include="$(SearchPackageDirectory)\$(SearchPackageId)*.nupkg" />
+        </ItemGroup>
+
+        <Message Text="[$(MSBuildThisFileName)] - Found package file -&gt; %(__FoundPackageFiles.Identity)" Importance="$(BuildMessageImportance)" />
+
+        <Error Condition="@(__FoundPackageFiles-&gt;Count()) == 0" Text="[$(MSBuildThisFileName)] An error occured: In the folder $(SearchPackageDirectory) is no package. Please pack project." />
+        <Error Condition="@(__FoundPackageFiles-&gt;Count()) &gt; 1" Text="[$(MSBuildThisFileName)] An error occured: In the folder $(SearchPackageDirectory) is more than one package. Please delete relicts." />
+
+        <ItemGroup>
+            <_FoundPackage Include="@(__FoundPackageFiles)">
+                <Id>$(SearchPackageId)</Id>
+                <Version>$([System.String]::Copy('%(Filename)').Replace('$(SearchPackageId).',''))</Version>
+            </_FoundPackage>
+        </ItemGroup>
+
+        <Message Text="[$(MSBuildThisFileName)] - Evaluated package version -&gt; %(_FoundPackage.Version)" Importance="$(BuildMessageImportance)" />
+    </Target>
+
+    <!-- 
+        ***********************************************************************************************
+        UnzipPackage
+        ***********************************************************************************************
+          # Please take a look at the description of Target SearchPackage above.
+          # Target does unzip package that has been found by Target SearchPackage
+          # It needs the following properties:
+          # - UnzipPackageDirectory: The location where to search.
+          # - UnzipPackageId: The base package name without '-<version>'.
+          # - UnzipPackageDestinationDirectory: The location where to unzip.
+    -->
+    <Target Name="UnzipPackage" Returns="@(_FoundPackage)">
+        <PropertyGroup>
+            <_UnzipPackageDestinationDirectory>$(UnzipPackageDestinationDirectory)</_UnzipPackageDestinationDirectory>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <_SearchPackageProperties>
+                SearchPackageId=$(UnzipPackageId);
+                SearchPackageDirectory=$(UnzipPackageDirectory)
+            </_SearchPackageProperties>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <_FoundPackage Remove="@(_FoundPackage)" />
+        </ItemGroup>
+
+        <MSBuild Projects="$(MSBuildThisFile)" Targets="SearchPackage" Properties="$(_SearchPackageProperties)">
+            <Output TaskParameter="TargetOutputs" ItemName="_FoundPackage" />
+        </MSBuild>
+
+        <PropertyGroup>
+            <_UnzipPackageDestinationDirectory Condition="'$(_UnzipPackageDestinationDirectory)' == ''">%(_FoundPackage.RootDir)%(_FoundPackage.Directory)%(_FoundPackage.FileName)</_UnzipPackageDestinationDirectory>
+        </PropertyGroup>
+
+        <Unzip SourceFiles="@(_FoundPackage)" DestinationFolder="$(_UnzipPackageDestinationDirectory)" Condition="'@(_FoundPackage)' != ''" />
+        <Message Text="[$(MSBuildThisFileName)] Package @(_FoundPackage) has been unzipped to $(_UnzipPackageDestinationDirectory)" Importance="$(BuildMessageImportance)" Condition="'@(_FoundPackage)' != ''" />
+    </Target>
+
+    
+    <!-- 
+        ***********************************************************************************************
+        ForceGenerationOfBindingRedirects
+        ***********************************************************************************************
+    -->
+    <Target Name="ForceGenerationOfBindingRedirects"
+            AfterTargets="ResolveAssemblyReferences"
+            BeforeTargets="GenerateBindingRedirects"
+            Condition="'$(AutoGenerateBindingRedirects)' == 'true'">
+        <PropertyGroup>
+            <!-- Needs to be set in a target because it has to be set after the initial evaluation in the common targets -->
+            <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+        </PropertyGroup>
+    </Target>
+    
+    
+    <!-- ################################################################################ -->
+    <!-- Integration "SyntonyPreBuild" into the normal build process -->
+    <!-- ################################################################################ -->
+    <PropertyGroup>
+        <BuildDependsOn>SyntonyPreBuild;$(BuildDependsOn)</BuildDependsOn>
+    </PropertyGroup>
+
+    <!-- https://github.com/dotnet/msbuild/blob/main/src/Tasks/Microsoft.Common.CrossTargeting.targets -->
+
+    <Target Name="SyntonyPreBuild">
+        <Message Text="SyntonyPreBuild $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
+        <!-- Insert the build counter incrementation task into the normal project build sequence -->
+        <!--
+            When using CallTarget, MSBuild evaluates the called target in a new scope, as opposed to the same scope it's called from. 
+            This means that any item and property changes in the called target are NOT visible to the calling target. 
+            To pass information to the calling target, use the TargetOutputs output parameter. -->
+        <!--
+            <CallTarget Targets="TransformAll"/>
+        -->
+    </Target>
+
+
+    <!-- EXTEND BUILD PROCESS WITH -->
+    <Target Name="PreBeforeBuild" BeforeTargets="BeforeBuild">
+        <Message Text="PreBeforeBuild $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
+    </Target>
+
+    <!--
+        =======================================================================================================
+        PreDispatchToInnerBuilds this is only call once for multitarget projects '$(IsMultiTargeted)' == 'true'
+        The DispatchToInnerBuilds target is a part of the .NET SDK's multi-targeting support. 
+        It's used when a project targets multiple frameworks. 
+        When you build a project that targets multiple frameworks, MSBuild doesn't build all the targets in one pass. 
+        Instead, it invokes the DispatchToInnerBuilds target, which in turn invokes the Build target once for each targeted framework. 
+        This target is defined in Microsoft.Common.CurrentVersion.targets file which is a part of the .NET SDK.
+        =======================================================================================================
+                                       DispatchToInnerBuilds
+        =======================================================================================================
+        Builds this project with /t:$(InnerTarget) /p:TargetFramework=X for each value X in $(TargetFrameworks)
+
+        [IN]
+        $(TargetFrameworks) - Semicolon delimited list of target frameworks.
+        $(InnerTargets) - The targets to build for each target framework
+
+        [OUT]
+        @(InnerOutput) - The combined output items of the inner targets across all target frameworks.
+        =======================================================================================================
+        for a project project that targets a single framework the call order is:
+            SyntonyPreBuild  => net8.0 with configuration 'Debug'
+            PreBeforeBuild  => net8.0 with configuration 'Debug'
+            SyntonyBeforeBuild before Target 'BeforeBuild' ...  => net8.0 with configuration 'Debug'
+            Copied to Properties directory: ''
+            IncrementTotalBuildCounters called by BeforeBuild for ConsoleApp1-Debug with net8.0 on Windows_NT
+            IncrementTotalBuildCounters UPDATED total project build counter from '1' to '2' for ConsoleApp1-Debug with net8.0 on Windows_NT with 0 retries.
+            IncrementTotalBuildCounters UPDATED Debug project build counter from '0' to '1' for ConsoleApp1-Debug with net8.0 on Windows_NT with 0 retries.        
+        =======================================================================================================
+        for multitarget projects '$(IsMultiTargeted)' == 'true' the call order is:            
+            PreDispatchToInnerBuilds netstandard1.0;netstandard2.0;netstandard2.1;net472;netcoreapp3.1;net20;net7.0;net8.0 =>  with configuration 'Release'
+            SyntonyBeforeBuild before Target 'DispatchToInnerBuilds' ... netstandard1.0;netstandard2.0;netstandard2.1;net472;netcoreapp3.1;net20;net7.0;net8.0 =>  with configuration 'Release'
+            Copied to Properties directory: ''
+            IncrementTotalBuildCounters called by DispatchToInnerBuilds for Syntony.Common.Nullable-Release with  on Windows_NT
+            IncrementTotalBuildCounters UPDATED total project build counter from '10' to '11' for Syntony.Common.Nullable-Release with  on Windows_NT with 0 retries.
+            IncrementTotalBuildCounters UPDATED Release project build counter from '6' to '7' for Syntony.Common.Nullable-Release with  on Windows_NT with 0 retries.
+        =======================================================================================================
+    -->
+    <Target Name="PreDispatchToInnerBuilds" BeforeTargets="DispatchToInnerBuilds">
+        <!-- 
+            PreDispatchToInnerBuilds this is only call once for multitarget projects '$(IsMultiTargeted)' == 'true' 
+            and is nver called for 
+        -->
+        <Message Text="PreDispatchToInnerBuilds $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
+    </Target>
+
+    <Target Name="SyntonyBeforeBuild" BeforeTargets="$(Syntony_Caller_Target)">
+        <Message Text="SyntonyBeforeBuild before Target '$(Syntony_Caller_Target)' ... $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
+
+        <!-- ensure 'Properties' directory is existing -->
+        <CallTarget Targets="EnsurePropertiesDiretcoryAndContent"/>
+
+        <!-- increment build counters -->
+        <MSBuild Projects="$(MSBuildProjectFile)" Targets="IncrementTotalBuildCounters"/>
+
+        <!-- generate properties -->
+        <MSBuild Projects="$(MSBuildProjectFile)" Targets="GeneratePropertiesOnce" Condition="'$(FirstAssembly)' == 'true' AND '$(FirstAssemblyDefaultBehavior)' == 'false' AND '$(_PropertiesUpdated)' != 'true'"/>
+
+        <!-- TODO: *.tt files only one transform ... TransformDuringBuild calls TransformAll (transforms all T4 templates) if TransformOnBuild is true -->
+    </Target>
+
+    <!--
+      =======================================================================================
+      Create 'Properties' Directory if not existing and copy files like key and ico
+      =======================================================================================
+    -->
+    <Target Name="EnsurePropertiesDiretcoryAndContent">
+        <!-- ensure key and ico in Properties directory -->
+        <MakeDir Directories="$(MSBuildProjectDirectory)\Properties" Condition="!Exists('$(MSBuildProjectDirectory)\Properties')"/>
+
+
+        <ItemGroup Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)')">
+            <Compile Remove="$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)"/>
+        </ItemGroup>
+
+        <Delete Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)')"
+                Files="$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+
+        <ItemGroup>
+            <_MyPropertiesSourceFiles Include="$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx')"/>
+            <_MyPropertiesSourceFiles Include="$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx') AND Exists('$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx')"/>
+
+            <_MyPropertiesSourceFiles Include="$(CommonPropertiesIconsDirectory)$(Company).ico" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company).ico') AND Exists('$(CommonPropertiesIconsDirectory)$(Company).ico')"/>
+            <_MyPropertiesSourceFiles Include="$(GlobalCommonPropertiesDirectory)$(Company).ico" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company).ico') AND !Exists('$(CommonPropertiesIconsDirectory)$(Company).ico') AND Exists('$(GlobalCommonPropertiesDirectory)$(Company).ico')"/>
+
+            <_MyPropertiesSourceFiles Include="$(CommonPropertiesSharedSourcesDirectory)Global.AssemblyInfo$(DefaultLanguageSourceExtension)" Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND !Exists('$(MSBuildProjectDirectory)\Properties\Global.AssemblyInfo$(DefaultLanguageSourceExtension)') AND Exists('$(CommonPropertiesSharedSourcesDirectory)Global.AssemblyInfo$(DefaultLanguageSourceExtension)')"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(_MyPropertiesSourceFiles)" DestinationFolder="$(MSBuildProjectDirectory)\Properties" SkipUnchangedFiles="true">
+            <Output TaskParameter="CopiedFiles" ItemName="_Changed" />
+        </Copy>
+
+        <PropertyGroup Condition="('$(ApplicationIcon)' == '' OR !Exists('$(MSBuildProjectDirectory)\Properties\$(ApplicationIcon)')) AND Exists('$(MSBuildProjectDirectory)\Properties\$(Company).ico')">
+            <ApplicationIcon>Properties\$(Company).ico</ApplicationIcon>
+        </PropertyGroup>
+
+        <PropertyGroup Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')">
+            <__AssemblyInfoText>$([System.IO.File]::ReadAllText('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
+            <__AssemblyInfoText Condition="'$(Company)' != ''">$(__AssemblyInfoText.Replace("{Company}", '$(Company)'))</__AssemblyInfoText>
+            <__AssemblyInfoText Condition="'$(Copyright)' != ''">$(__AssemblyInfoText.Replace("{Copyright}", '$(Copyright)'))</__AssemblyInfoText>
+            <__AssemblyInfoText Condition="'$(Author)' != ''">$(__AssemblyInfoText.Replace("{Author}", '$(Author)'))</__AssemblyInfoText>
+            <__AssemblyInfoText Condition="'$(AuthorEmail)' != ''">$(__AssemblyInfoText.Replace("{AuthorEmail}", '$(AuthorEmail)'))</__AssemblyInfoText>
+            <__AssemblyInfoText Condition="'$(SolutionName)' != ''">$(__AssemblyInfoText.Replace("{SolutionName}", '$(SolutionName)'))</__AssemblyInfoText>
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{Now}", '$(Now)'))</__AssemblyInfoText>
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{MSBuildProjectName}", '$(MSBuildProjectName)'))</__AssemblyInfoText>
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__AssemblyInfoText>
+            
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{SyntonyCommonCoreMetacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__AssemblyInfoText>
+        </PropertyGroup>
+
+        <!-- Note: The MatchExpression = {{SyntonyCommonCoreMetacontent}} does not contain any special regex characters, so it's used as is.  -->
+        <!--
+        <ReplaceFileText Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')" 
+                         InputFilename="$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)"
+                         OutputFilename="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)"
+                         MatchExpression="SyntonyCommonCoreMetacontent"
+                         ReplacementText="$(RootNamespace).Properties.$(MetacontentOutputFileName)" />
+        -->
+        <WriteLinesToFile Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
+                          File="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)" Lines="$(__AssemblyInfoText)" Overwrite="true" />
+
+        <Message Text="Copied to Properties directory: '@(_Changed)'" Importance="$(BuildMessageImportance)" />
+
+        <ItemGroup>
+            <SyntonyInternalsVisibleTo Condition="'%(SyntonyInternalsVisibleTo.PublicKey)' != ''">
+                <Key>%(SyntonyInternalsVisibleTo.PublicKey)</Key>
+            </SyntonyInternalsVisibleTo>
+            <SyntonyAssemblyAttributes Include="System.Runtime.CompilerServices.InternalsVisibleTo" Condition="%(SyntonyInternalsVisibleTo.Identity) != '' AND '$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true'">
+                <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' != ''">%(SyntonyInternalsVisibleTo.Identity), PublicKey=%(SyntonyInternalsVisibleTo.Key)</_Parameter1>
+                <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' == '' and '$(PublicKey)' != ''">%(SyntonyInternalsVisibleTo.Identity), PublicKey=$(PublicKey)</_Parameter1>
+                <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' == '' and '$(PublicKey)' == ''">%(SyntonyInternalsVisibleTo.Identity)</_Parameter1>
+            </SyntonyAssemblyAttributes>
+        </ItemGroup>
+        <PropertyGroup>
+            <SyntonyAssemblyAttributesPath>$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)</SyntonyAssemblyAttributesPath>
+        </PropertyGroup>
+
+        <Message Text="Try to write SyntonyInternalsVisibleTo:" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DefaultLanguageSourceExtension:                 '$(DefaultLanguageSourceExtension)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyAssemblyAttributesPath:                  '$(SyntonyAssemblyAttributesPath)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Language:                                       '$(Language)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GenerateSyntonyInternalsVisibleToAttributes:    '$(GenerateSyntonyInternalsVisibleToAttributes)'" Importance="$(BuildMessageImportance)"/>
+
+        <!--
+        <Delete Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true' AND Exists('$(SyntonyAssemblyAttributesPath)')"
+                Files="$(CommonPropertiesSharedSourcesDirectory)GlobalAssemblyInfo$(DefaultLanguageSourceExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+        -->
+
+        <WriteCodeFragment Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true'"
+                           AssemblyAttributes="@(SyntonyAssemblyAttributes)"
+                           OutputFile="$(SyntonyAssemblyAttributesPath)"
+                           Language="$(Language)">
+            <Output TaskParameter="OutputFile" ItemName="Compile"/>
+            <Output TaskParameter="OutputFile" ItemName="FileWrites"/>
+        </WriteCodeFragment>
+
+        <Error Condition="!Exists('$(MSBuildProjectDirectory)\Properties')" Text="$(MSBuildProjectDirectory)\Properties not exists" />
+    </Target>
+
+    <!--
+      =======================================================================================
+      Delete read-only files ... set ItemGroup __FileToDelete
+      =======================================================================================
+    -->
+    <Target Name="DeleteReadOnly" Condition="'@(FilesToDelete)' != ''">
+      <Exec Command="del /F /Q &quot;@(FilesToDelete)&quot;" IgnoreExitCode="true" ContinueOnError="true"/>
+
+      <Message Text="DeleteReadOnly called for: '@(FilesToDelete)'" Importance="$(BuildMessageImportance)" />
+
+      <ItemGroup>
+          <__FilesToDelete Remove="@(FilesToDelete)"/>
+      </ItemGroup>
+      
+      <OnError ExecuteTargets="SyntonyBuildError" />
+    </Target>
+   
+</Project>

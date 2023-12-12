@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***************************************************************************************************************
+Syntony.props
+***************************************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***************************************************************************************************************
+Function: set the company name and the default UserSecretsId
+***************************************************************************************************************
+Imported by:        '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+***************************************************************************************************************
+Properties defined
+    IsSyntonyPropsFileImported      ... 'true'
+    CompanyEmail                    ... 'syntony@aon.at'
+    Trademark                       ... 'Syntony®'
+    CopyrightTimeSpan               ... 2017 - $(Year)
+    Copyright                       ... Copyright © $(CopyrightTimeSpan) by $(Trademark) - All rights reserved.
+    Syntony                         ... 'true'
+    UserSecretsId                   ... the user secrets set to this machine
+    SyntonyPublicKey                ... the Syntony public key
+    SyntonyPublicKeytoken           ... the Syntony public key token
+    PublicKey                       ... the Syntony public key
+    PublicKeytoken                  ... the Syntony public key token
+***************************************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Label="Imported">
+        <IsSyntonyPropsFileImported>true</IsSyntonyPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Syntony Globals">
+        <CompanyEmail>syntony@aon.at</CompanyEmail>
+        <Trademark>$(Company)®</Trademark>
+
+        <CopyrightTimeSpan>2017 - $(Year)</CopyrightTimeSpan>
+        <Copyright>Copyright © $(CopyrightTimeSpan) by $(Trademark) / Ing. Josef Hahnl, MBA - $(CompanyEmail) - All rights reserved.</Copyright>
+        <Syntony>true</Syntony>
+
+        <!--  On Windows, this path is %APPDATA%\Microsoft\UserSecrets\<UserSecretsId>\secrets.json -->
+        <UserSecretsId>312f415f-7cab-4532-9cfb-90d449705d2d</UserSecretsId>
+
+        <SyntonyPublicKey>0024000004800000940000000602000000240000525341310004000001000100A92205058259CDE2BB2D95F4332966B7790460F1A669A945057F2624DED894C558838528A07AC7193036EBE3B0D6A3A45864D5894D73897C2FC1A14FCDE99AA82275475F6BAA1FE7593F9168B8E0A8AEFCC7CA66DD9C77C94B6D61585250A151D9B6521B5BD4EF331FD46870216CAECC3732EBAEDDD8B1B0DC61E57AFD8CA8BE</SyntonyPublicKey>
+        <SyntonyPublicKeytoken>b57f286edd2a0369</SyntonyPublicKeytoken>
+        <PublicKey>$(SyntonyPublicKey)</PublicKey>
+        <PublicKeytoken>$(SyntonyPublicKeytoken)</PublicKeytoken>
+    </PropertyGroup>
+
+</Project>

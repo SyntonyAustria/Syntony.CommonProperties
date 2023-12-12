@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.DefaultItems.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: import some default properties from other *.props files inside this directory
+***********************************************************************************************
+Imported by:    '$(BuildRootName)' => build.root
+    Imports:    '$(ProjectBuildScriptsDirectory)ImportBefore\*.props' if directory exists
+    Imports:    '$(Company).props' (if exists)
+    Imports:    '(ProjectBuildScriptsDirectory)$(Company).props' (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)User.props' (throws error if not exists)
+    Imports:    '$(USERNAME).props' (if exists)
+    Imports:    '"$(ProjectBuildScriptsDirectory)$(USERNAME).props' (if exists)
+    Imports:    '$(Company).Common.props' (if exists)
+    Imports:    'ProjectEnvironment.props' (throws error if not exists)
+***********************************************************************************************
+Properties defined
+    IsDefaultItemsPropsFileImported ... 'true'
+    MsBuildPropertyToFileExtension  ... '.$(Company).Property'
+    MsBuildCacheFileExtension       ... '.$(Company).CacheFile'
+    IsBenchmarkProject              ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsQuickBenchmarkProject         ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    AssemblyToTest                  ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    BaseAssembly                    ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsSyntonyTestProject            ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsLocalizationProject           ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsExampleProject                ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsTrialAndErrorConsole          ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsNotCompileProject             ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsVsixProject                   ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsSyntonyProject                ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsCompanyProject                ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsSyntonyFrameworkProject       ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsSyntonyFrameworkSubProject    ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    IsVSTOProject                   ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    UsePackageReference             ... 'false' / 'true' depending on the $(MSBuildProjectName)
+    UseProjectReference             ... 'false' / 'true' depending on the $(MSBuildProjectName)
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Label="Imported">
+        <IsDefaultItemsPropsFileImported>true</IsDefaultItemsPropsFileImported>
+    </PropertyGroup>
+
+    <!-- ATTENTION: only import *.props files -->
+    <Import Project="$(ProjectBuildScriptsDirectory)ImportBefore\*.props" Condition="'$(ImportByWildcardBeforeMicrosoftCommonTargets)' == 'true' AND Exists('$(ProjectBuildScriptsDirectory)ImportBefore')" />
+
+    <!-- Import company specific props => e.g. Syntony.props -->
+    <Import Label="Company" Project="$(Company).props" Condition="Exists('$(Company).props')" />
+    <Import Label="Company" Project="$(ProjectBuildScriptsDirectory)$(Company).props" Condition="Exists('$(ProjectBuildScriptsDirectory)$(Company).props')" />
+
+    <!-- Import default user specific props -->
+    <Import Project="$(_DefaultSdkImportPreFilename)User.props" />
+
+    <!-- Import user specific props -->
+    <Import Label="User settings" Project="$(USERNAME).props" Condition="Exists('$(USERNAME).props')" />
+    <Import Label="User settings" Project="$(ProjectBuildScriptsDirectory)$(USERNAME).props" Condition="Exists('$(ProjectBuildScriptsDirectory)$(USERNAME).props')" />
+
+    <PropertyGroup Label="Filesname settings for writing / reading properties">
+        <!-- definitions for reading AND writing properties to files -->
+        <MsBuildPropertyToFileExtension>.$(Company).Property</MsBuildPropertyToFileExtension>
+        <MsBuildCacheFileExtension>.$(Company).CacheFile</MsBuildCacheFileExtension>
+    </PropertyGroup>
+
+    <!-- IMPORT $(Company).Common.props -->
+    <Import Project="$(Company).Common.props" Condition="'$(IsCompanyCommonPropsFileImported)' != 'true' AND Exists('$(Company).Common.props')" />
+
+    <PropertyGroup Label="Define project type">
+        <!-- by default it is NOT a Benchmark project -->
+        <IsBenchmarkProject>false</IsBenchmarkProject>
+        <IsBenchmarkProject Condition="$(MSBuildProjectName.Contains('.BenchmarkTests'))">true</IsBenchmarkProject>
+
+        <IsQuickBenchmarkProject>false</IsQuickBenchmarkProject>
+        <IsQuickBenchmarkProject Condition="$(MSBuildProjectName.Contains('.QuickBenchmarkTests'))">true</IsQuickBenchmarkProject>
+
+        <!-- IMPORTANT: by default "IntegrationTests"!!! haveve no single AssembylToTest -->
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.Tests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.Tests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.UnitTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.UnitTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.PerformanceTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.PerformanceTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.SecurityTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.SecurityTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.IntegrationTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.IntegrationTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.BenchmarkTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.BenchmarkTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' == '' AND $(MSBuildProjectName.Contains('.QuickBenchmarkTests'))">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.QuickBenchmarkTests'))))</AssemblyToTest>
+        <AssemblyToTest Condition="'$(AssemblyToTest)' != '' AND '$(IsSyntonyTestProject)' == 'false'"></AssemblyToTest>
+        <BaseAssembly>$(AssemblyToTest)</BaseAssembly>
+
+        <!-- by default it is NOT a TEST environment; to set to TEST in *.csproj file define <IsSyntonyTestProject>true</IsSyntonyTestProject> AND set <AssemblyToTest> with the corresponding assembly that is tested -->
+        <IsSyntonyTestProject>false</IsSyntonyTestProject>
+        <IsSyntonyTestProject Condition="'$(AssemblyToTest)' != ''">true</IsSyntonyTestProject>
+
+        <DefineConstants Condition="'$(IsSyntonyTestProject)' == 'true' AND '$(DefineConstants)' != ''">$(DefineConstants);$(Company.ToUpper())_TEST</DefineConstants>
+        <DefineConstants Condition="'$(IsSyntonyTestProject)' == 'true' AND '$(DefineConstants)' == ''">$(Company.ToUpper())_TEST</DefineConstants>
+
+        <!-- by default it is NOT a Localization project -->
+        <IsLocalizationProject>false</IsLocalizationProject>
+        <IsLocalizationProject Condition="$(MSBuildProjectName.Contains('.Localization'))">true</IsLocalizationProject>
+        <BaseAssembly Condition="'$(BaseAssembly)' == '' AND '$(IsLocalizationProject)' == 'true'">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.Localization'))))</BaseAssembly>
+
+        <!-- by default it is NOT an Example project -->
+        <IsExampleProject>false</IsExampleProject>
+        <IsExampleProject Condition="$(MSBuildProjectName.Contains('.Example'))">true</IsExampleProject>
+        <BaseAssembly Condition="'$(BaseAssembly)' == '' AND '$(IsExampleProject)' == 'true'">$(MSBuildProjectName.Remove($(MSBuildProjectName.IndexOf('.Example'))))</BaseAssembly>
+
+        <IsTrialAndErrorConsole>false</IsTrialAndErrorConsole>
+        <IsTrialAndErrorConsole Condition="$(MSBuildProjectName.Contains('.TrialAndErrorConsole'))">true</IsTrialAndErrorConsole>
+
+        <IsNotCompileProject>false</IsNotCompileProject>
+        <IsNotCompileProject Condition="$(MSBuildProjectName.Contains('NOT Compile')) OR $(MSBuildProjectName.Contains('NotCompile'))">true</IsNotCompileProject>
+
+        <!-- by default it is NOT a VSIX Visual Studio extension project MUST be set inside the csproj file -->
+        <IsVsixProject Condition="'$(IsVsixProject)' == ''">false</IsVsixProject>
+
+        <!-- Syntony projects must fullfill special conditions -->
+        <IsSyntonyProject>false</IsSyntonyProject>
+        <IsSyntonyProject Condition="$(MSBuildProjectName.StartsWith('_DefaultSyntonyName'))">true</IsSyntonyProject>
+        <IsCompanyProject>false</IsCompanyProject>
+        <IsCompanyProject Condition="$(MSBuildProjectName.StartsWith('$Company'))">true</IsCompanyProject>
+
+        <IsSyntonyFrameworkProject>false</IsSyntonyFrameworkProject>
+        <IsSyntonyFrameworkSubProject>false</IsSyntonyFrameworkSubProject>
+
+        <!-- Visual Studio Tools for Office (VSTO) projects must fullfill special conditions -->
+        <IsVSTOProject>false</IsVSTOProject>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Minimum Include for $(Compnay) projects">
+        <SyntonyCommonCoreBasics>Syntony.Common.Core.Basics</SyntonyCommonCoreBasics>
+        <IncludeSyntonyCommonCoreBasics>true</IncludeSyntonyCommonCoreBasics>
+    </PropertyGroup>
+
+    <!-- define all Syntony.Framework assemblie names  ... TODO: add new projects here -->
+    <ItemGroup>
+        <SyntonyFrameworkProjectNames Include="Syntony.Application" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Benchmark" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Common" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Common.Core" />
+        <SyntonyFrameworkProjectNames Include="$(SyntonyCommonCoreBasics)" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Common.Nullable" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Finance" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Mathematics" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.Linux" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.MacOs" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.Windows" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Repositories" />
+        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Repository.Ef" />
+        <SyntonyFrameworkProjectNames Include="Syntony.TestBase" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <IsSyntonyFrameworkProject
+            Condition="$(MSBuildProjectName.StartsWith('$(Company)')) AND
+            (  '$(MSBuildProjectName)' == 'Syntony.Application'
+            OR '$(MSBuildProjectName)' == 'Syntony.Benchmark'
+            OR '$(MSBuildProjectName)' == 'Syntony.Common'
+            OR '$(MSBuildProjectName)' == 'Syntony.Common.Core'
+            OR '$(MSBuildProjectName)' == 'Syntony.Common.Core.Basics'
+            OR '$(MSBuildProjectName)' == 'Syntony.Common.Nullable'
+            OR '$(MSBuildProjectName)' == 'Syntony.Finance'
+            OR '$(MSBuildProjectName)' == 'Syntony.Mathematics'
+            OR '$(MSBuildProjectName)' == 'Syntony.Platform'
+            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop'
+            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.Linux'
+            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.MacOs'
+            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.Windows'
+            OR '$(MSBuildProjectName)' == 'Syntony.Repositories'
+            OR '$(MSBuildProjectName)' == 'Syntony.Repository.Ef'
+            OR '$(MSBuildProjectName)' == 'Syntony.TestsBase')">true</IsSyntonyFrameworkProject>
+    </PropertyGroup>
+
+    <PropertyGroup Label="look for first assembly" Condition="'$(MSBuildProjectName)' == 'Syntony.Common.Core.Basics'">
+        <FirstAssembly Condition="'$(FirstAssembly)' == ''">true</FirstAssembly>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsSyntonyFrameworkProject)' != 'true'">
+        <IsSyntonyFrameworkSubProject
+            Condition="($(MSBuildProjectName.StartsWith('$(Company)'))) AND
+            (  $(MSBuildProjectName.StartsWith('Syntony.Application.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Benchmark.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Common.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Core.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Core.Basics.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Nullable.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Finance.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Mathematics.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.Linux.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.MacOs.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.Windows.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Repositories.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.Repository.Ef.'))
+            OR $(MSBuildProjectName.StartsWith('Syntony.TestsBase.')))">true</IsSyntonyFrameworkSubProject>
+    </PropertyGroup>
+    <PropertyGroup>
+        <IsBaseProject>false</IsBaseProject>
+        <IsBaseProject Condition="'$(IsSyntonyFrameworkProject)' == 'true'
+                       OR ('$(IsBenchmarkProject)' == 'false'
+                       AND '$(IsQuickBenchmarkProject)' == 'false'
+                       AND '$(IsSyntonyTestProject)' == 'false'
+                       AND '$(IsLocalizationProject)' == 'false'
+                       AND '$(IsExampleProject)' == 'false'
+                       AND '$(IsTrialAndErrorConsole)' == 'false'
+                       AND '$(IsNotCompileProject)' == 'false'
+                       AND '$(IsNotCompileProject)' == 'false')
+                       ">true</IsBaseProject>
+    </PropertyGroup>
+
+    <!-- Import the default environment structure for our projects, throws error if $(_DefaultSdkImportPreFilename)ProjectEnvironment.props not exists -->
+    <Import Project="$(_DefaultSdkImportPreFilename)ProjectEnvironment.props" Condition="'$(IsProjectEnvironmentFileImported)' != 'true'" />
+
+    <PropertyGroup Label="Project- or PackageReference" Condition="'$(IsSyntonyTestProject)' == 'true' OR '$(IsExampleProject)' == 'true' OR '$(IsQuickBenchmarkProject)' == 'true' OR '$(IsTrialAndErrorConsole)' == 'true' OR '$(IsNotCompileProject)' == 'true'">
+        <!-- By default we use ProjectReference for test projects. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
+        <UsePackageReference Condition="'$(UsePackageReference)' == ''">false</UsePackageReference>
+        <UseProjectReference Condition="'$(UseProjectReference)' == ''">true</UseProjectReference>
+    </PropertyGroup>
+    <PropertyGroup>
+        <!-- By default we use PackageReference for all Solutions. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
+        <UsePackageReference Condition="'$(UsePackageReference)' == ''">true</UsePackageReference>
+        <UseProjectReference Condition="'$(UseProjectReference)' == ''">false</UseProjectReference>
+    </PropertyGroup>
+
+</Project>

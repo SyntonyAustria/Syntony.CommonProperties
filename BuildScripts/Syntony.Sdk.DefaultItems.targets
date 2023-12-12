@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.DefaultItems.targest
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: import some default properties from other *.props files inside this directory
+***********************************************************************************************
+Imported by: Directory.Build.targets
+***********************************************************************************************
+Properties defined
+    IsDefaultItemsTargtesFileImported  ... set to 'true'
+    MSBuildDebug                            ... 'false'. By default the build targets are NOT in DEBUG mode; to set to DEBUG mode in *.csproj file define <MSBuildDebug>true</MSBuildDebug>
+    BuildMessageImportance    ... set to 'Normal'. If $(MSBuildDebug) is 'true' this property ist set to 'High'.
+    BuildRootDirectory        ... the directory of the build root file. Include the final backslash.
+    
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+    -->
+    <PropertyGroup>
+        <IsDefaultItemsTargtesFileImported>true</IsDefaultItemsTargtesFileImported>
+    </PropertyGroup>
+
+    <!-- 
+        Using the same property as Microsoft.CSharp.targets and presumably Microsoft.VisualBasic.targets here
+        
+        We are doing a cross-targeting build if there is a non-empty list of target frameworks specified
+        and there is no current target framework being built individually. In that case, a multitargeting
+        project file like Microsoft.<language>.CrossTargeting.targets gets imported.
+        
+        Cross-targeting in the context of .NET development refers to the ability of a project to target multiple .NET frameworks. 
+        This is useful when you want to create a library that can be used in projects targeting different versions of .NET, such as .NET Framework, .NET Core, or .NET Standard.
+
+        When a project cross-targets multiple frameworks, MSBuild essentially builds the project multiple times, once for each targeted framework. 
+        This is done by the DispatchToInnerBuilds target, which invokes the Build target once for each targeted framework.
+
+        In the project file, you can specify multiple target frameworks by using the TargetFrameworks property (note the plural form),        
+    -->
+    <PropertyGroup Condition="'$(TargetFrameworks)' != '' and '$(TargetFramework)' == ''">
+        <IsCrossTargetingBuild>true</IsCrossTargetingBuild>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Check Configuration">
+        <!-- by default we have the following configurations Release;Debug;CodeAnalysis;PushNugetPackage -->
+        <IsDebugConfiguration Condition="'$(Configuration)' == 'Debug'">true</IsDebugConfiguration>
+        <IsReleaseConfiguration Condition="'$(Configuration)' == 'Release'">true</IsReleaseConfiguration>
+        <IsCodeAnalysisConfiguration Condition="'$(Configuration)' == 'CodeAnalysis'">true</IsCodeAnalysisConfiguration>
+        
+        <IsPushNugetPackageConfiguration Condition="'$(Configuration)' == 'PushNugetPackage'">true</IsPushNugetPackageConfiguration>
+        <IsReleaseConfiguration Condition="'$(IsPushNugetPackageConfiguration)' == 'true'">true</IsReleaseConfiguration>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- 
+            IsOuterBuild is used to determine whether the current build is being executed as part of a larger build process, such as a build that includes multiple projects.
+            If IsOuterBuild is set to true, it means that the current build is being executed as part of a larger build process,
+            and that the output of the current build will be used as an input to another build 
+
+            https://lizzy-gallagher.github.io/msbuild-run-target-once-per-project/ 
+            https://github.com/dotnet/msbuild/issues/2781#issuecomment-350118208
+            https://stackoverflow.com/questions/46675782/how-to-make-an-msbuild-target-that-only-runs-once-instead-of-once-before-target
+            https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/sdk/Sdk.targets
+            Condition="'$(IsCrossTargetingBuild)' == 'true'"
+            IsCrossTargetingBuild is defined in Microsoft.Managed.Before.targets (https://github.com/dotnet/msbuild/blob/main/src/Tasks/Microsoft.Managed.Before.targets) as '$(TargetFrameworks)' != '' and '$(TargetFramework)' == ''
+        -->
+        <IsOuterBuild>true</IsOuterBuild>
+        <IsMultiTargeted>false</IsMultiTargeted>
+        <IsMultiTargeted Condition="'$(TargetFrameworks)' != '' AND $(TargetFrameworks.IndexOf(';')) &gt; -1 AND $(TargetFrameworks.IndexOf(';')) != $([MSBuild]::Add($(TargetFrameworks.Length), 1))">true</IsMultiTargeted>
+        <Syntony_Caller_Target>BeforeBuild</Syntony_Caller_Target>
+        <Syntony_Caller_Target Condition="'$(IsMultiTargeted)' == 'true'">DispatchToInnerBuilds</Syntony_Caller_Target>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(SignAssembly)' == 'true'">
+        <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' AND Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx')">$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile Condition="'$(AssemblyOriginatorKeyFile)' == '' AND Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx')">$(MSBuildProjectDirectory)\Properties\KeyPair.pfx</AssemblyOriginatorKeyFile>
+        <ManifestKeyFile Condition="'$(ManifestKeyFile)' == '' AND '$(IsVSTOProject)' == 'true'">$(AssemblyOriginatorKeyFile)</ManifestKeyFile>
+    </PropertyGroup>
+
+    <!-- Publish settings -->
+    <PropertyGroup>
+        <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#publishrelease -->
+        <PublishRelease Condition="'$(PublishRelease)' == ''">true</PublishRelease>
+        <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#packrelease -->
+        <PackRelease  Condition="'$(PublishRelease)' == ''">true</PackRelease>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!--
+            https://github.com/dotnet/project-system/blob/main/docs/build-acceleration.md
+            https://devblogs.microsoft.com/visualstudio/vs-toolbox-accelerate-your-builds-of-sdk-style-net-projects/
+            Build acceleration is particularly impactful when changes need to be copied around several times during build.
+        -->
+        <AccelerateBuildsInVisualStudio Condition="'$(AccelerateBuildsInVisualStudio)' == ''">true</AccelerateBuildsInVisualStudio>
+    </PropertyGroup>
+
+    <!-- adjuts DefineConstants -->
+    <PropertyGroup>
+        <_DefineConstants Condition="'$(Company)' != ''">$(Company.ToUpper())</_DefineConstants>
+
+        <!-- The DefineConstants option defines symbols in all source code files of your program. -->
+        <DefineConstants Condition="'$(_DefineConstants)' != ''">$(DefineConstants);$(_DefineConstants)</DefineConstants>
+        <DefineConstants Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*DEBUG(;.*)*$'))">$(DefineConstants);DEBUG</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' == 'CodeAnalysis'">$(DefineConstants);$(Company.ToUpper())_CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
+        <DefineConstants Condition="'$(IsVsixProject)' == 'true'">$(DefineConstants);VISUALSTUDIOPACKAGE</DefineConstants>
+    </PropertyGroup>
+
+    <!-- Handle XML documentation file settings -->
+    <PropertyGroup Condition="'$(GenerateDocumentationFile)' == ''">
+        <GenerateDocumentationFile Condition="'$(DocumentationFile)' == ''">false</GenerateDocumentationFile>
+        <GenerateDocumentationFile Condition="'$(DocumentationFile)' != ''">true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GenerateDocumentationFile)' == 'true' AND '$(DocumentationFile)' == ''">
+        <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#documentationfile -->
+        <DocumentationFile>$(BuildSolutionDirectory)Docs\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GenerateDocumentationFile)' != 'true'">
+        <DocumentationFile />
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PublishDocumentationFiles Condition="'$(PublishDocumentationFiles)' == ''">true</PublishDocumentationFiles>
+        <PublishDocumentationFile Condition="'$(PublishDocumentationFile)' == '' AND '$(PublishDocumentationFiles)' == 'true'">true</PublishDocumentationFile>
+        <PublishReferencesDocumentationFiles Condition="'$(PublishReferencesDocumentationFiles)' == '' AND '$(PublishDocumentationFiles)' == 'true'">true</PublishReferencesDocumentationFiles>
+    </PropertyGroup>
+
+    <!-- MSBUILD ENVIRONMENT PROPERTIES -->
+    <PropertyGroup>
+        <!-- by default the build targets are NOT in DEBUG mode; to set to DEBUG mode in *.csproj file define <MSBuildDebug>true</MSBuildDebug> -->
+        <MSBuildDebug Condition="'$(MSBuildDebug)'==''">false</MSBuildDebug>
+
+        <!-- This parameter can have a value of high, normal or low. The default value is normal. -->
+        <BuildMessageImportance Condition="'$(BuildMessageImportance)'==''">Normal</BuildMessageImportance>
+        <BuildMessageImportance Condition="'$(MSBuildDebug)'=='true'">High</BuildMessageImportance>
+        <MessageSeparator Condition="'$(MessageSeparator)' == ''">$([System.String]::New('*', 255))</MessageSeparator>
+    </PropertyGroup>
+
+    <!-- RunSettingsFilePath PROPERTIES -->
+    <PropertyGroup Condition="'$(RunSettingsFilePath)' == '' AND '$(IsSyntonyTestProject)' == 'true'">
+        <RunSettingsFilePath Condition="Exists('$(CommonPropertiesDirectory)runsettings.xml')">$(CommonPropertiesDirectory)runsettings.xml</RunSettingsFilePath>
+        <RunSettingsFilePath Condition="'$(RunSettingsFilePath)' == '' AND Exists('$(GlobalCommonPropertiesDirectory)runsettings.xml')">$(GlobalCommonPropertiesDirectory)runsettings.xml</RunSettingsFilePath>
+    </PropertyGroup>
+
+</Project>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+**************************************************************************************
+Syntony.MSBuild.DevelopmentNotes.props
+**************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+**************************************************************************************
+Function: 
+**************************************************************************************
+Imported by:    NOT imported by anyone - just for notes, tips and tricks!!!!!!!!!!!!!!
+**************************************************************************************
+-->
+
+<!--
+**************************************************************************************
+The default "Import Project" order is:
+**************************************************************************************
+*.csproj
+    Directory.Build.props                                           ... this file
+        $(BuildRootName)                                            ... build.root / .build / .msbuild are tried in this order
+            BeforeCommon.props (PROJECT)                            ... set common directory names from the PROJECT BuildScript directory (if any)
+            Default.Settings.props (CommonProperties)               ... set common directory names from the GLOBAL CommonProperties BuildScript directory
+                $(ProjectBuildScriptsDirectory)ImportBefore\*.props ... 
+                Company.props                                       ... set the company name and some company dependend properties
+                    $(Company).Common.props                         ... default packages and analyzers
+                ProjectEnvironment.props                            ... set properties and directories for project
+                    DefaultLanguageSettings.props                   ... C# settings
+                    DefaultSolutionConfigurationSettings.props      ... 
+                    DefaultNuGetSettings.props                      ... 
+                    $(SolutionName).Build.props                     ... 
+                    $(MSBuildProjectName).Build.props               ... 
+**************************************************************************************
+*.csproj
+    Directory.Build.targets 
+        BeforeCommon.targets (PROJECT)                              ... 
+        $(MSBuildProjectName).Version.props                         ... set common project version properties from the GLOBAL CommonProperties BuildScript directory
+        Version.props (PROJECT)                                     ... set project version properties from the PROJECT BuildScript directory (if any)
+        $(Company).Version.props                                    ... set common company version properties from the GLOBAL CommonProperties BuildScript directory
+            $(MSBuildProjectName).ReleaseNotes.props                ... 
+            $(Company).ReleaseNotes.props                           ... 
+        Metacontent.TextTemplating.targets                          ... 
+        $(Company).Test.PackageReference.props                      ... 
+        $(Company).Common.targets                                   ... 
+        $(MSBuildProjectName).Common.targets                        ... 
+        Common.targets (PROJECT)                                    ... 
+        AfterCommon.targets (PROJECT)                               ... 
+        $(Company).CommonTasks.targets
+**************************************************************************************
+-->
+
+<!-- All SDK files can be found C:\Program Files\dotnet\sdk\VERSION\Sdks ... -->
+
+<!-- 
+    https://blog.jetbrains.com/dotnet/2020/05/11/story-csproj-large-solutions-memory-usage/
+    https://gist.github.com/maartenba/8c6e23aa0adf562aecd8bdcba4226c34 
+    https://github.com/microsoft/msbuild/blob/master/src/Tasks/Microsoft.Common.targets
+    https://github.com/cezarypiatek/msbuild-cheatsheet
+    
+    MSBuild response files: https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-response-files?view=vs-2022 
+    file://C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.rsp
+    
+    
+    
+    
+-->
+
+    <!-- 
+**************************************************************************************************************************************************************
+Troubleshoot and create logs for MSBuild problems https://learn.microsoft.com/en-us/visualstudio/ide/msbuild-logs?view=vs-2022
+
+Renaming a property across multiple MSBuild files (.csproj, .targets, .props, etc.) is not a straightforward operation.
+Here is an example of how you can do it with PowerShell on Windows:
+
+    Get-ChildItem -Path "Path\To\Your\Project\Directory" -Filter *.csproj -Recurse |
+    ForEach-Object {
+        (Get-Content -Path $_.FullName) -replace 'OldPropertyName', 'NewPropertyName' |
+        Set-Content -Path $_.FullName
+    }
+
+**************************************************************************************************************************************************************
+-->
+
+<!--
+$([System.IO.Path]::GetFileNameWithoutExtension('%(PackageReference.Identity)'))
+    <Error Text="The project $(ProjectNameToCheck) is already in the ProjectReference item group." Condition=" '@(ProjectReference->'%(Filename)')' == '$(ProjectNameToCheck)' " />
+
+<ItemGroup>
+    <ProjectReference Include="..\Project1\Project1.csproj" />
+    <ProjectReference Include="..\Project2\Project2.csproj" />
+    <ExistingProjects Include="Project1" />
+  </ItemGroup>
+  <Target Name="PrintNewProjectReferences">
+    <ItemGroup>
+      <NewProjectReference Include="@(ProjectReference)" Condition="!@(ExistingProjects->'%(Filename)')->Contains('%(Filename)')" />
+    </ItemGroup>
+    <Message Text="New Project Name: $([System.IO.Path]::GetFileNameWithoutExtension('%(NewProjectReference.Identity)'))" />
+  </Target>
+
+<Target Name="PrintProjectReferenceNames" AfterTargets="ResolveReferences">
+  <ItemGroup>
+    <ProjectReferenceNames Include="@(ProjectReference->'%(Name)')"/>
+  </ItemGroup>
+  <Message Text="ProjectReferenceNames: @(ProjectReferenceNames)" Importance="high"/>
+</Target>
+    
+    -->
+
+
+<!-- 
+    USE:
+        IsSyntonyFrameworkProject 
+        IsSyntonyFrameworkSubProject
+    -->
+
+
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+</Project>

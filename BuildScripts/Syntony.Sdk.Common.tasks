@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Syntony.Common.tasks
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+-->
+<Project>
+    <!--
+        ***********************************************************************************************
+        Function: contains UsingTask declarations
+        Imported by: Directory.Build.targets
+        ***********************************************************************************************
+    -->
+    <!--
+        IMPORTANT: Tasks defined:
+            StringContains
+            GetFirstItem
+            FindUserFile
+            Sleep
+            SetEnvironmentVariable
+            DelteAllSubDirectories
+    -->
+
+    <!-- 
+        ***********************************************************************************************
+        StringContains
+        ***********************************************************************************************
+    -->
+        <UsingTask TaskName="StringContains" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+            <ParameterGroup>
+                <Input ParameterType="System.String" Required="true" />
+                <Values ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+                <Result ParameterType="System.Boolean" Output="true" />
+            </ParameterGroup>
+            <Task>
+                <Code Type="Fragment" Language="cs">
+                    <![CDATA[
+          Result = Values.Any(item => Input.Contains(item.ItemSpec));
+        ]]>
+                </Code>
+            </Task>
+        </UsingTask>
+    <!--
+        <ItemGroup>
+            <MyItemGroup Include="item1;item2;item3" />
+        </ItemGroup>
+        <Target Name="MyTarget">
+            <StringContains Input="$(MSBuildProjectName)" Values="@(MyItemGroup)">
+                <Output TaskParameter="Result" PropertyName="IsInItemGroup" />
+            </StringContains>
+            <Message Text="MSBuildProjectName contains an item from MyItemGroup" Condition="'$(IsInItemGroup)' == 'true'" />
+            <Message Text="MSBuildProjectName does not contain any item from MyItemGroup" Condition="'$(IsInItemGroup)' == 'false'" />
+        </Target>
+    -->
+
+    <!-- 
+        ***********************************************************************************************
+        GetFirstItem
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="GetFirstItem" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <!-- https://gist.github.com/Serivy/74fff320c93176e6ca7f76e1cc139367 -->
+        <ParameterGroup>
+            <Items ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+            <FirstItem ParameterType="System.String" Output="true" Required="false" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System.Linq"/>
+            <Code Type="Fragment" Language="cs">FirstItem = Items.First().ItemSpec;</Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        FindUserFile
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="FindUserFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <CurrentDirName ParameterType="System.String" Required="true" />
+            <FileToFind ParameterType="System.String" Required="true" />
+            <UserFileName ParameterType="System.String" Output="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System"/>
+            <Using Namespace="System.IO"/>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                Log.LogMessage("FindUserFile parameters:");
+                Log.LogMessage("CurrentDirName = " + CurrentDirName);
+                Log.LogMessage("FileToFind = " + FileToFind);
+
+                while(CurrentDirName != Directory.GetDirectoryRoot(CurrentDirName) && !File.Exists(CurrentDirName + Path.DirectorySeparatorChar + FileToFind))
+                {
+                    CurrentDirName = Directory.GetParent(CurrentDirName).FullName;
+                }
+
+                if(File.Exists(CurrentDirName + Path.DirectorySeparatorChar + FileToFind)) 
+                {
+                    UserFileName = CurrentDirName + Path.DirectorySeparatorChar + FileToFind;
+                }
+                
+                Log.LogMessage("FindUserFile output properties:");
+                Log.LogMessage("UserFileName = " + UserFileName);
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        Sleep usage: <Sleep Delay="500"/> (500 ms)
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="Sleep" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <!-- Delay in milliseconds -->
+            <Delay ParameterType="System.Int32" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                System.Threading.Thread.Sleep(Delay);
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        WriteLinesToFileWithRetry usage: 
+        <PropertyGroup>
+            <MyFile>CommonFile.txt</MyFile>
+            <LinesToWrite>"Line 1","Line 2","Line 3"</LinesToWrite>
+            <RetryCount>0</RetryCount>
+        </PropertyGroup>
+        <WriteLinesToFileWithRetry File="$(MyFile)" Lines="$(LinesToWrite)" Overwrite="true" RetryDelayMilliseconds="250" Retries="2">
+            <Output TaskParameter="RetryCount" PropertyName="RetryCount"/>
+        </WriteLinesToFileWithRetry>
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="WriteLinesToFileWithRetry" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <File ParameterType="System.String" Required="true" />
+            <Lines ParameterType="System.String[]" Required="true" />
+            <Overwrite ParameterType="System.Boolean" Required="false" />
+            <RetryDelayMilliseconds ParameterType="System.Int32" Required="false" />
+            <Retries ParameterType="System.Int32" Required="false" />
+            <RetryCount ParameterType="System.Int32" Required="false" Output="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Fragment" Language="cs">
+            <![CDATA[
+                  RetryDelayMilliseconds = RetryDelayMilliseconds > 0 ? RetryDelayMilliseconds : 100;
+                  Retries = Retries > 0 ? Retries : 0;
+                  RetryCount = 0;
+                  while (true)
+                  {
+                    try
+                    {
+                      System.IO.File.WriteAllLines(File, Lines);
+                      break; // exit the loop if the write operation succeeds
+                    }
+                    catch
+                    {
+                      if (RetryCount < Retries)
+                      {
+                        System.Threading.Thread.Sleep(RetryDelayMilliseconds);
+                        RetryCount++;
+                      }
+                      else
+                      {
+                        throw;
+                      }
+                    }
+                  }
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        IncrementValue usage:
+            <PropertyGroup>
+                <MyValue>5</MyValue>
+            </PropertyGroup>
+            <IncrementValue Value="$(MyValue)">
+                <Output TaskParameter="Value" PropertyName="MyValue" />
+            </IncrementValue>
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="IncrementValue" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <Value ParameterType="System.Int32" Required="true" Output="true" />
+        </ParameterGroup>
+        <Task>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                Value++;
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        SetEnvironmentVariable usage: <SetEnvironmentVariable Name="TEST_ENV_VAR" Value="$(MSBuildProjectName)" />
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="SetEnvironmentVariable" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <Name ParameterType="System.String" Required="true" />
+            <Value ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+
+        <Task>
+            <Using Namespace="System" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                Environment.SetEnvironmentVariable(Name, Value);
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- 
+        ***********************************************************************************************
+        DelteAllSubDirectories
+        ***********************************************************************************************
+    -->
+    <UsingTask TaskName="DelteAllSubDirectories" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+        <ParameterGroup>
+            <Folder Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System.IO" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                try
+                {
+                  DirectoryInfo directoryInfo = new DirectoryInfo(Folder);
+                  foreach (DirectoryInfo subfolder in directoryInfo.GetDirectories())
+                  {
+                    Directory.Delete(subfolder.FullName, true);
+                  }
+                }
+                catch (Exception ex)
+                {
+                  Log.LogMessage(MessageImportance.High, new string('*', 160));
+                  Log.LogMessage(MessageImportance.High, "E X C E P T I O N   I N   D E L E T E A L L S U B D I R E C T O R I E S");
+                  Log.LogErrorFromException(ex);
+                  Log.LogMessage(MessageImportance.High, new string('*', 160));
+                }
+                  
+                return true;
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+
+    <!-- 
+        ***********************************************************************************************
+        InsertIntoFile https://stackoverflow.com/questions/21491914/how-can-i-insert-lines-into-a-file-in-an-msbuild-task/21500030#21500030
+        ***********************************************************************************************
+    -->
+    <UsingTask
+        TaskName="InsertIntoFile"
+        TaskFactory="CodeTaskFactory"
+        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+        <ParameterGroup>
+            <FilePath ParameterType="System.String" Required="true" />
+            <LineNumber ParameterType="System.Int32"  Required="true" />
+            <Text ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System" />
+            <Using Namespace="System.IO" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                // By tradition, text file line numbering is 1-based
+                var lines = File.Exists(FilePath) 
+                                      ? File.ReadAllLines(FilePath).ToList() 
+                                      : new List<String>(1);
+                lines.Insert(Math.Min(LineNumber - 1, lines.Count), Text);
+                File.WriteAllLines(FilePath, lines);
+                return true;
+              ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!--
+      =======================================================================================
+      ReplaceFileText
+      https://stackoverflow.com/questions/7837644/how-to-replace-string-in-file-using-msbuild
+      =======================================================================================
+    -->
+    <UsingTask TaskName="ReplaceFileText" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <InputFilename ParameterType="System.String" Required="true" />
+            <OutputFilename ParameterType="System.String" Required="true" />
+            <MatchExpression ParameterType="System.String" Required="true" />
+            <ReplacementText ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System"/>
+            <Using Namespace="System.IO"/>
+            <Using Namespace="System.Text.RegularExpressions" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[  
+                  File.WriteAllText(OutputFilename, Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText));
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <UsingTask TaskName="ReplaceTextInFiles" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.$(VsBuildTaskBinarySuffix).dll">
+        <ParameterGroup>
+            <MatchExpression ParameterType="System.String" Required="true" />
+            <ReplacementExpression ParameterType="System.String" Required="true" />
+            <InputFile ParameterType="Microsoft.Build.Framework.ITaskItem" Required="true" />
+            <IsTextReplaced ParameterType="System.Boolean"  Output="True"/>
+        </ParameterGroup>
+        <Task>
+            <Reference Include="System.Core" />
+            <Using Namespace="System" />
+            <Using Namespace="System.IO" />
+            <Using Namespace="System.Text.RegularExpressions" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+      bool isMatchFound = false;
+      string filecontent = "";
+      string path = InputFile.ItemSpec;
+
+      Log.LogMessage(MessageImportance.High, "[ReplaceTextInFiles]: Match= " + MatchExpression);
+      Log.LogMessage(MessageImportance.High, "[ReplaceTextInFiles]: Replace= " + ReplacementExpression);
+
+      IsTextReplaced = false;
+      using(StreamReader rdr = new StreamReader(path))
+      {
+        filecontent = rdr.ReadToEnd();
+        if (Regex.Match(filecontent, MatchExpression).Success)
+        {
+          filecontent = Regex.Replace(filecontent, MatchExpression, ReplacementExpression);
+          isMatchFound = true;            
+        }
+      }
+
+      if(isMatchFound){
+        using(StreamWriter wrtr = new StreamWriter(path))
+        {
+          wrtr.Write(filecontent);
+          IsTextReplaced = true;
+          Log.LogMessage(MessageImportance.Normal, "[ReplaceTextInFiles]: Replaced text in file:" + path);
+        }
+      }       
+    ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+</Project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Syntony.Sdk.VSIX.targets
+***********************************************************************************************
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set properties for VSIX projects
+***********************************************************************************************
+Imported by: Directory.Build.targets
+    Imports:    $(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets
+***********************************************************************************************
+Properties defined
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+    -->
+
+    <!-- set properties for VSIX projects -->
+    <PropertyGroup Condition="'$(IsVsixProject)' == 'true'">
+        <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">17.0</MinimumVisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+        
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net472</TargetFramework>
+        <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.7.2</TargetFrameworkVersion>
+
+        <GeneratePkgDefFile>true</GeneratePkgDefFile>
+        <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+        <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+        <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+        <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+        <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+        <!-- Extensibility; C# -->
+        <ProjectTypeGuids Condition="'$(ProjectTypeGuids)' == ''">{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <OutputType Condition="'$(OutputType)' == ''">Library</OutputType>
+        <AppDesignerFolder Condition="'$(AppDesignerFolder)' == ''">Properties</AppDesignerFolder>
+        <SchemaVersion Condition="'$(SchemaVersion)' == ''">2.0</SchemaVersion>
+        <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
+        <DelaySign Condition="'$(DelaySign)' == ''">false</DelaySign>
+        <UseCodebase Condition="'$(UseCodebase)' == ''">true</UseCodebase>
+        <StartAction Condition="'$(StartAction)' == ''">Program</StartAction>
+        <StartProgram Condition="'$(StartProgram)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+        <StartArguments Condition="'$(StartArguments)' == ''">/rootsuffix Exp</StartArguments>
+        <IsPackable>false</IsPackable>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+    
+    <!-- set package references for VSIX projects -->
+    <ItemGroup Condition="'$(IsVsixProject)' == 'true'">
+        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="*" ExcludeAssets="runtime" />
+        <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="*" />
+        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="*" />
+    </ItemGroup>
+
+    <!-- IMPORT PROJECT Microsoft.VsSDK.targets if $(IsVsixProject) -->
+    <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != '' AND '$(IsVsixProject)' == 'true'" />
+</Project>

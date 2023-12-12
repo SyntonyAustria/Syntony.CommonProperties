@@ -1,0 +1,468 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{2CEC25CF-7AEA-491B-842D-F1789B32C88E}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Syntony.MSBuild.DevelopmentNotes.props = BuildScripts\Syntony.MSBuild.DevelopmentNotes.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonProperties", "CommonProperties", "{D6EDA761-1B11-4162-898B-88D8CECAE0A7}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs local", ".configs local", "{32798F6F-84A9-488B-9B75-E0C25C42CF51}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.mailmap = .mailmap
+		GhostDoc config file.gdc = GhostDoc config file.gdc
+		runnsettings.xml = runnsettings.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedSources", "SharedSources", "{908B00C4-FE06-4C66-AE09-1690C98BFC16}"
+	ProjectSection(SolutionItems) = preProject
+		SharedSources\AssemblyInfo - TEMPLATE.cs = SharedSources\AssemblyInfo - TEMPLATE.cs
+		SharedSources\Global.AssemblyInfo.cs = SharedSources\Global.AssemblyInfo.cs
+		SharedSources\Metacontent.tt = SharedSources\Metacontent.tt
+		..\Syntony.Proj.Syntony.Readme.txt = ..\Syntony.Proj.Syntony.Readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs ROOT directories", ".configs ROOT directories", "{988F641D-17A5-4641-AE79-B35973C3D84E}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		.globalconfig = .globalconfig
+		..\.mailmap = ..\.mailmap
+		C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\amd64\MSBuild.exe.config = C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\amd64\MSBuild.exe.config
+		..\..\..\NuGet.config = ..\..\..\NuGet.config
+		..\..\..\stylecop.json = ..\..\..\stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{E252DB35-7A47-4ADF-A92A-1790FEA921BA}"
+	ProjectSection(SolutionItems) = preProject
+		..\BulkReplace.ps1 = ..\BulkReplace.ps1
+		..\Delete all bin and obj.ps1 = ..\Delete all bin and obj.ps1
+		..\mkLink for build.root and Directory.Build to CommonProperties Directory.bat = ..\mkLink for build.root and Directory.Build to CommonProperties Directory.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{23E8C881-18AC-44CF-9244-3010AA81ABAB}"
+	ProjectSection(SolutionItems) = preProject
+		Guidelines\cs-coding-standards.docx = Guidelines\cs-coding-standards.docx
+		..\README.md = ..\README.md
+		Guidelines\Syntony.Basics.docx = Guidelines\Syntony.Basics.docx
+		..\Syntony.Proj.Syntony.Readme.txt = ..\Syntony.Proj.Syntony.Readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonProperties", "CommonProperties", "{B7909B5F-05E6-4C5E-B1E2-AE7A5008E445}"
+	ProjectSection(SolutionItems) = preProject
+		README.Syntony.md = README.Syntony.md
+		README.txt = README.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{28897A46-B6F6-4EB9-9102-A9B574DF6B02}"
+	ProjectSection(SolutionItems) = preProject
+		Icons\1361132790_40911.ico = Icons\1361132790_40911.ico
+		Icons\1361132810_40891.ico = Icons\1361132810_40891.ico
+		Icons\1361132815_40894.ico = Icons\1361132815_40894.ico
+		Icons\1361132822_40983.ico = Icons\1361132822_40983.ico
+		Icons\1361132827_40911.ico = Icons\1361132827_40911.ico
+		Icons\1361132835_40977.ico = Icons\1361132835_40977.ico
+		Icons\1361132859_17228.ico = Icons\1361132859_17228.ico
+		Icons\2220701_git_logo_media_code_script_icon.png = Icons\2220701_git_logo_media_code_script_icon.png
+		Icons\3dlb-3d-Magnifying-glass.ico = Icons\3dlb-3d-Magnifying-glass.ico
+		Icons\4747499_github_icon.png = Icons\4747499_github_icon.png
+		Icons\8546854_git_icon.png = Icons\8546854_git_icon.png
+		Icons\8546865_git_alt_icon.png = Icons\8546865_git_alt_icon.png
+		Icons\8666236_git_square_icon.png = Icons\8666236_git_square_icon.png
+		Icons\Aha-Soft-3d-Social-Social-network.ico = Icons\Aha-Soft-3d-Social-Social-network.ico
+		Icons\Aha-Soft-Free-Global-Security-Global-Network.ico = Icons\Aha-Soft-Free-Global-Security-Global-Network.ico
+		Icons\Apathae-Satellite-1-Developer.ico = Icons\Apathae-Satellite-1-Developer.ico
+		Icons\Arkangl300-Methodic-Folders-Remix-Developer.ico = Icons\Arkangl300-Methodic-Folders-Remix-Developer.ico
+		Icons\Aroche-Delta-Settings.ico = Icons\Aroche-Delta-Settings.ico
+		Icons\Branch.ico = Icons\Branch.ico
+		Icons\BuildScripts.ico = Icons\BuildScripts.ico
+		Icons\CDR to XAML.txt = Icons\CDR to XAML.txt
+		Icons\CommonProperties.ico = Icons\CommonProperties.ico
+		Icons\Custo-Man-Christmas-Globe-Internet.ico = Icons\Custo-Man-Christmas-Globe-Internet.ico
+		Icons\Debugger.ico = Icons\Debugger.ico
+		Icons\Delacro-Id-Network-Service (1).ico = Icons\Delacro-Id-Network-Service (1).ico
+		Icons\Delacro-Id-Network-Service.ico = Icons\Delacro-Id-Network-Service.ico
+		Icons\Designbolts-Flat-Social-Media-Github.ico = Icons\Designbolts-Flat-Social-Media-Github.ico
+		Icons\Docs.ico = Icons\Docs.ico
+		Icons\Dtafalonso-Modern-Xp-ModernXP-59-Network-Shared-Folder.ico = Icons\Dtafalonso-Modern-Xp-ModernXP-59-Network-Shared-Folder.ico
+		Icons\Everaldo-Crystal-Clear-App-service-manager.ico = Icons\Everaldo-Crystal-Clear-App-service-manager.ico
+		Icons\Example.ico = Icons\Example.ico
+		Icons\Gakuseisean-Aire-Developer.ico = Icons\Gakuseisean-Aire-Developer.ico
+		Icons\Gakuseisean-Ivista-2-Network-Download.ico = Icons\Gakuseisean-Ivista-2-Network-Download.ico
+		Icons\Gakuseisean-Ivista-2-Network-Panel-Settings.ico = Icons\Gakuseisean-Ivista-2-Network-Panel-Settings.ico
+		Icons\git-extensions-logo.ico = Icons\git-extensions-logo.ico
+		Icons\git-orange.ico = Icons\git-orange.ico
+		Icons\Git.ico = Icons\Git.ico
+		Icons\googlephotos_94016.ico = Icons\googlephotos_94016.ico
+		Icons\Hopstarter-Flat-Strokes-App-Adobe-Actobat-Pro.ico = Icons\Hopstarter-Flat-Strokes-App-Adobe-Actobat-Pro.ico
+		Icons\Hopstarter-Flat-Strokes-App-Apple-Keynote.ico = Icons\Hopstarter-Flat-Strokes-App-Apple-Keynote.ico
+		Icons\Hopstarter-Flat-Strokes-App-Apple-Numbers.ico = Icons\Hopstarter-Flat-Strokes-App-Apple-Numbers.ico
+		Icons\Hopstarter-Flat-Strokes-App-Apple-Pages.ico = Icons\Hopstarter-Flat-Strokes-App-Apple-Pages.ico
+		Icons\Hopstarter-Flat-Strokes-App-Dropbox.ico = Icons\Hopstarter-Flat-Strokes-App-Dropbox.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-Access.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-Access.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-Excel.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-Excel.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-One-Note.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-One-Note.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-Outlook.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-Outlook.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-PowerPoint.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-PowerPoint.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-Publisher.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-Publisher.ico
+		Icons\Hopstarter-Flat-Strokes-App-Microsoft-Word.ico = Icons\Hopstarter-Flat-Strokes-App-Microsoft-Word.ico
+		Icons\Icojam-Blue-Bits-Application-settings.ico = Icons\Icojam-Blue-Bits-Application-settings.ico
+		Icons\Icons8-Ios7-Network-Active-Directory.ico = Icons\Icons8-Ios7-Network-Active-Directory.ico
+		Icons\Icons8-Ios7-Network-Broadcasting.ico = Icons\Icons8-Ios7-Network-Broadcasting.ico
+		Icons\Icons8-Ios7-Network-Hub.ico = Icons\Icons8-Ios7-Network-Hub.ico
+		Icons\Icons8-Ios7-Network-Router.ico = Icons\Icons8-Ios7-Network-Router.ico
+		Icons\Icons8-Ios7-Programming-Back-To-Draft.ico = Icons\Icons8-Ios7-Programming-Back-To-Draft.ico
+		Icons\Icons8-Ios7-Programming-Bug-2.ico = Icons\Icons8-Ios7-Programming-Bug-2.ico
+		Icons\Icons8-Ios7-Programming-Console.ico = Icons\Icons8-Ios7-Programming-Console.ico
+		Icons\Icons8-Ios7-Programming-Copy-Link.ico = Icons\Icons8-Ios7-Programming-Copy-Link.ico
+		Icons\Icons8-Ios7-Programming-Cs.ico = Icons\Icons8-Ios7-Programming-Cs.ico
+		Icons\Icons8-Ios7-Programming-External-Link.ico = Icons\Icons8-Ios7-Programming-External-Link.ico
+		Icons\Icons8-Ios7-Programming-Html.ico = Icons\Icons8-Ios7-Programming-Html.ico
+		Icons\Icons8-Ios7-Programming-Open-In-Browser.ico = Icons\Icons8-Ios7-Programming-Open-In-Browser.ico
+		Icons\Icons8-Ios7-Programming-Outline.ico = Icons\Icons8-Ios7-Programming-Outline.ico
+		Icons\Icons8-Ios7-Programming-Sql.ico = Icons\Icons8-Ios7-Programming-Sql.ico
+		Icons\Icons8-Ios7-Programming-Xaml.ico = Icons\Icons8-Ios7-Programming-Xaml.ico
+		Icons\Icons8-Ios7-Programming-Xml.ico = Icons\Icons8-Ios7-Programming-Xml.ico
+		Icons\Icons8-Windows-8-Network-Wifi.ico = Icons\Icons8-Windows-8-Network-Wifi.ico
+		Icons\Icons8-Windows-8-Programming-Administrative-Tools.ico = Icons\Icons8-Windows-8-Programming-Administrative-Tools.ico
+		Icons\Icons8-Windows-8-Programming-Delete-Sign.ico = Icons\Icons8-Windows-8-Programming-Delete-Sign.ico
+		Icons\Icons8-Windows-8-Programming-Error.ico = Icons\Icons8-Windows-8-Programming-Error.ico
+		Icons\Icons8-Windows-8-Programming-Github.ico = Icons\Icons8-Windows-8-Programming-Github.ico
+		Icons\Icons8-Windows-8-Programming-Pin.ico = Icons\Icons8-Windows-8-Programming-Pin.ico
+		Icons\Icons8-Windows-8-Programming-Save.ico = Icons\Icons8-Windows-8-Programming-Save.ico
+		Icons\Icons8-Windows-8-Programming-Settings-3.ico = Icons\Icons8-Windows-8-Programming-Settings-3.ico
+		Icons\Icons8-Windows-8-Programming-System-Task.ico = Icons\Icons8-Windows-8-Programming-System-Task.ico
+		Icons\Icons8-Windows-8-Programming-To-Do.ico = Icons\Icons8-Windows-8-Programming-To-Do.ico
+		Icons\Icons8-Windows-8-Very-Basic-Services.ico = Icons\Icons8-Windows-8-Very-Basic-Services.ico
+		Icons\Iconshock-Vista-General-Network.ico = Icons\Iconshock-Vista-General-Network.ico
+		Icons\Iconsmind-Outline-Network-Window.ico = Icons\Iconsmind-Outline-Network-Window.ico
+		Icons\IntegrationTests.ico = Icons\IntegrationTests.ico
+		Icons\IntegrationTestsSimple.ico = Icons\IntegrationTestsSimple.ico
+		Icons\InvoiceNumber.ico = Icons\InvoiceNumber.ico
+		Icons\Limav-Flat-Gradient-Social-Github.ico = Icons\Limav-Flat-Gradient-Social-Github.ico
+		Icons\Mat-U-Camill-Network-globe.ico = Icons\Mat-U-Camill-Network-globe.ico
+		Icons\Modelling.ico = Icons\Modelling.ico
+		Icons\No.ico = Icons\No.ico
+		Icons\Note-Block.bmp = Icons\Note-Block.bmp
+		Icons\Nuget.ico = Icons\Nuget.ico
+		Icons\nuget1.png = Icons\nuget1.png
+		Icons\Nullable128x128.png = Icons\Nullable128x128.png
+		Icons\Oxygen-Icons.org-Oxygen-Actions-network-connect.ico = Icons\Oxygen-Icons.org-Oxygen-Actions-network-connect.ico
+		Icons\Oxygen-Icons.org-Oxygen-Devices-network-wireless-connected-100.ico = Icons\Oxygen-Icons.org-Oxygen-Devices-network-wireless-connected-100.ico
+		Icons\Oxygen-Icons.org-Oxygen-Places-network-server-database.ico = Icons\Oxygen-Icons.org-Oxygen-Places-network-server-database.ico
+		Icons\Packages.ico = Icons\Packages.ico
+		Icons\Papirus-Team-Papirus-Apps-Git.ico = Icons\Papirus-Team-Papirus-Apps-Git.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-download.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-download.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-drag-accept.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-drag-accept.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-favorites.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-favorites.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-git (1).ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-git (1).ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-git.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-git.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-image-people.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-image-people.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-important.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-important.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-locked.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-locked.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-mail.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-mail.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-network.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-network.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-pictures.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-pictures.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-templates.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-templates.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-blue-vbox.ico = Icons\Papirus-Team-Papirus-Places-Folder-blue-vbox.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-download.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-download.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-drag-accept.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-drag-accept.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-git.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-git.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-network.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-network.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-open.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-open.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-green-private.ico = Icons\Papirus-Team-Papirus-Places-Folder-green-private.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-red-activities.ico = Icons\Papirus-Team-Papirus-Places-Folder-red-activities.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-red-network.ico = Icons\Papirus-Team-Papirus-Places-Folder-red-network.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-red.ico = Icons\Papirus-Team-Papirus-Places-Folder-red.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-teal-activities.ico = Icons\Papirus-Team-Papirus-Places-Folder-teal-activities.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-teal-download.ico = Icons\Papirus-Team-Papirus-Places-Folder-teal-download.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-teal-git.ico = Icons\Papirus-Team-Papirus-Places-Folder-teal-git.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-teal-network.ico = Icons\Papirus-Team-Papirus-Places-Folder-teal-network.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-teal.ico = Icons\Papirus-Team-Papirus-Places-Folder-teal.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow-activities.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow-activities.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow-download.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow-download.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow-drag-accept.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow-drag-accept.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow-git.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow-git.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow-network.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow-network.ico
+		Icons\Papirus-Team-Papirus-Places-Folder-yellow.ico = Icons\Papirus-Team-Papirus-Places-Folder-yellow.ico
+		Icons\Papirus-Team-Papirus-Places-User-blue-desktop.ico = Icons\Papirus-Team-Papirus-Places-User-blue-desktop.ico
+		Icons\Papirus-Team-Papirus-Places-User-blue-home.ico = Icons\Papirus-Team-Papirus-Places-User-blue-home.ico
+		Icons\Papirus-Team-Papirus-Places-User-cyan-desktop.ico = Icons\Papirus-Team-Papirus-Places-User-cyan-desktop.ico
+		Icons\Papirus-Team-Papirus-Places-User-cyan-home.ico = Icons\Papirus-Team-Papirus-Places-User-cyan-home.ico
+		Icons\Papirus-Team-Papirus-Places-User-grey-desktop.ico = Icons\Papirus-Team-Papirus-Places-User-grey-desktop.ico
+		Icons\Papirus-Team-Papirus-Places-User-grey-home.ico = Icons\Papirus-Team-Papirus-Places-User-grey-home.ico
+		Icons\Papirus-Team-Papirus-Places-User-yellow-desktop.ico = Icons\Papirus-Team-Papirus-Places-User-yellow-desktop.ico
+		Icons\Papirus-Team-Papirus-Places-User-yellow-home.ico = Icons\Papirus-Team-Papirus-Places-User-yellow-home.ico
+		Icons\PowerCommands.ico = Icons\PowerCommands.ico
+		Icons\Projects.ico = Icons\Projects.ico
+		Icons\Properties.ico = Icons\Properties.ico
+		Icons\QI.png = Icons\QI.png
+		Icons\Reference.ico = Icons\Reference.ico
+		Icons\Repository.ico = Icons\Repository.ico
+		Icons\ReSharper.ico = Icons\ReSharper.ico
+		Icons\resharper_94538.ico = Icons\resharper_94538.ico
+		Icons\Resources.ico = Icons\Resources.ico
+		Icons\SharedBinaries.ico = Icons\SharedBinaries.ico
+		Icons\SharedSources.ico = Icons\SharedSources.ico
+		Icons\Shaunkleyn-Phlat-Blue-Folders-Developer.ico = Icons\Shaunkleyn-Phlat-Blue-Folders-Developer.ico
+		Icons\Source.ico = Icons\Source.ico
+		Icons\Star.ico = Icons\Star.ico
+		Icons\stop.ico = Icons\stop.ico
+		Icons\StyleCopPlusLogo.ico = Icons\StyleCopPlusLogo.ico
+		Icons\Syntony.Abstractions.ico = Icons\Syntony.Abstractions.ico
+		Icons\Syntony.Abstractions.png = Icons\Syntony.Abstractions.png
+		Icons\Syntony.Annotations.ico = Icons\Syntony.Annotations.ico
+		Icons\Syntony.Assistance.Core.ico = Icons\Syntony.Assistance.Core.ico
+		Icons\Syntony.Assistance.ico = Icons\Syntony.Assistance.ico
+		Icons\Syntony.AssistanceSupport.ico = Icons\Syntony.AssistanceSupport.ico
+		Icons\Syntony.AssistanceSupport.png = Icons\Syntony.AssistanceSupport.png
+		Icons\Syntony.Blob.png = Icons\Syntony.Blob.png
+		Icons\Syntony.CommonObjectRuntime.ico = Icons\Syntony.CommonObjectRuntime.ico
+		Icons\Syntony.Config.ico = Icons\Syntony.Config.ico
+		Icons\Syntony.Config.png = Icons\Syntony.Config.png
+		Icons\Syntony.Configuration.ico = Icons\Syntony.Configuration.ico
+		Icons\Syntony.Core.ico = Icons\Syntony.Core.ico
+		Icons\Syntony.Core.png = Icons\Syntony.Core.png
+		Icons\Syntony.DeepDive.ico = Icons\Syntony.DeepDive.ico
+		Icons\Syntony.Diagnostics.ico = Icons\Syntony.Diagnostics.ico
+		Icons\Syntony.Edge light.ico = Icons\Syntony.Edge light.ico
+		Icons\Syntony.Edge light.png = Icons\Syntony.Edge light.png
+		Icons\Syntony.Edge.ico = Icons\Syntony.Edge.ico
+		Icons\Syntony.Edge.png = Icons\Syntony.Edge.png
+		Icons\Syntony.Fire.png = Icons\Syntony.Fire.png
+		Icons\Syntony.FishWindows8.1.ico = Icons\Syntony.FishWindows8.1.ico
+		Icons\Syntony.Fractal.ico = Icons\Syntony.Fractal.ico
+		Icons\Syntony.Framework.ico = Icons\Syntony.Framework.ico
+		Icons\Syntony.Framework.png = Icons\Syntony.Framework.png
+		Icons\Syntony.Framework.Test.ico = Icons\Syntony.Framework.Test.ico
+		Icons\Syntony.GAC.ico = Icons\Syntony.GAC.ico
+		Icons\Syntony.GAC.png = Icons\Syntony.GAC.png
+		Icons\Syntony.GetSharper.bmp = Icons\Syntony.GetSharper.bmp
+		Icons\Syntony.GetSharper.ico = Icons\Syntony.GetSharper.ico
+		Icons\Syntony.GetSharper.Light.ico = Icons\Syntony.GetSharper.Light.ico
+		Icons\Syntony.GetSharper.png = Icons\Syntony.GetSharper.png
+		Icons\Syntony.Heart.png = Icons\Syntony.Heart.png
+		Icons\Syntony.ico = Icons\Syntony.ico
+		Icons\Syntony.IconExtractor.ico = Icons\Syntony.IconExtractor.ico
+		Icons\Syntony.IconExtractor.png = Icons\Syntony.IconExtractor.png
+		Icons\Syntony.IO.ico = Icons\Syntony.IO.ico
+		Icons\Syntony.LandLord.ico = Icons\Syntony.LandLord.ico
+		Icons\Syntony.LicenseGenerator.ico = Icons\Syntony.LicenseGenerator.ico
+		Icons\Syntony.LicenseGenerator.png = Icons\Syntony.LicenseGenerator.png
+		Icons\Syntony.Logbook.ico = Icons\Syntony.Logbook.ico
+		Icons\Syntony.LogBook.png = Icons\Syntony.LogBook.png
+		Icons\Syntony.Logging.png = Icons\Syntony.Logging.png
+		Icons\Syntony.Math.png = Icons\Syntony.Math.png
+		Icons\Syntony.Mathematics.ico = Icons\Syntony.Mathematics.ico
+		Icons\Syntony.Mathematics.png = Icons\Syntony.Mathematics.png
+		Icons\Syntony.png = Icons\Syntony.png
+		Icons\Syntony.Properties.ico = Icons\Syntony.Properties.ico
+		Icons\Syntony.RunSharper.ico = Icons\Syntony.RunSharper.ico
+		Icons\Syntony.Sign.png = Icons\Syntony.Sign.png
+		Icons\Syntony.Support.ico = Icons\Syntony.Support.ico
+		Icons\Syntony.TestBase.ico = Icons\Syntony.TestBase.ico
+		Icons\Syntony.VisualStudio.ico = Icons\Syntony.VisualStudio.ico
+		Icons\Syntony.VisualStudio.png = Icons\Syntony.VisualStudio.png
+		Icons\Syntony.VisualStudioFramework.ico = Icons\Syntony.VisualStudioFramework.ico
+		Icons\Syntony.Vital.ico = Icons\Syntony.Vital.ico
+		Icons\Syntony.Vital.png = Icons\Syntony.Vital.png
+		Icons\Syntony.Vital.Soul.ico = Icons\Syntony.Vital.Soul.ico
+		Icons\Syntony.Vital.Soul.png = Icons\Syntony.Vital.Soul.png
+		Icons\Syntony.Vital.Soul.Tests.ico = Icons\Syntony.Vital.Soul.Tests.ico
+		Icons\Syntony.Vital.Soul.Tests.png = Icons\Syntony.Vital.Soul.Tests.png
+		Icons\Syntony.WindRose.png = Icons\Syntony.WindRose.png
+		Icons\SyntonyAdmin.ico = Icons\SyntonyAdmin.ico
+		Icons\SyntonyBase 2Color.png = Icons\SyntonyBase 2Color.png
+		Icons\SyntonyBase Abstract.png = Icons\SyntonyBase Abstract.png
+		Icons\SyntonyBase BlackFire.png = Icons\SyntonyBase BlackFire.png
+		Icons\SyntonyBase BlackPlastic.png = Icons\SyntonyBase BlackPlastic.png
+		Icons\SyntonyBase BlueGlass.png = Icons\SyntonyBase BlueGlass.png
+		Icons\SyntonyBase Brick.png = Icons\SyntonyBase Brick.png
+		Icons\SyntonyBase DeepBlueGlass.png = Icons\SyntonyBase DeepBlueGlass.png
+		Icons\SyntonyBase DeepDive.png = Icons\SyntonyBase DeepDive.png
+		Icons\SyntonyBase Fiberglass.png = Icons\SyntonyBase Fiberglass.png
+		Icons\SyntonyBase Fibers.png = Icons\SyntonyBase Fibers.png
+		Icons\SyntonyBase GetSharper.png = Icons\SyntonyBase GetSharper.png
+		Icons\SyntonyBase Golden.png = Icons\SyntonyBase Golden.png
+		Icons\SyntonyBase Green.png = Icons\SyntonyBase Green.png
+		Icons\SyntonyBase Magenta.png = Icons\SyntonyBase Magenta.png
+		Icons\SyntonyBase NenonRed.png = Icons\SyntonyBase NenonRed.png
+		Icons\SyntonyBase NeonYellow.png = Icons\SyntonyBase NeonYellow.png
+		Icons\SyntonyBase Noise.png = Icons\SyntonyBase Noise.png
+		Icons\SyntonyBase OldStyle.png = Icons\SyntonyBase OldStyle.png
+		Icons\SyntonyBase Pinky.png = Icons\SyntonyBase Pinky.png
+		Icons\SyntonyBase Rainbow.png = Icons\SyntonyBase Rainbow.png
+		Icons\SyntonyBase Salt.png = Icons\SyntonyBase Salt.png
+		Icons\SyntonyBase Spectrum.png = Icons\SyntonyBase Spectrum.png
+		Icons\SyntonyBase TealGlass.png = Icons\SyntonyBase TealGlass.png
+		Icons\SyntonyBase Waves.png = Icons\SyntonyBase Waves.png
+		Icons\SyntonyBase WowPlastic.png = Icons\SyntonyBase WowPlastic.png
+		Icons\SyntonyBase.GetSharper.png = Icons\SyntonyBase.GetSharper.png
+		Icons\SyntonyBase.ico = Icons\SyntonyBase.ico
+		Icons\SyntonyBase.IconExtractor.png = Icons\SyntonyBase.IconExtractor.png
+		Icons\SyntonyBase.LicenseGenerator.png = Icons\SyntonyBase.LicenseGenerator.png
+		Icons\SyntonyBase.LogBook.png = Icons\SyntonyBase.LogBook.png
+		Icons\SyntonyBase.png = Icons\SyntonyBase.png
+		Icons\SyntonyBase.Soul.png = Icons\SyntonyBase.Soul.png
+		Icons\SyntonyBase.Soul.Test.png = Icons\SyntonyBase.Soul.Test.png
+		Icons\SyntonyBase.xaml = Icons\SyntonyBase.xaml
+		Icons\SyntonyBase32x32.png = Icons\SyntonyBase32x32.png
+		Icons\SyntonyDevelopment.ico = Icons\SyntonyDevelopment.ico
+		Icons\SyntonyFishWindows8.1.png = Icons\SyntonyFishWindows8.1.png
+		Icons\SyntonyFolder.ico = Icons\SyntonyFolder.ico
+		Icons\SyntonyFolder.png = Icons\SyntonyFolder.png
+		Icons\SyntonyFolder1.ico = Icons\SyntonyFolder1.ico
+		Icons\SyntonyFraktal.png = Icons\SyntonyFraktal.png
+		Icons\SyntonyImpl.ico = Icons\SyntonyImpl.ico
+		Icons\SyntonyNewSpecial.png = Icons\SyntonyNewSpecial.png
+		Icons\SyntonyNewSpecial2.png = Icons\SyntonyNewSpecial2.png
+		Icons\SyntonyNewSpecial3.png = Icons\SyntonyNewSpecial3.png
+		Icons\SyntonyNewSpecial4.png = Icons\SyntonyNewSpecial4.png
+		Icons\SyntonyNewSpecial6.png = Icons\SyntonyNewSpecial6.png
+		Icons\SyntonyNewSpecial7.png = Icons\SyntonyNewSpecial7.png
+		Icons\SyntonyNewSpecial8.png = Icons\SyntonyNewSpecial8.png
+		Icons\SyntonyNotebook.ico = Icons\SyntonyNotebook.ico
+		Icons\SyntonyProperties.png = Icons\SyntonyProperties.png
+		Icons\SyntonyRepository.ico = Icons\SyntonyRepository.ico
+		Icons\SyntonyTool.ico = Icons\SyntonyTool.ico
+		Icons\SyntonyWire.ico = Icons\SyntonyWire.ico
+		Icons\SyntonyWorld.ico = Icons\SyntonyWorld.ico
+		Icons\TestFolder.ico = Icons\TestFolder.ico
+		Icons\TestResults.ico = Icons\TestResults.ico
+		Icons\TestResults1.ico = Icons\TestResults1.ico
+		Icons\Treetog-Junior-Earth.ico = Icons\Treetog-Junior-Earth.ico
+		Icons\TrialAndErrorConsole.ico = Icons\TrialAndErrorConsole.ico
+		Icons\UnitTests.ico = Icons\UnitTests.ico
+		Icons\Visual Studio 10.ico = Icons\Visual Studio 10.ico
+		Icons\Visual-studio2017.png = Icons\Visual-studio2017.png
+		Icons\Warehouse - NOT compile.ico = Icons\Warehouse - NOT compile.ico
+		Icons\Wie erstellt man die ICONS.txt = Icons\Wie erstellt man die ICONS.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Licenses", "Licenses", "{EF008097-6BC1-43E7-B8BC-53955365EAEC}"
+	ProjectSection(SolutionItems) = preProject
+		Licenses\Apache License.txt = Licenses\Apache License.txt
+		Licenses\GNU License.txt = Licenses\GNU License.txt
+		Licenses\LICENSE.md = Licenses\LICENSE.md
+		Licenses\MIT License.txt = Licenses\MIT License.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{581075E6-7F15-4472-BCA0-2D3312191C7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8D591FB8-0B0E-46A7-A2F5-4A708AE74A12}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{0781D4E1-B7AC-44D1-954A-A46A45E8DF42}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Company.props = BuildScripts\Company.props
+		BuildScripts\Josef.props = BuildScripts\Josef.props
+		BuildScripts\Syntony.Common.props = BuildScripts\Syntony.Common.props
+		BuildScripts\Syntony.MSBuild.DevelopmentNotes.props = BuildScripts\Syntony.MSBuild.DevelopmentNotes.props
+		BuildScripts\Syntony.props = BuildScripts\Syntony.props
+		BuildScripts\Syntony.Sdk.CSharp.props = BuildScripts\Syntony.Sdk.CSharp.props
+		BuildScripts\Syntony.Sdk.DefaultItems.props = BuildScripts\Syntony.Sdk.DefaultItems.props
+		BuildScripts\Syntony.Sdk.Language.props = BuildScripts\Syntony.Sdk.Language.props
+		BuildScripts\Syntony.Sdk.NuGet.props = BuildScripts\Syntony.Sdk.NuGet.props
+		BuildScripts\Syntony.Sdk.ProjectEnvironment.props = BuildScripts\Syntony.Sdk.ProjectEnvironment.props
+		BuildScripts\Syntony.Sdk.SolutionConfiguration.props = BuildScripts\Syntony.Sdk.SolutionConfiguration.props
+		BuildScripts\Syntony.Sdk.User.props = BuildScripts\Syntony.Sdk.User.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{4633FDE7-2576-41C7-921B-B1F67C0E9B76}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Syntony.ReleaseNotes.props = BuildScripts\Syntony.ReleaseNotes.props
+		BuildScripts\Syntony.Sdk.Analyzers.PackageReference.targets = BuildScripts\Syntony.Sdk.Analyzers.PackageReference.targets
+		BuildScripts\Syntony.Sdk.Common.targets = BuildScripts\Syntony.Sdk.Common.targets
+		BuildScripts\Syntony.Sdk.DefaultItems.targets = BuildScripts\Syntony.Sdk.DefaultItems.targets
+		BuildScripts\Syntony.Sdk.Metacontent.TextTemplating.targets = BuildScripts\Syntony.Sdk.Metacontent.TextTemplating.targets
+		BuildScripts\Syntony.Sdk.NuGet.targets = BuildScripts\Syntony.Sdk.NuGet.targets
+		BuildScripts\Syntony.Sdk.PackageReference.targets = BuildScripts\Syntony.Sdk.PackageReference.targets
+		BuildScripts\Syntony.Sdk.ProjectEnvironment.targets = BuildScripts\Syntony.Sdk.ProjectEnvironment.targets
+		BuildScripts\Syntony.Sdk.RootNamespace.targets = BuildScripts\Syntony.Sdk.RootNamespace.targets
+		BuildScripts\Syntony.Sdk.Test.PackageReference.targets = BuildScripts\Syntony.Sdk.Test.PackageReference.targets
+		BuildScripts\Syntony.Sdk.VSIX.targets = BuildScripts\Syntony.Sdk.VSIX.targets
+		BuildScripts\Syntony.Shipping.targets = BuildScripts\Syntony.Shipping.targets
+		BuildScripts\Syntony.Version.targets = BuildScripts\Syntony.Version.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{9A00D491-B8F3-4981-A213-4A6EFBDE7758}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.root = ..\build.root
+		..\Directory.Build.props = ..\Directory.Build.props
+		..\Directory.Build.rsp = ..\Directory.Build.rsp
+		..\Directory.Build.targets = ..\Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Build", "Solution.Build", "{14E3E82F-369B-4E2D-83B4-2B976C0E6B28}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Syntony.Framework.Build.props = BuildScripts\Syntony.Framework.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project.Build", "Project.Build", "{7D3F552C-04C8-4878-866A-BDAF908A60BF}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Syntony.Common.Core.Basics.Build.props = BuildScripts\Syntony.Common.Core.Basics.Build.props
+		BuildScripts\Syntony.Common.Nullable.Build.props = BuildScripts\Syntony.Common.Nullable.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{A1A7CC17-BACF-401D-AA2A-EFE20F6A01F5}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.root = ..\build.root
+		..\Directory.Build.props = ..\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{9F77F7E9-84F9-48F1-881C-64D9893FB87B}"
+	ProjectSection(SolutionItems) = preProject
+		..\Directory.Build.targets = ..\Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{23FDCA41-C21B-4E7F-B663-0DBD5648C13C}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\Syntony.Sdk.Common.tasks = BuildScripts\Syntony.Sdk.Common.tasks
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project.Build", "Project.Build", "{9A6F05A5-4ED5-4D67-9141-BF145F7041C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Build", "Solution.Build", "{94F92F78-7EA6-48D7-98C2-616758D527B5}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2CEC25CF-7AEA-491B-842D-F1789B32C88E} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{32798F6F-84A9-488B-9B75-E0C25C42CF51} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{908B00C4-FE06-4C66-AE09-1690C98BFC16} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{988F641D-17A5-4641-AE79-B35973C3D84E} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{E252DB35-7A47-4ADF-A92A-1790FEA921BA} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{23E8C881-18AC-44CF-9244-3010AA81ABAB} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{B7909B5F-05E6-4C5E-B1E2-AE7A5008E445} = {23E8C881-18AC-44CF-9244-3010AA81ABAB}
+		{28897A46-B6F6-4EB9-9102-A9B574DF6B02} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{EF008097-6BC1-43E7-B8BC-53955365EAEC} = {23E8C881-18AC-44CF-9244-3010AA81ABAB}
+		{581075E6-7F15-4472-BCA0-2D3312191C7C} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{8D591FB8-0B0E-46A7-A2F5-4A708AE74A12} = {581075E6-7F15-4472-BCA0-2D3312191C7C}
+		{0781D4E1-B7AC-44D1-954A-A46A45E8DF42} = {2CEC25CF-7AEA-491B-842D-F1789B32C88E}
+		{4633FDE7-2576-41C7-921B-B1F67C0E9B76} = {2CEC25CF-7AEA-491B-842D-F1789B32C88E}
+		{9A00D491-B8F3-4981-A213-4A6EFBDE7758} = {2CEC25CF-7AEA-491B-842D-F1789B32C88E}
+		{14E3E82F-369B-4E2D-83B4-2B976C0E6B28} = {0781D4E1-B7AC-44D1-954A-A46A45E8DF42}
+		{7D3F552C-04C8-4878-866A-BDAF908A60BF} = {0781D4E1-B7AC-44D1-954A-A46A45E8DF42}
+		{A1A7CC17-BACF-401D-AA2A-EFE20F6A01F5} = {0781D4E1-B7AC-44D1-954A-A46A45E8DF42}
+		{9F77F7E9-84F9-48F1-881C-64D9893FB87B} = {4633FDE7-2576-41C7-921B-B1F67C0E9B76}
+		{23FDCA41-C21B-4E7F-B663-0DBD5648C13C} = {2CEC25CF-7AEA-491B-842D-F1789B32C88E}
+		{9A6F05A5-4ED5-4D67-9141-BF145F7041C4} = {4633FDE7-2576-41C7-921B-B1F67C0E9B76}
+		{94F92F78-7EA6-48D7-98C2-616758D527B5} = {4633FDE7-2576-41C7-921B-B1F67C0E9B76}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90599156-BC8B-4E38-8943-1E05FD0C40EF}
+	EndGlobalSection
+EndGlobal

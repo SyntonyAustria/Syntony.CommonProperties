@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+$(Company).Shipping.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: sets company wide version properties (calculates the version from
+          The project (Version.props) may set VersionPrefix, MajorVersion, MinorVersion, 
+          or AutoGenerateAssemblyVersion properties, which are consumed below.
+Imported by: Directory.Build.targets
+***********************************************************************************************
+Properties defined
+    IsCompanyShippingPropsFileImported  ... 'true'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- 
+        NUGET package 
+        https://learn.microsoft.com/en-us/dotnet/core/tools/csproj 
+        https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets 
+        https://learn.microsoft.com/en-us/dotnet/core/tools/project-json-to-csproj#common-top-level-properties 
+        https://github.com/dotnet/docs/blob/master/docs/core/tools/csproj.md
+        https://stackoverflow.com/questions/42183300/what-is-the-difference-between-various-msbuild-version-properties-such-as-versi
+        
+        https://github.com/dotnet/arcade/blob/main/Documentation/CorePackages/Versioning.md
+        Syntony repositories should use SemVer2 for their asset versioning scheme. 
+        Package versions take the general form of: MAJOR.MINOR.PATCH-PRERELEASE+BUILDMETADATA
+    -->
+    <PropertyGroup>
+        <IsCompanyShippingPropsFileImported>true</IsCompanyShippingPropsFileImported>
+    </PropertyGroup>
+
+    <!--
+    Compute the IsShipping* properties https://github.com/dotnet/arcade/blob/main/Documentation/ArcadeSdk.md#isshipping-isshippingassembly-isshippingpackage-isshippingvsix-bool
+
+    Unless specified otherwise project is assumed to produce artifacts (assembly, package, vsix, etc.) that ship.
+      Test projects automatically set IsShipping to false (ProjectEnvironment.props).
+
+      Some projects may produce packages that contain shipping assemblies but the packages themselves do not ship.
+      Thes projects shall specify IsShippingPackage=false and leave IsShipping unset (will default to true).
+      Test projects (IsSyntonyTestProject is true) set IsShipping to false automatically.
+
+      Targets that need to determine whether an artifact is shipping shall use the artifact specific IsShippingXxx property,
+      if available for the kind of artifact they operate on.
+      
+      if '$(VersionSuffix)' == '' is empty, we assume a stable build that can be shipped / distributed
+    -->
+    <PropertyGroup>
+        <!-- Test projects (IsSyntonyTestProject is true) set IsShipping to false automatically.-->
+        <IsShipping Condition="'$(IsShipping)' == '' AND '$(IsSyntonyTestProject)' == 'true'">false</IsShipping>
+        
+        <!-- Notice: by default we ship all stable releases -->
+        <IsShipping Condition="'$(IsShipping)' == '' AND '$(VersionSuffix)' == '' AND '$(IsReleaseConfiguration)' == 'true'">true</IsShipping>
+        <IsShipping Condition="'$(IsShipping)' == ''">false</IsShipping>
+
+        <IsShippingAssembly Condition="'$(IsShippingAssembly)' == ''">$(IsShipping)</IsShippingAssembly>
+        <!-- 
+            By default, all projects which produce packages are not intended to ship to NuGet.org as a product package.
+            Packages which are intended to ship to NuGet.org must opt-in by setting this to true in the project file.
+        -->
+        <IsShippingPackage Condition=" '$(IsShippingPackage)' == '' ">false</IsShippingPackage>
+        <IsShippingVsix Condition="'$(IsShippingVsix)' == '' AND '$(IsVsixProject)' == 'true'">$(IsShipping)</IsShippingVsix>
+    </PropertyGroup>
+
+
+    <!-- BUG: DEFINE a configuration for Shipping???? for base assembly  -->
+
+
+    <!-- ============= RELEASE ============= -->
+    <PropertyGroup Condition="'$(IsReleaseConfiguration)' == 'true'">
+        <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild -->
+        <IsPackable Condition="'$(IsPackable)' == '' AND '$(IsSyntonyTestProject)' == 'true'">false</IsPackable>
+        <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
+        <GeneratePackageOnBuild Condition="'$(GeneratePackageOnBuild)' == ''">$(IsPackable)</GeneratePackageOnBuild>
+        <GenerateDocumentationFile Condition="'$(IsSyntonyTestProject)' != 'true' AND '$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
+        <DocumentationFile Condition="'$(IsSyntonyTestProject)' != 'true' AND '$(GenerateDocumentationFile)' == 'true'">$(BuildSolutionDirectory)Docs\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'CodeAnalysis' AND '$(IsSyntonyTestProject)' == 'false'">
+        <!-- Run Code Analysis https://stackoverflow.com/questions/44726384/enabling-microsofts-code-analysis-on-net-core-projects -->
+        <!-- https://carlos.mendible.com/2017/08/24/net-core-code-analysis-AND-stylecop/ -->
+    </PropertyGroup>
+
+    <!-- CONFIGURATION of DefineConstants with value "DISTRIBUTION" in RELEASE only if we can ship the package -->
+    <PropertyGroup Condition="'$(IsReleaseConfiguration)' == 'true' AND '$(IsShippingPackage)' == 'true'">
+        <DistributionConstants>DISTRIBUTION</DistributionConstants>
+        <DefineConstants Condition="'$(DefineConstants)' != ''">$(DefineConstants);$(DistributionConstants)</DefineConstants>
+        <DefineConstants Condition="'$(DefineConstants)' == ''">$(DistributionConstants)</DefineConstants>
+    </PropertyGroup>
+</Project>

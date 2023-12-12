@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.SolutionConfiguration.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set properties for the solution configuration (RELEASE / CODEANALYSIS /DEBUG)
+***********************************************************************************************
+Imported by:    '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+        Imported by:    'Syntony.Sdk.ProjectEnvironment.props'
+***********************************************************************************************
+Properties defined
+    IsSolutionConfigurationFileImported         ... 'true'
+    DelaySign                                   ... 'false'
+    SignAssembly                                ... 'true'
+    AssemblyOriginatorKeyFile                   ... the .pfx file to sign the assembly
+    ManifestKeyFile                             ... 
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsSolutionConfigurationFileImported>true</IsSolutionConfigurationFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="for all configurations">
+        <DelaySign>false</DelaySign>
+    </PropertyGroup>
+
+    <PropertyGroup Label="DEBUG / CODEANALYSIS" Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'CodeAnalysis'">
+        <SignAssembly>false</SignAssembly>
+        <IncludeSymbols>true</IncludeSymbols>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Label="RELEASE" Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'PushNugetPackage'">
+        <SignAssembly>true</SignAssembly>
+        <IncludeSymbols>false</IncludeSymbols>
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+
+        <!-- A Boolean value that specifies whether the project can be packed. The default value is true. -->
+        <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild -->
+        <!-- https://learn.microsoft.com/de-de/dotnet/core/tools/csproj#ispackable -->
+        <IsPackable>true</IsPackable>
+        <IsPackable Condition="'$(IsSyntonyTestProject)'=='true' OR '$(IsLocalizationProject)'=='true' OR '$(IsExampleProject)'=='true' OR '$(IsBenchmarkProject)'=='true'  OR '$(IsQuickBenchmarkProject)'=='true' OR '$(IsVsixProject)'=='true'">false</IsPackable>
+        <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+</Project>

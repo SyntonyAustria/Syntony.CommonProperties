@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Directory.Build.targets
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+***********************************************************************************************
+Function: This file is automatically imported from Microsoft.Common.targets 
+          unless the property ImportDirectoryBuildTargets is set to false.
+***********************************************************************************************
+Imported by:    at the end of the *.csproj file
+    Imports:    '$(_DefaultSdkImportPreFilename)'VSIX.targets' (if exists)
+    Imports:    'BeforeCommon.targets' (PROJECT) (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)DefaulItems.targets' (throws error if not exists)
+    Imports:    '$(Company).Version.targets' (if exists)
+    Imports:    '$(MSBuildProjectName).Version.targets' (if exists)
+    Imports:    '$(ProjectBuildScriptsDirectory).Version.targets' (if exists)
+    Imports:    '$(Company).Shipping.targets' (if exists)
+    Imports:    '$(MSBuildProjectName).Shipping.targets' (if exists)
+    Imports:    '$(ProjectBuildScriptsDirectory).Shipping.targets' (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)RootNamespace.targets' (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)PackageReference.targets' (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)Test.PackageReference.targets' (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)NuGet.targets' (if exists)
+    Imports:    '$(Company).CodeAnalysis.targets' AND / OR '$(MSBuildProjectName).CodeAnalysis.targets' AND / OR 'CodeAnalysis.targets'
+    Imports:    '$(_DefaultSdkImportPreFilename)Analyzers.PackageReference.targets' (throws error if not exists)
+    
+    
+    
+    Imports:    '$(_DefaultSdkImportPreFilename)Metacontent.TextTemplating.targets
+    Imports:    '$(_DefaultSdkImportPreFilename).Common.targets
+    Imports:    '$(MSBuildProjectName).Common.targets 
+    Imports:    'Common.targets (PROJECT)
+    Imports:    'Common.tasks
+***********************************************************************************************
+Properties defined
+    ImportDirectoryBuildTargets             ... 'false'
+    IsDirectoryBuildTargetsFileImported     ... 'true'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- 
+        Take into account that once MSBuild finds a Directory.Build.targets file, it STOPS further scanning. To continue scanning AND merge into the outer files, place this code into inner files:
+        <Import Project="$(MSBuildThisFileDirectory)CommonProperties\BuildScripts\$(Company).Common.targets" Condition="Exists('$(MSBuildThisFileDirectory)CommonProperties\BuildScripts\$(Company).Common.targets')"/>
+        <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../')))"/>
+        Target Build order:
+        https://docs.microsoft.com/en-us/visualstudio/msbuild/target-build-order?view=vs-2022#determine-the-target-build-order 
+        file:///C:/Program%20Files/dotnet/sdk/8.0.100/Sdks/Microsoft.NET.Sdk/targets
+    -->
+
+    <PropertyGroup Label="Imported">
+        <!-- For non-SDK projects that import this file and then import Microsoft.Common.targets, tell Microsoft.Common.props not to import Directory.Build.props again. -->
+        <ImportDirectoryBuildTargets >false</ImportDirectoryBuildTargets>
+        <IsDirectoryBuildTargetsFileImported>true</IsDirectoryBuildTargetsFileImported>
+    </PropertyGroup>
+
+    <!-- IMPORT PROJECT BeforeCommon.targets -->
+    <Import Project="$(ProjectBuildScriptsDirectory)BeforeCommon.targets" Condition="Exists('$(ProjectBuildScriptsDirectory)BeforeCommon.targets')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)DefaulItems.targets -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)DefaultItems.targets"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)VSIX.targets if $(IsVsixProject) -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets" Condition="'$(IsVsixProject)' == 'true' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets')"/>
+
+    <!-- IMPORT $(Company).Version.targets AND / OR $(MSBuildProjectName).Version.targets AND / OR $(ProjectBuildScriptsDirectory).Version.targets -->
+    <PropertyGroup>
+        <_VersionTargetsFileName>Version.targets</_VersionTargetsFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)')"/>
+    <Import Project="$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)')"/>
+
+    <!-- IMPORT $(Company).Shipping.targets AND / OR $(MSBuildProjectName).Shipping.targets AND / OR Shipping.targets -->
+    <PropertyGroup>
+        <_ShippingTargetsFileName>Shipping.targets</_ShippingTargetsFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_ShippingTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_ShippingTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_ShippingTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_ShippingTargetsFileName)')"/>
+    <Import Project="$(ProjectBuildScriptsDirectory)$(_ShippingTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_ShippingTargetsFileName)')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)RootNamespace.targets - RootNamespace for project -->
+    <PropertyGroup>
+        <_SetDefaultRootNamespace Condition="'$(SetDefaultRootNamespace)' == 'true' AND '$(SetDefaultCompanyRootNamespace)' == 'true'">true</_SetDefaultRootNamespace>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets" Condition="'$(_SetDefaultRootNamespace)' == 'true' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)ProjectEnvironment.targets -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)ProjectEnvironment.targets"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)PackageReference.targets -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)Test.PackageReference.targets -->
+    <Import Label="Test.PackageReference" Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)NuGet.targets -->
+    <Import Label="NuGet" Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets')"/>
+
+    <!-- CodeAnalysis.targets  must be imported before any analyzer is imported -->
+    <!-- IMPORT $(Company).CodeAnalysis.targets AND / OR $(MSBuildProjectName).CodeAnalysis.targets AND / OR CodeAnalysis.targets -->
+    <PropertyGroup >
+        <_CodeAnalysisTargetsFileName>CodeAnalysis.targets</_CodeAnalysisTargetsFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CodeAnalysisTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CodeAnalysisTargetsFileName)')"/>
+    <Import Project="$(ProjectBuildScriptsDirectory)$(_CodeAnalysisTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_CodeAnalysisTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CodeAnalysisTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CodeAnalysisTargetsFileName)')"/>
+
+    <!-- Import the default analyzers for our projects -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Analyzers.PackageReference.targets" />
+    
+    <!-- IMPORT Microsoft.TextTemplating.targets OLD: <Import Project="$(VSToolsPath)TextTemplating\Microsoft.TextTemplating.targets"/> https://github.com/github/VisualStudio/blob/master/lib/Microsoft.TextTemplating.targets -->
+    <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
+
+    <!-- IMPORT Metacontent.TextTemplating.targets at least because it needs Version and Shipping info -->
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Metacontent.TextTemplating.targets"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)Common.targets AND / OR (Company).Common.targets AND / OR $(MSBuildProjectName).Common.targets AND / OR Common.targets -->
+    <PropertyGroup>
+        <_CommonTargetsFileName>Common.targets</_CommonTargetsFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Common.targets"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)')"/>
+    <Import Project="$(ProjectBuildScriptsDirectory)$(_CommonTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_CommonTargetsFileName)')"/>
+
+    <!-- IMPORT PROJECT AfterCommon.targets -->
+    <Import Project="$(ProjectBuildScriptsDirectory)AfterCommon.targets" Condition="Exists('$(ProjectBuildScriptsDirectory)AfterCommon.targets')"/>
+
+    <!-- IMPORT $(_DefaultSdkImportPreFilename)Common.tasks AND / OR $(Company).Common.tasks -->
+    <PropertyGroup>
+        <_CommonTasksTargetsFileName>Common.tasks</_CommonTasksTargetsFileName>
+    </PropertyGroup>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)')"/>
+
+</Project>

@@ -1,0 +1,1060 @@
+﻿<#@ template debug="true" hostSpecific="true" language="C#" #>
+<#@ output extension=".cs" encoding="utf-8" #>
+<#@ parameter type="System.String" name="Configuration" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+    // *************************************************************************
+    // https://www.codeproject.com/Tips/1231820/NET-Core-Versioning-Demystified
+    // *************************************************************************
+    // ATTENTION: update variables at the end of the file to set new versions
+    // *************************************************************************
+    this.solutionName = this.Host.ResolveParameterValue(".", ".", "SolutionName");
+    if (string.IsNullOrEmpty(this.solutionName))
+    {
+        this.solutionName = string.Empty;
+    }
+
+    try
+    {
+        // "updateRevision" is a parameter value for a directive processor ... see https://msdn.microsoft.com/en-us/library/bb126245.aspx and https://msdn.microsoft.com/en-us/library/microsoft.visualstudio.texttemplating.itexttemplatingenginehost.resolveparametervalue(v=vs.110).aspx
+        this.updateRevision = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", "updateRevision"));
+    }
+    catch
+    {
+        this.updateRevision = true; // by default
+    }
+
+    try
+    {
+        // "updateBuild" is a parameter value for a directive processor ... see https://msdn.microsoft.com/en-us/library/bb126245.aspx and https://msdn.microsoft.com/en-us/library/microsoft.visualstudio.texttemplating.itexttemplatingenginehost.resolveparametervalue(v=vs.110).aspx
+        this.updateBuild = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", "updateBuild"));
+    }
+    catch
+    {
+        this.updateBuild = true; // by default
+    }
+
+    try
+    {
+        this.rebuildT4 = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "RebuildT4"));
+    }
+    catch
+    {
+        this.rebuildT4 = true; // by default
+    }
+    finally
+    {
+        this.rebuildT4String = this.rebuildT4.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isShipping = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsShipping"));
+    }
+    catch
+    {
+        this.isShipping = false; // by default
+    }
+    finally
+    {
+        this.isShippingString = this.isShipping.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isShippingAssembly = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsShippingAssembly"));
+    }
+    catch
+    {
+        this.isShippingAssembly = false; // by default
+    }
+    finally
+    {
+        this.isShippingAssemblyString = this.isShippingAssembly.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isShippingPackage = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsShippingPackage"));
+    }
+    catch
+    {
+        this.isShippingPackage = false; // by default
+    }
+    finally
+    {
+        this.isShippingPackageString = this.isShippingPackage.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isShippingVsix = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsShippingVsix"));
+    }
+    catch
+    {
+        this.isShippingVsix = false; // by default
+    }
+    finally
+    {
+        this.isShippingVsixString = this.isShippingVsix.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isTestProject = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsTestProject"));
+    }
+    catch
+    {
+        this.isTestProject = false; // by default
+    }
+    finally
+    {
+        this.isTestProjectString = this.isTestProject.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isBenchmarkProject = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsBenchmarkProject"));
+    }
+    catch
+    {
+        this.isBenchmarkProject = false; // by default
+    }
+    finally
+    {
+        this.isBenchmarkProjectString = this.isBenchmarkProject.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isExampleProject = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsExampleProject"));
+    }
+    catch
+    {
+        this.isExampleProject = false; // by default
+    }
+    finally
+    {
+        this.isExampleProjectString = this.isExampleProject.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isQuickBenchmarkProject = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsQuickBenchmarkProject"));
+    }
+    catch
+    {
+        this.isQuickBenchmarkProject = false; // by default
+    }
+    finally
+    {
+        this.isQuickBenchmarkProjectString = this.isQuickBenchmarkProject.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.isLocalizationProject = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsLocalizationProject"));
+    }
+    catch
+    {
+        this.isLocalizationProject = false; // by default
+    }
+    finally
+    {
+        this.isLocalizationProjectString = this.isLocalizationProject.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.usePackageReference = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "UsePackageReference"));
+    }
+    catch
+    {
+        this.usePackageReference = false; // by default
+    }
+    finally
+    {
+        this.usePackageReferenceString = this.usePackageReference.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.useProjectReference = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "UseProjectReference"));
+    }
+    catch
+    {
+        this.useProjectReference = false; // by default
+    }
+    finally
+    {
+        this.useProjectReferenceString = this.useProjectReference.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    this.buildDateTimeFormat = this.Host.ResolveParameterValue(".", ".", "BuildDateTimeFormat");
+    if (string.IsNullOrEmpty(this.buildDateTimeFormat))
+    {
+        this.buildDateTimeFormat = "yyyy-MM-dd HH:mm:ss.FFFFFFF";
+    }
+   
+    this.now = this.Host.ResolveParameterValue(".", ".", "Now");
+    if (string.IsNullOrEmpty(this.now))
+    {
+        this.buildDateTime = DateTime.UtcNow;
+        this.now = this.buildDateTime.ToString(this.buildDateTimeFormat, CultureInfo.InvariantCulture);
+    }
+    else
+    {
+        const DateTimeStyles DateTimeStyles = DateTimeStyles.AdjustToUniversal | DateTimeStyles.AllowWhiteSpaces;
+        try
+        {
+            this.buildDateTime = DateTime.Parse(this.now, CultureInfo.InvariantCulture, DateTimeStyles); 
+        }
+        catch
+        {
+            Console.WriteLine(this.now);
+            this.buildDateTime = DateTime.UtcNow;
+            this.now = this.buildDateTime.ToString(this.buildDateTimeFormat, CultureInfo.InvariantCulture);
+        }
+    }
+
+    this.configuration = this.Host.ResolveParameterValue(".", ".", "Configuration");
+    if (!string.IsNullOrEmpty(this.Configuration))
+    {
+        this.configuration = this.Configuration;
+    }
+
+    if (string.IsNullOrEmpty(this.configuration))
+    {
+        this.configuration = Undefined;
+    }
+
+    this.configurations = this.Host.ResolveParameterValue(".", ".", "Configurations");
+    if (string.IsNullOrEmpty(this.configurations))
+    {
+        this.configurations = "Debug";
+    }
+
+    try
+    {
+        this.major = Convert.ToInt32(this.Host.ResolveParameterValue(".", ".", "Major"));
+    }
+    catch
+    {
+        this.major = 1; // by default
+    }
+
+    try
+    {
+        this.minor = Convert.ToInt32(this.Host.ResolveParameterValue(".", ".", "Minor"));
+    }
+    catch
+    {
+        this.minor = 0; // by default
+    }
+
+    try
+    {
+        this.build = this.patch = Convert.ToInt32(this.Host.ResolveParameterValue(".", ".", "Patch"));
+    }
+    catch
+    {
+        this.build = this.patch = 0; // by default
+    }
+
+    this.authors = this.Host.ResolveParameterValue(".", ".", "Authors");
+    if (string.IsNullOrEmpty(this.authors))
+    {
+        this.authors = Undefined;
+    }
+
+    this.packageDescription = this.Host.ResolveParameterValue(".", ".", "PackageDescription");
+    if (string.IsNullOrEmpty(this.packageDescription))
+    {
+        this.packageDescription = Undefined;
+    }
+
+    this.packageId = this.Host.ResolveParameterValue(".", ".", "PackageId");
+    if (string.IsNullOrEmpty(this.packageId))
+    {
+        this.packageId = Undefined;
+    }
+
+    this.title = this.Host.ResolveParameterValue(".", ".", "Title");
+    if (string.IsNullOrEmpty(this.title))
+    {
+        this.title = Undefined;
+    }
+
+    this.description = this.Host.ResolveParameterValue(".", ".", "Description");
+    if (string.IsNullOrEmpty(this.description))
+    {
+        this.description = Undefined;
+    }
+
+    this.packageTags = this.Host.ResolveParameterValue(".", ".", "PackageTags");
+    if (string.IsNullOrEmpty(this.packageTags))
+    {
+        this.packageTags = Undefined;
+    }
+
+    this.versionPrefix = this.Host.ResolveParameterValue(".", ".", "VersionPrefix");
+    if (string.IsNullOrEmpty(this.versionPrefix))
+    {
+        this.versionPrefix = Undefined;
+    }
+
+    if (this.versionPrefix.IndexOf('-') >= 0)
+    {
+        this.versionPrefix = this.versionPrefix.Split('-')[0]; // versionPrefix has a prerelease inside => remove
+    }
+
+    this.copyright = this.Host.ResolveParameterValue(".", ".", "Copyright");
+    if (string.IsNullOrEmpty(this.copyright))
+    {
+        this.copyright = Undefined;
+    }
+
+    this.neutralResourcesLanguage = this.Host.ResolveParameterValue(".", ".", "NeutralResourcesLanguage");
+    if (string.IsNullOrEmpty(this.neutralResourcesLanguage))
+    {
+        this.neutralResourcesLanguage = "en-us";
+    }
+
+    this.company = this.Host.ResolveParameterValue(".", ".", "Company");
+    if (string.IsNullOrEmpty(this.company))
+    {
+        this.company = "Syntony";
+    }
+
+    this.companyUppercase = this.company.ToUpperInvariant();
+
+    if (string.IsNullOrEmpty(this.authors) || this.authors.Equals(Undefined, StringComparison.OrdinalIgnoreCase))
+    {
+        this.author = this.company;
+    }
+    else
+    {
+        char[] charSeparators = {';'};
+        string[] result = this.authors.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+        if (result.Length > 0)
+        {
+            this.author = result[0].Trim();
+        }
+        else
+        {
+            this.author = this.company;
+        }
+    }
+
+    try
+    {
+        this.clsCompliantAttribute = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "CLSCompliantAttribute"));
+    }
+    catch
+    {
+        this.clsCompliantAttribute = true; // by default
+    }
+    finally
+    {
+        this.clsCompliantAttributeString = this.clsCompliantAttribute.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    try
+    {
+        this.comVisibleAttribute = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "ComVisibleAttribute"));
+    }
+    catch
+    {
+        this.comVisibleAttribute = true; // by default
+    }
+    finally
+    {
+        this.comVisibleAttributeString = this.comVisibleAttribute.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+    }
+
+    this.buildMetaData = this.Host.ResolveParameterValue(".", ".", "BuildMetaData");
+    if (string.IsNullOrEmpty(this.buildMetaData))
+    {
+        this.buildMetaData = "";
+    }
+
+    this.trademark = this.Host.ResolveParameterValue(".", ".", "Trademark");
+    if (string.IsNullOrEmpty(this.trademark))
+    {
+        this.trademark = this.company + "®";
+    }
+
+    this.assemblyCulture = this.Host.ResolveParameterValue(".", ".", "AssemblyCulture");
+    if (string.IsNullOrEmpty(this.assemblyCulture))
+    {
+        this.assemblyCulture = "";
+    }
+
+    this.targetFramework = this.Host.ResolveParameterValue(".", ".", "TargetFramework");
+    if (string.IsNullOrEmpty(this.targetFramework))
+    {
+        this.targetFramework = "";
+    }
+
+    this.targetFrameworks = this.Host.ResolveParameterValue(".", ".", "TargetFrameworks");
+    if (string.IsNullOrEmpty(this.targetFrameworks))
+    {
+        this.targetFrameworks = this.targetFramework;
+    }
+
+    this.platform = this.Host.ResolveParameterValue(".", ".", "Platform");
+    if (string.IsNullOrEmpty(this.platform))
+    {
+        this.platform = "Win32";
+    }
+
+    this.rootNamespace = this.Host.ResolveParameterValue(".", ".", "RootNamespace");
+    if (string.IsNullOrEmpty(this.rootNamespace))
+    {
+        this.rootNamespace = this.company;
+    }
+
+    this.projectFileName = this.Host.ResolveParameterValue(".", ".", "ProjectFileName");
+    if (string.IsNullOrEmpty(this.projectFileName))
+    {
+        this.projectFileName = "";
+    }
+
+    this.projectTargetFileName = this.Host.ResolveParameterValue(".", ".", "TargetFileName");
+    if (string.IsNullOrEmpty(this.projectTargetFileName))
+    {
+        this.projectTargetFileName = "";
+    }
+
+    this.companyEmail = this.Host.ResolveParameterValue(".", ".", "CompanyEmail");
+    if (string.IsNullOrEmpty(this.companyEmail))
+    {
+        this.companyEmail = "syntony@aon.at";
+    }
+
+    this._compileItems = this.Host.ResolveParameterValue(".", ".", "_CompileItems");
+    if (string.IsNullOrEmpty(this._compileItems))
+    {
+        this._compileItems = "-1";
+    }
+
+    this._embeddedResourceItems = this.Host.ResolveParameterValue(".", ".", "_EmbeddedResourceItems");
+    if (string.IsNullOrEmpty(this._embeddedResourceItems))
+    {
+        this._embeddedResourceItems = "-1";
+    }
+
+    this._contentItems = this.Host.ResolveParameterValue(".", ".", "_ContentItems");
+    if (string.IsNullOrEmpty(this._contentItems))
+    {
+        this._contentItems = "-1";
+    }
+
+    this._referenceItems = this.Host.ResolveParameterValue(".", ".", "_ReferenceItems");
+    if (string.IsNullOrEmpty(this._referenceItems))
+    {
+        this._referenceItems = "-1";
+    }
+
+    this._projectReferenceItems = this.Host.ResolveParameterValue(".", ".", "_ProjectReferenceItems");
+    if (string.IsNullOrEmpty(this._projectReferenceItems))
+    {
+        this._projectReferenceItems = "-1";
+    }
+
+    this._packageReferenceItems = this.Host.ResolveParameterValue(".", ".", "_PackageReferenceItems");
+    if (string.IsNullOrEmpty(this._packageReferenceItems))
+    {
+        this._packageReferenceItems = "-1";
+    }
+
+    this.companyLinkHomepage = this.Host.ResolveParameterValue(".", ".", "CompanyLinkHomepage");
+    if (string.IsNullOrEmpty(this.companyLinkHomepage))
+    {
+        this.companyLinkHomepage = "https://syntonyblog.wordpress.com/";
+    }
+
+    this.repositoryUrl = this.Host.ResolveParameterValue(".", ".", "RepositoryUrl");
+    if (string.IsNullOrEmpty(this.repositoryUrl))
+    {
+        this.repositoryUrl = this.companyLinkHomepage;
+    }
+
+    this.copyrightTimeSpan = this.Host.ResolveParameterValue(".", ".", "CopyrightTimeSpan");
+    if (string.IsNullOrEmpty(this.copyrightTimeSpan))
+    {
+        this.copyrightTimeSpan = DateTime.Now.Year.ToString();
+    }
+
+    this.startDateString = this.Host.ResolveParameterValue(".", ".", "StartDate");
+    if (string.IsNullOrEmpty(this.startDateString))
+    {
+        this.startDateString = "2019-12-17";
+    }
+
+    this.expirationDateString = this.Host.ResolveParameterValue(".", ".", "ExpirationDate");
+    if (string.IsNullOrEmpty(this.expirationDateString))
+    {
+        this.expirationDateString = "9999-12-31";
+    }
+
+    this.defaultResourceLocationPath = this.Host.ResolveParameterValue(".", ".", "DefaultResourceLocationPath");
+    if (string.IsNullOrEmpty(this.defaultResourceLocationPath))
+    {
+        this.defaultResourceLocationPath = "";
+    }
+   
+    this.defineConstants = this.Host.ResolveParameterValue(".", ".", "DefineConstants");
+    if (string.IsNullOrEmpty(this.defineConstants))
+    {
+        this.defineConstants = "";
+    }
+
+    this.assemblyToTest = this.Host.ResolveParameterValue(".", ".", "AssemblyToTest");
+    if (string.IsNullOrEmpty(this.assemblyToTest))
+    {
+        this.assemblyToTest = "";
+    }
+
+    this.msBuildProjectName = this.Host.ResolveParameterValue(".", ".", "MSBuildProjectName");
+    if (string.IsNullOrEmpty(this.msBuildProjectName))
+    {
+        this.msBuildProjectName = "";
+    }
+
+    this.classPrefix = this.Host.ResolveParameterValue(".", ".", "MetacontentClassPrefix");
+    if (string.IsNullOrEmpty(this.classPrefix))
+    {
+        this.classPrefix = this.msBuildProjectName.Replace(".", ""); // get project name without "."
+    }
+
+    this.metacontentOutputDirectory = this.Host.ResolveParameterValue(".", ".", "MetacontentOutputDirectory");
+    if (string.IsNullOrEmpty(this.metacontentOutputDirectory))
+    {
+        this.metacontentOutputDirectory = "Properties";
+    }
+
+    this.projectTargetName = this.Host.ResolveParameterValue(".", ".", "TargetName");
+    if (string.IsNullOrEmpty(this.projectTargetName))
+    {
+        this.projectTargetName = "";
+    }
+
+    // =====================================================================================================================================
+    // ATTENTION: this dictionary is used by SyntonyGuidConstants.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
+    // =====================================================================================================================================
+    // The currently supported Assemblies:
+    // "800000000" "Syntony.Common.Core.Basics
+    // "800000001" "Syntony.Common.Core
+    // "8000008FF" "Syntony.TestBase
+    // "801000000" "Syntony.Common
+    // "810000000" "Syntony.Core                   
+    // "810100000" "Syntony.Core.Primitives        
+    // "820000000" "Syntony.Metadata               
+    // "820100000" "Syntony.Metadata.Configuration 
+    // "820A00000" "Syntony.Mathematics               
+    // "830000000" "Syntony.Extensions             
+    // "830100000" "Syntony.Extensions.Core        
+    // "830200000" "Syntony.Extensions.Event       
+    // "840000000" "Syntony.Environment            
+    // "850000000" "Syntony.Configuration          
+    // "860000000" "Syntony.Extensibility          
+    // "870000000" "Syntony.Application            
+    // "880000000" "Syntony.Diagnostics            
+    // "8A0000000" "Syntony.VisualStudioFramework 
+    // "8A0100000" "Syntony.GetSharper 
+    // "8EF000000" "Syntony.Platform               
+    // "8EF010000" "Syntony.Platform.Interop       
+    // "8EF010100" "Syntony.Platform.Interop.Windows
+    // "8EF010200" "Syntony.Platform.Interop.Linux 
+    // "8EF010300" "Syntony.Platform.Interop.MacOs 
+    // "8F00008FF" "Syntony.DebuggerVisualizers
+    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "yyyyyyyyy" part, 9 hex numbers.
+    Dictionary<string, (string solution, string assembly, string extension)> supportedAssemblies = new Dictionary<string, (string solution, string assembly, string extension)>
+                                                                {
+            { this.company + ".Common.NullableAttributes", ("SyntonyGuidConstants.SolutionTokenAll", "000000000", "SyntonyGuidConstants.ExtensionTokenSyntony") },
+            { this.company + ".Application", ("SyntonyGuidConstants.SolutionTokenFramework", "870000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common", ("SyntonyGuidConstants.SolutionTokenFramework", "801000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "800000001", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core.Basics", ("SyntonyGuidConstants.SolutionTokenFramework", "800000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "850000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Core", ("SyntonyGuidConstants.SolutionTokenFramework", "810000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Core.Primitives", ("SyntonyGuidConstants.SolutionTokenFramework", "810100000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Diagnostics", ("SyntonyGuidConstants.SolutionTokenFramework", "880000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Environment", ("SyntonyGuidConstants.SolutionTokenFramework", "840000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensibility", ("SyntonyGuidConstants.SolutionTokenFramework", "860000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions", ("SyntonyGuidConstants.SolutionTokenFramework", "830000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "830100000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions.Event", ("SyntonyGuidConstants.SolutionTokenFramework", "830200000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Mathematics", ("SyntonyGuidConstants.SolutionTokenFramework", "820A00000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Metadata", ("SyntonyGuidConstants.SolutionTokenFramework", "820000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Metadata.Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "820100000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.Windows", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010100", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.Linux", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010200", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.MacOs", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010300", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".VisualStudioFramework", ("SyntonyGuidConstants.SolutionTokenFramework", "8A0000000", "SyntonyGuidConstants.ExtensionTokenCore") },
+            { this.company + ".TestsBase", ("SyntonyGuidConstants.SolutionTokenTestFramework", "8000008FF", "SyntonyGuidConstants.ExtensionTokenTestsBase") },
+            { this.company + ".GetSharper", ("SyntonyGuidConstants.SolutionTokenVisualStudioExtension", "8A0100000", "SyntonyGuidConstants.ExtensionTokenVisualStudioExtension") },
+            { this.company + ".DebuggerVisualizers", ("SyntonyGuidConstants.SolutionTokenVisualStudioDebuggerVisualizers", "8F00008FF", "SyntonyGuidConstants.ExtensionTokenVisualStudioDebuggerVisualizers") },
+                                                                };  
+
+    Dictionary<string, string> supportedTests = new Dictionary<string, string>
+                                                                {
+                                                                    { "UnitTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests" },
+                                                                    { "UnitTests.Net", "SyntonyGuidConstants.ExtensionTokenNetUnitTests" },
+                                                                    { "IntegrationTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests" },
+                                                                    { "IntegrationTests.Net", "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests" },
+                                                                    { "PerformanceTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests" },
+                                                                    { "PerformanceTests.Net", "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests" },
+                                                                    { "SecurityTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests" },
+                                                                    { "SecurityTests.Net", "SyntonyGuidConstants.ExtensionTokenNetSecurityTests" },
+                                                                    { "BenchmarkTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests" },
+                                                                    { "BenchmarkTests.Net", "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests" },
+                                                                };
+
+    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "TTT-" part, 3 hex numbers one hyphen.
+    Dictionary<string, string> solutionTokenValues = new Dictionary<string, string>
+                                                                {
+                                                                    { "SyntonyGuidConstants.SolutionTokenAll", "000-" }, // or undefined
+                                                                    { "SyntonyGuidConstants.SolutionTokenFramework", "001-" },
+                                                                };
+
+    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "ZZZ" part, 3 hex numbers.
+    Dictionary<string, string> extensionTokenValues = new Dictionary<string, string>
+                                                                {
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests", "F00" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetUnitTests", "F01" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests", "F10" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests", "F11" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests", "F20" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests", "F21" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests", "F30" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetSecurityTests", "F31" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests", "FB0" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests", "FB1" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenTestsBase", "8FF" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenSyntony", "000" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenCore", "001" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenAbstractions", "010" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenDefaultImplementations", "011" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenTrialAndErrorConsole", "EFE" },
+                                                                    { "SyntonyGuidConstants.ExtensionTokenWarehouseRepository", "EFF" },
+                                                                };
+    int index;
+    string coreAssembly = this.projectTargetName;
+    if (this.isTestProject)
+    {
+        // if this.isTestProject == true  (like "Syntony.Common.UnitTests.NetFramework.dll", "Syntony.Common.UnitTests.Net.dll")
+        index = this.projectTargetName.Substring(0, this.projectTargetName.LastIndexOf('.')).LastIndexOf('.');
+        this.testPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
+        if (this.projectTargetName.EndsWith(this.testPrefix, StringComparison.Ordinal))
+        {
+            coreAssembly = this.projectTargetName.Substring(0, this.projectTargetName.LastIndexOf(this.testPrefix, StringComparison.Ordinal) - 1);
+            index = coreAssembly.LastIndexOf('.');
+            this.lastPrefix = index > 0 ? coreAssembly.Substring(index + 1) : this.projectTargetName;
+        }
+        else
+        {
+            // should not happen!!!
+            index = this.projectTargetName.LastIndexOf('.');
+            this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
+        }
+    
+        this.extensionTokenName = supportedTests.ContainsKey(this.testPrefix) ? supportedTests[this.testPrefix] : this.extensionTokenName;
+        this.extensionTokenValue = extensionTokenValues.ContainsKey(this.extensionTokenName) ? extensionTokenValues[this.extensionTokenName] : this.extensionTokenValue;
+    }
+    else
+    {
+        // Syntony*.dll 
+        index = this.projectTargetName.LastIndexOf('.');
+        this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
+    }
+
+    if (supportedAssemblies.ContainsKey(coreAssembly))
+    {
+        this.solutionTokenName = supportedAssemblies[coreAssembly].solution;
+        this.assemblyGuidAssemblyPart = supportedAssemblies[coreAssembly].assembly;
+        this.solutionTokenValue = solutionTokenValues.ContainsKey(this.solutionTokenName) ? solutionTokenValues[this.solutionTokenName] : this.solutionTokenValue;
+        this.extensionTokenName = this.isTestProject ? this.extensionTokenName : supportedAssemblies[coreAssembly].extension;
+    }
+    else
+    {
+        this.assemblyGuidAssemblyPart = "8" + CreateRandomString(); // this.assemblyGuidAssemblyPart = this.assemblyGuidAssemblyPart; // invalid GUID
+    }
+
+
+    this.metacontentOutputFileName = this.Host.ResolveParameterValue(".", ".", "MetacontentOutputFileName");
+    if (string.IsNullOrEmpty(this.metacontentOutputFileName))
+    {
+        this.metacontentOutputFileName = this.classPrefix + Path.GetFileNameWithoutExtension(this.Host.TemplateFile);
+    }
+
+    try
+    {
+        string host = this.Host.TemplateFile; // "D:\\Syntony\\Proj\\Syntony\\CommonProperties\\SharedSources\\Metacontent.tt"
+        this.targetFile = this.metacontentOutputDirectory + "\\" + this.metacontentOutputFileName + ".cs";
+        this.targetFile = File.Exists(this.targetFile) ? this.targetFile : Path.ChangeExtension(this.targetFile, "cs");
+        this.targetName = File.Exists(this.targetFile) ? Path.GetFileNameWithoutExtension(this.targetFile) : this.classPrefix +  Path.GetFileNameWithoutExtension(host);
+        
+        if (this.updateBuild && !string.IsNullOrEmpty(this.targetFile) && File.Exists(this.targetFile))
+        {
+            // Attention: for days since a specified date use:  => this.build = (int)(this.buildDateTime - this.startDate).TotalDays; // see catch
+            string myFile = File.ReadAllText(this.targetFile);
+            const string BuildSearchPattern = "const int BuildCounter ="; // public const int BuildCounter = 1;
+            index = myFile.IndexOf(BuildSearchPattern, StringComparison.Ordinal);
+            if (index >= 0)
+            {
+                index += BuildSearchPattern.Length;
+                int index2 = myFile.IndexOf(";", index, StringComparison.Ordinal);
+                if (index2 > 0)
+                {
+                    string buildString = myFile.Substring(index, index2 - index).Trim();
+                    this.buildCounter = int.Parse(buildString, CultureInfo.InvariantCulture);
+                    this.buildCounter++;
+                }
+            }
+        }
+    }
+    catch
+    {
+        this.buildCounter = (int)(this.buildDateTime - this.startDate).TotalDays; // number of day since this.startDate
+    }
+
+    if (this.buildCounter <= 0)
+    {
+        this.buildCounter = 1; // on an error we start again with first build
+    }
+
+    try
+    {
+        this.buildNumber = this.patch = Convert.ToInt32(this.Host.ResolveParameterValue(".", ".", "BuildNumber"));
+    }
+    catch
+    {
+        this.buildNumber = this.buildCounter; // by default
+    }
+
+    if (this.updateBuild)
+    {
+    }
+
+    this.versionSuffix = this.Host.ResolveParameterValue(".", ".", "VersionSuffix");
+    if (string.IsNullOrEmpty(this.versionSuffix))
+    {
+        this.versionSuffix = "";
+    }
+
+    if (!this.isShippingPackage && !string.IsNullOrEmpty(this.versionSuffix))
+    {
+        this.versionSuffix = this.versionSuffix + "." + this.buildNumber;
+    }
+
+    if (string.IsNullOrEmpty(this.versionSuffix))
+    {
+        this.releaseType = "ReleaseType.Release";
+    }
+    else if (this.versionSuffix.Equals("Planning", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "Planning", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.Planning";
+    }
+    else if (this.versionSuffix.Equals("PreAlpha", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "PreAlpha", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.PreAlpha";
+    }
+    else if (this.versionSuffix.Equals("Alpha", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "Alpha", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.Alpha";
+    }
+    else if (this.versionSuffix.Equals("Beta", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "Beta", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.Beta";
+    }
+    else if (this.versionSuffix.Equals("ReleaseCandidate", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "ReleaseCandidate", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.ReleaseCandidate";
+    }
+    else if (this.versionSuffix.Equals("RC", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "RC", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.ReleaseCandidate";
+    }
+    else if (this.versionSuffix.Equals("ReleaseToManufacturing", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "ReleaseToManufacturing", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.ReleaseToManufacturing";
+    }
+    else if (this.versionSuffix.Equals("RTM", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "RTM", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.ReleaseToManufacturing";
+    }
+    else if (this.versionSuffix.Equals("Release", StringComparison.OrdinalIgnoreCase) || CultureInfo.InvariantCulture.CompareInfo.IndexOf(this.versionSuffix, "Release", CompareOptions.IgnoreCase) >= 0)
+    {
+        this.releaseType = "ReleaseType.Release";
+        this.versionSuffix = "";
+    }
+    else
+    {
+        this.releaseType = "ReleaseType.None";
+    }
+    
+    this.langVersion = this.Host.ResolveParameterValue(".", ".", "LangVersion");
+    if (string.IsNullOrEmpty(this.langVersion))
+    {
+        this.langVersion = "latest";
+    }
+
+    this.deterministic = this.Host.ResolveParameterValue(".", ".", "Deterministic");
+    if (string.IsNullOrEmpty(this.deterministic))
+    {
+        this.deterministic = "false";
+    }
+
+    this.nullable = this.Host.ResolveParameterValue(".", ".", "Nullable");
+    if (string.IsNullOrEmpty(this.nullable))
+    {
+        this.nullable = "disabled";
+    }
+
+    this.packageVersion = this.Host.ResolveParameterValue(".", ".", "PackageVersion");
+    if (string.IsNullOrEmpty(this.packageVersion))
+    {
+        this.packageVersion = string.IsNullOrEmpty(this.versionSuffix) ? this.versionPrefix : (this.versionPrefix + "-" + this.versionSuffix);
+    }
+
+    this.informationalVersion = this.Host.ResolveParameterValue(".", ".", "InformationalVersion");
+    if (string.IsNullOrEmpty(this.informationalVersion))
+    {
+        this.informationalVersion = string.IsNullOrEmpty(this.buildMetaData) ? this.packageVersion : (this.packageVersion + "+" + this.buildMetaData);
+    }
+
+    if (this.updateRevision)
+    {
+        this.revision = (int)(this.buildDateTime - this.buildDateTime.Date).TotalSeconds / 2;  // divide by 2, because no revision number should be greater than 65535
+    }
+
+    this.fullPreReleaseVersion = string.IsNullOrWhiteSpace(this.versionSuffix) ? string.Empty : ("-" + this.versionSuffix);
+
+    this.isReleaseVersion = this.Host.ResolveParameterValue(".", ".", "IsReleaseVersion");
+    if (string.IsNullOrEmpty(this.isReleaseVersion))
+    {
+        this.isReleaseVersion = "false";
+    }
+#>
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="<#= this.targetName #>.cs" company="<#= this.company #>® / Ing. Josef Hahnl, MBA">
+//     <#= this.copyright #>
+// </copyright>
+// <author>Ing. Josef Hahnl, MBA - Hahnl</author>
+// <email><#= this.companyEmail #></email>
+// <date>08.02.2019 16:48:24</date>
+// <information solution="<#= this.solutionName #>" project="<#= this.msBuildProjectName #>" framework="<#= this.targetFramework #>" kind="Windows (C#)">
+//     <file type=".cs" created="<#= this.now #>" modified="<#= this.now #>" lastAccess="<#= this.now #>">
+//         D:\Syntony\Projects\Syntony\Source\Syntony.Metadata\Source\Properties\SyntonyCommonCoreBasicsMetacontent.cs
+//     </file>
+//     <lineStatistics total="503" netLines="388" blankLines ="115" codeLines="227" codeRatio="45.13 %" allCommentLines="164" commentLines="3" documentationLines="161"/>
+//     <language>C#</language>
+//     <namespace><#= this.rootNamespace #>.Properties</namespace>
+//     <class><#= this.targetName #></class>
+//     <identifiers>
+//         <Namespace><#= this.rootNamespace #>.Properties</Namespace>
+//         <Class><#= this.targetName #></Class>
+//     </identifiers>
+//     <codeMetric>
+//         <numberOfUsings>2</numberOfUsings>
+//         <numberOfFields>107</numberOfFields>
+//     </codeMetric>
+// </information>
+// <summary>
+//     Define <#= this.targetName #> constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+#define TRUE
+
+// ReSharper disable FilesNotPartOfProjectWarning
+using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security;
+
+using Syntony;
+using Syntony.Annotations;
+
+using MetaData = Syntony.Properties.<#= this.targetName #>;
+
+// <GenerateAssemblyInfo>  generated by the MSBuild WriteCodeFragment class. https://github.com/dotnet/sdk/blob/main/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.GenerateAssemblyInfo.targets
+// SUGGESTION: use a GLOBAL and LOCAL AssemblyInfo
+
+#if DEBUG
+[assembly: Debuggable(true, true)]
+[assembly: SecurityRules(SecurityRuleSet.Level2, SkipVerificationInFullTrust = false)]
+#else
+[assembly: Debuggable(false, false)]
+[assembly: SecurityRules(SecurityRuleSet.Level2, SkipVerificationInFullTrust = true)]
+#endif
+
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
+[assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
+
+[assembly: AssemblyVersion(MetaData.AssemblyVersionInfo)]
+[assembly: AssemblyFileVersion(MetaData.AssemblyFileVersionInfo)]
+[assembly: SatelliteContractVersion(MetaData.SatelliteContractVersionInfo)]
+[assembly: AssemblyInformationalVersion(MetaData.AssemblyInformationalVersionInfo)]
+[assembly: ComCompatibleVersion(MetaData.Major, MetaData.Minor, 0, 0)]
+
+[assembly: AssemblyCulture(MetaData.AssemblyCulture)]
+[assembly: NeutralResourcesLanguage(MetaData.NeutralResourcesLanguage, UltimateResourceFallbackLocation.MainAssembly)]
+[assembly: DefaultResourceLocation(MetaData.DefaultResourceLocation)]
+
+[assembly: AssemblyConfiguration(MetaData.Configuration)]
+[assembly: RootNamespace(MetaData.RootNamespace)]
+[assembly: AssemblyRelease(MetaData.ReleaseType)]
+
+[assembly: AssemblyCompany(MetaData.Company)]
+[assembly: AssemblyCopyright(MetaData.Copyright)]
+[assembly: AssemblyTrademark(MetaData.Trademark)]
+[assembly: AssemblyTitle(MetaData.Title)]
+[assembly: AssemblyDescription(MetaData.Description)]
+[assembly: AssemblyProduct(MetaData.Product)]
+
+[assembly: AssemblyDefaultAlias(MetaData.Title + " " + MetaData.InformationalVersion)]
+[assembly: Guid(MetaData.AssemblyGuid)]
+[assembly: AssemblyMetadataAttribute(nameof(MetaData.RepositoryUrl), MetaData.RepositoryUrl)]
+
+// stigmatize this assembly as a Syntony file.
+[assembly:
+    AssemblySyntony(
+        SyntonyAssemblyApplicationScopes.Syntony | SyntonyAssemblyApplicationScopes.Framework,
+        MetaData.TargetFileName,
+        MetaData.StartDate,
+        MetaData.ExpirationDate,
+        SyntonyConstants.DefaultUpdateUrl,
+        SyntonyConstants.DefaultUpdateLinkText,
+        MetaData.PreReleaseVersion,
+        MetaData.VersionMetadata,
+        Active = true,
+        Identifier = SyntonyConstants.DefaultIdentifier,
+        PackageGuidValue = MetaData.AssemblyGuid,
+        BuildDate = MetaData.BuiltDateTime,
+        DateTimeInfo = MetaData.BuiltDateTime,
+        DateTimeFormat = MetaData.BuildDateTimeFormat,
+        Author = MetaData.Author,
+        Description = MetaData.Description,
+        DefaultBuildConfigurationState = MetaData.BuildConfigurationState)]
+<#+
+    const string Undefined = "undefined";
+
+    // #################################################################
+    // ATTENTION: update this variables to set new versions
+    // build the Major, Minor, Build and Revision property of a Version
+    // #################################################################
+    int major;
+    int minor;
+    int patch;
+    int build;      // (int)(this.buildDateTime - this.startDate).TotalDays;
+    int revision;   // (int)(this.buildDateTime - this.buildDateTime.Date).TotalSeconds / 2;  // because no revision number should be greater than 65535
+    int buildCounter;
+    int buildNumber;
+    bool updateRevision = true;
+    bool updateBuild = true;
+    readonly DateTime startDate = new DateTime(2019, 1, 7); // the day starting developing this assembly
+    string targetFile;
+    string targetName;
+    string configuration;
+    string configurations;
+    string company;
+    string companyUppercase;
+    string authors;
+    string author;
+    string packageDescription;
+    string packageId;
+    string title;
+    string description;
+    string packageTags;
+    string versionPrefix;
+    string versionSuffix;
+    string informationalVersion;
+    string copyright;
+    string packageVersion;
+    string buildMetaData;
+    string neutralResourcesLanguage;
+    string trademark;
+    string assemblyCulture;
+    string targetFramework;
+    string targetFrameworks;
+    string platform;
+    bool clsCompliantAttribute;
+    string clsCompliantAttributeString;
+    bool comVisibleAttribute;
+    string comVisibleAttributeString;
+    string projectFileName;
+    string projectTargetFileName;
+    string projectTargetName;
+    string rootNamespace;
+    bool isTestProject;
+    string isTestProjectString;
+    bool isExampleProject;
+    string isExampleProjectString;
+    bool isBenchmarkProject;
+    string isBenchmarkProjectString;
+    bool isQuickBenchmarkProject;
+    string isQuickBenchmarkProjectString;
+    bool isLocalizationProject;
+    string isLocalizationProjectString;
+    bool isShipping;
+    string isShippingString;
+    bool isShippingPackage;
+    string isShippingPackageString;
+    bool isShippingAssembly;
+    string isShippingAssemblyString;
+    bool isShippingVsix;
+    string isShippingVsixString;
+    string defaultResourceLocationPath;
+    string companyEmail;
+    string companyLinkHomepage;
+    string copyrightTimeSpan;
+    string startDateString;
+    string expirationDateString;
+    string assemblyToTest;
+    string fullPreReleaseVersion;
+    DateTime buildDateTime;
+    string now;
+    string buildDateTimeFormat;
+    string releaseType;
+    string langVersion;
+    string deterministic;
+    string nullable;
+    string classPrefix;
+    string metacontentOutputFileName;
+    string metacontentOutputDirectory;
+    string msBuildProjectName;
+    string defineConstants;
+    bool rebuildT4;
+    string rebuildT4String;
+    string isReleaseVersion;
+    string lastPrefix = "";
+    string testPrefix = "";
+    string solutionTokenName = "SyntonyGuidConstants.SolutionTokenFramework";
+    string solutionTokenValue = "000-";
+    string assemblyGuidAssemblyPart = "FFFFFFFFF"; // length 9 - defines an INVALID GUID
+    string extensionTokenName = "SyntonyGuidConstants.ExtensionTokenSyntony";
+    string extensionTokenValue = "000";
+    string _compileItems = "-1";
+    string _embeddedResourceItems = "-1";
+    string _contentItems = "-1";
+    string _referenceItems = "-1";
+    string _projectReferenceItems = "-1";
+    string _packageReferenceItems = "-1";
+    bool useProjectReference;
+    string useProjectReferenceString;
+    bool usePackageReference;
+    string usePackageReferenceString;
+    string repositoryUrl;
+    string solutionName;
+
+#>

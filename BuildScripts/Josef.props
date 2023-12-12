@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Josef.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set the default user name and the default UserSecretsId
+Imported by:        '$(BuildRootName)' => build.root
+    Imported by:    'Syntony.Sdk.DefaultItems.props'
+***********************************************************************************************
+Properties defined
+    IsUserPropsFileImported         ... 'true'
+    Author                          ... '$(USERNAME)'
+    AuthorLongName                  ... '$(USERNAME)'
+    AuthorEmail                     ... '$(CompanyEmail)'
+    UserSecretsId                   ... the user secrets set to this user / machine
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Imported">
+        <IsJosefPropsFileImported>true</IsJosefPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="User settings">
+        <Author>Josef Hahnl</Author>
+        <AuthorLongName>Ing. Josef Hahnl, MBA</AuthorLongName>
+        <AuthorEmail>syntony@aon.at</AuthorEmail>
+        <UserSecretsId>312f415f-7cab-4532-9cfb-90d449705d2d</UserSecretsId>
+    </PropertyGroup>
+</Project>

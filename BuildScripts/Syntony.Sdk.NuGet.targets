@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Syntony.Sdk.NuGet.targets
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+Function: set properties for NuGet packages
+***********************************************************************************************
+Imported by:    'Directory.Build.targets
+***********************************************************************************************
+Properties defined
+    IstNuGetTargetsFileImported         ... 'true'
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+        SUGGESTION: if NU1108 error ("Cycle detected") https://github.com/NuGet/Home/issues/6754
+    -->
+
+    <!-- This is used to determine whether Syntony.Sdk.NuGetSettings.props is already imported -->
+    <PropertyGroup Label="Imported">
+        <IstNuGetTargetsFileImported>true</IstNuGetTargetsFileImported>
+    </PropertyGroup>
+
+    <!--
+        ***********************************************************************************************
+        NuGet PACKAGE COMMON PROPERTIES https://learn.microsoft.com/en-us/nuget/
+        https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild
+        https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target-inputs
+        ***********************************************************************************************
+    -->
+    <PropertyGroup Label="Set default NuGet properties">
+        <!-- Matches the SDK Pack default when set to true. -->
+        <PackageId Condition="'$(IsPackable)' == 'true' and '$(PackageId)' == ''">$(AssemblyName)</PackageId>
+        <PackageId Condition="'$(IsPackable)' == 'true' and '$(PackageId)' == ''">$(MSBuildProjectName)</PackageId>
+
+        <!-- A human-friendly title of the package, typically used in UI displays as on nuget.org AND the Package Manager in Visual Studio. If not specified, the package ID is used instead. -->
+        <Title Condition="'$(Title)'==''">$(PackageId)</Title>
+
+        <PackageVersion Condition=" '$(PackageVersion)' == '' ">$(Version)</PackageVersion>
+        <!-- This Boolean value specifies whether any items that have a type of Content will be included in the resulting package automatically. The default is true. -->
+        <IncludeContentInPack Condition="'$(IncludeContentInPack)'==''">true</IncludeContentInPack>
+
+        <!-- For compatiblity with SDK Pack, we set a default description too -->
+        <Description Condition="'$(Description)'=='' AND '$(IsSyntonyTestProject)' == 'true'">$(MSBuildProjectName) include tests for $(AssemblyToTest).</Description>
+        <Description Condition="'$(Description)' == ''">Package Description for $(MSBuildProjectName).</Description>
+        <PackageDescription Condition="'$(PackageDescription)'==''">$(Description)</PackageDescription>
+
+        <!-- This Boolean values specifies whether the build output assemblies should be packed into the .nupkg file or not. -->
+        <IncludeBuildOutput Condition="'$(IncludeBuildOutput)'==''">true</IncludeBuildOutput>
+
+        <!-- Specifies the folder where to place the output assemblies. The output assemblies (AND other output files) are copied into their respective framework folders. -->
+        <BuildOutputTargetFolder Condition="'$(BuildOutputTargetFolder)' == '' AND '$(IsTool)' == 'true'">tools</BuildOutputTargetFolder>
+        <BuildOutputTargetFolder Condition="'$(BuildOutputTargetFolder)' == ''">lib</BuildOutputTargetFolder>
+
+        <!-- This property specifies the default location of where all the content files should go if PackagePath is not specified for them. The default value is "content;contentFiles". -->
+        <ContentTargetFolders Condition="'$(ContentTargetFolders)' == ''">content;contentFiles</ContentTargetFolders>
+
+        <!--
+            There are two possible values for SymbolPackageFormat:  
+            - symbols.nupkg: This is the older format for symbol packages. It creates a .symbols.nupkg file which contains both the library binaries and the PDB files.
+            - snupkg: This is the newer format for symbol packages. It creates a .snupkg file which only contains the PDB files.
+        -->
+        <SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">snupkg</SymbolPackageFormat>
+        
+        <DefaultAllowedOutputExtensionsInPackageBuildOutputFolder Condition="'$(DefaultAllowedOutputExtensionsInPackageBuildOutputFolder)' == ''">.dll; .exe; .winmd; .json; .pri; .xml</DefaultAllowedOutputExtensionsInPackageBuildOutputFolder>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(DefaultAllowedOutputExtensionsInPackageBuildOutputFolder); $(AllowedOutputExtensionsInPackageBuildOutputFolder)</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+        <!-- Include symbol files (*.pdb) in the built .nupkg -->
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder); .pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+        <AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder Condition="'$(SymbolPackageFormat)' != 'snupkg'">.pdb; .mdb; $(AllowedOutputExtensionsInPackageBuildOutputFolder); $(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
+        <AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder Condition="'$(SymbolPackageFormat)' == 'snupkg'">.pdb</AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder>
+
+        <!-- if set to 'true' it will prevent all project references and nuget refeferences being packed into nupkg(as nuget dependencies). -->
+        <SuppressDependenciesWhenPacking Condition="'$(SuppressDependenciesWhenPacking)' == ''">false</SuppressDependenciesWhenPacking>
+
+        <PackageTags Condition="'$(PackageTags)' == ''">$(AssemblyName);$(Authors)</PackageTags>
+
+        <!-- https://blog.ndepend.com/improved-net-debugging-experience-with-source-link/ -->
+        <EnableSourceLink Condition="'$(EnableSourceLink)' == ''">false</EnableSourceLink>
+        
+        <!-- A semicolon-separated list of packages authors, matching the profile names on nuget.org. These are displayed in the NuGet Gallery on nuget.org AND are used to cross-reference packages by the same authors. -->
+        <Authors Condition="'$(Authors)'=='' AND '$(AuthorLongName)'!=''">$(AuthorLongName);$(Company)</Authors>
+        <Authors Condition="'$(Authors)'=='' AND '$(Syntony)'=='true'">Josef Hahnl;$(Company)</Authors>
+        <Authors Condition="'$(Authors)'=='' AND '$(Syntony)'=='false'">$(Company)</Authors>
+        <Product Condition="'$(Product)' == ''">$(MSBuildProjectName)</Product>
+        <CompanyEmail Condition="'$(CompanyEmail)'=='' AND '$(Syntony)'=='true'">syntony@aon.at</CompanyEmail>
+
+        <!-- Trademark details for the package. -->
+        <Trademark Condition="'$(Trademark)'=='' AND '$(Syntony)'=='true'">Syntony®</Trademark>
+        <Trademark Condition="'$(Trademark)'=='' AND '$(Syntony)'=='false'">$(Company)®</Trademark>
+
+        <!-- Copyright details for the package. -->
+        <CopyrightTimeSpan Condition="'$(CopyrightTimeSpan)'==''">2017 - $(Year)</CopyrightTimeSpan>
+        <Copyright Condition="'$(Copyright)'=='' AND '$(Syntony)'=='true'">Copyright © $(CopyrightTimeSpan) by $(Trademark) / Ing. Josef Hahnl, MBA - $(CompanyEmail) - All rights reserved.</Copyright>
+        <Copyright Condition="'$(Copyright)'=='' AND '$(Syntony)'=='false'">Copyright © $(CopyrightTimeSpan) by $(Trademark) - All rights reserved.</Copyright>
+
+        <!-- Informs the resource manager of an app's default culture. -->
+        <NeutralResourcesLanguage Condition="'$(NeutralResourcesLanguage)'==''">en-US</NeutralResourcesLanguage>
+        <DefaultLanguage>$(NeutralResourcesLanguage)</DefaultLanguage>
+        <!--Specifies which culture the assembly supports. -->
+        <AssemblyCulture Condition="'$(AssemblyCulture)'==''"></AssemblyCulture>
+
+        <CompanyLinkHomepage Condition="'$(CompanyLinkHomepage)'=='' AND '$(Syntony)'=='true'">https://syntonyblog.wordpress.com/</CompanyLinkHomepage>
+        <StartDate Condition="'$(StartDate)'==''">2017-01-01</StartDate>
+        <ExpirationDate Condition="'$(ExpirationDate)'==''">9999-12-31</ExpirationDate>
+
+        <!-- 
+            Specifies the path to the default resource. see also task for resx file: https://www.codeproject.com/Articles/104313/Automatic-ResX-Comment-Checking-with-MSBuild-Integ
+            Different locations can be defined by adding a ';' between the locations. For example: "Resources.String1; Resources.String2".
+            this property is handled by DefaultResourceLocationAttribute
+            The resx files are listed in "EmbeddedResource"
+        -->
+        <DefaultResourceLocationPath></DefaultResourceLocationPath>
+        <OutputPath Condition="'$(UsingMicrosoftNETSdk)'=='false'">bin\$(Configuration)\</OutputPath>
+
+        <!-- This is needed to embed build-time generated sources such as eventing AND resource files to sourcelink PDBs. -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+        <!-- Enabling Source Link for your own Packages -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <!-- An URL for the package's home page, often shown in UI displays as well as nuget.org. -->
+        <PackageProjectUrl>https://github.com/SyntonyAustria</PackageProjectUrl>
+        <!-- You can use symbol packages (.snupkg) to distribute these symbols AND improve the debugging experience of your NuGet packages. -->
+        <!-- This Boolean value indicates whether the package should create an additional symbols package when the project is packed. 
+        This package will have a .symbols.nupkg extension AND will copy the PDB files along with the DLL AND other output files. -->
+        <!-- https://blog.ndepend.com/improved-net-debugging-experience-with-source-link/ -->
+        <IncludeSymbols Condition="'$(IncludeSymbols)' == '' AND '$(EnableSourceLink)'=='true'" >true</IncludeSymbols>
+        <!-- Embed all project source files into the generated PDB -->
+        <EmbedAllSources Condition="'$(EnableSourceLink)'=='true'">true</EmbedAllSources>
+        <!-- Embed project source files that are not tracked by the source control or imported from a source package to the generated PDB. Has no effect if EmbedAllSources is true. -->
+        <EmbedUntrackedSources Condition="'$(EnableSourceLink)'=='true'">true</EmbedUntrackedSources>
+
+        <!-- This Boolean value indicates whether the pack process should create a source package. The source package contains the library's source code as well as PDB files. Source files are put under the src/ProjectName directory in the resulting package file. -->
+        <IncludeSource Condition="'$(IncludeSource)'==''">false</IncludeSource>
+        <!-- Specifies the URL for the repository where the source code for the package resides AND/or from which it's being built. -->
+        <RepositoryUrl Condition="'$(RepositoryUrl)'==''"></RepositoryUrl>
+        <!-- Specifies the type of the repository. Default is "git". -->
+        <RepositoryType Condition="'$(RepositoryType)'==''">git</RepositoryType>
+        <!-- Specifies that pack should not run package analysis after building the package. -->
+        <NoPackageAnalysis Condition="'$(NoPackageAnalysis)'==''">false</NoPackageAnalysis>
+        <!-- Specifies the minimum version of the NuGet client that can install this package, enforced by nuget.exe AND the Visual Studio Package Manager. -->
+        <MinClientVersion Condition="'$(MinClientVersion)'==''">4.3</MinClientVersion>
+        <!-- Relative or absolute path to the .nuspec file being used for packing. Note: If the .nuspec file is specified (liek $(MSBuildProjectName).nuspec), it's used exclusively for packaging information AND any information in the projects is not used. -->
+        <NuspecFile Condition="'$(NuspecFile)'==''"></NuspecFile>
+        <!-- Base path for the .nuspec file. -->
+        <NuspecBasePath Condition="'$(NuspecBasePath)'==''"></NuspecBasePath>
+        <!-- Semicolon separated list of key=value pairs. -->
+        <NuspecProperties Condition="'$(NuspecProperties)'==''"></NuspecProperties>
+        <!-- Semversion meta data -->
+        <BuildMetaData Condition="'$(BuildMetaData)'==''"></BuildMetaData>
+
+        <!-- https://github.com/NuGet/Home/wiki/Packaging-License-within-the-nupkg-(Technical-Spec) -->
+        <PackageLicenseFile Condition="'$(PackageLicenseFile)'=='' AND '$(PackageLicenseUrl)'=='' AND '$(PackageLicenseUrl)'==''">LICENSE.md</PackageLicenseFile>
+
+        <!-- Packing an icon image file https://github.com/NuGet/Home/wiki/Packaging-Icon-within-the-nupkg -->
+        <PackageIcon Condition="'$(PackageIcon)' == ''">$(Company).png</PackageIcon>
+        <PackageIconFullPath Condition="Exists('$(CommonPropertiesIconsDirectory)$(Company).png')">$(CommonPropertiesIconsDirectory)$(Company).png</PackageIconFullPath>
+
+        <!-- An URL for a 64x64 image with transparent background to use as the icon for the package in UI display. The 'PackageIconUrl'/'iconUrl' element is deprecated. Consider using the 'PackageIcon'/'icon' element instead. Learn more at https://aka.ms/deprecateIconUrl -->
+        <PackageIconUrl Condition="'$(PackageIconUrl)'==''">https://raw.githubusercontent.com/SyntonyAustria/Syntony.Framework/master/CommonProperties/SharedBinaries/Icons/SyntonyAdmin.ico</PackageIconUrl>
+        <!-- A Boolean value that specifies whether the client must prompt the consumer to accept the package license before installing the package. The default is false. -->
+        <PackageRequireLicenseAcceptance Condition="'$(PackageRequireLicenseAcceptance)'==''">true</PackageRequireLicenseAcceptance>
+        <!-- Determines the output path in which the packed package will be dropped. Default is $(OutputPath). -->
+        <PackageOutputPath Condition="'$(PackageOutputPath)'==''">$(OutputPath)</PackageOutputPath>
+
+        <!-- When packing a readme file, you need to use the PackageReadmeFile property to specify the package path, relative to the root of the package. 
+        In addition to this, you need to make sure that the file is included in the package. Supported file formats include only Markdown (.md). 
+        https://devblogs.microsoft.com/nuget/add-a-readme-to-your-nuget-package/ -->
+        <PackageReadmeFile Condition="'$(PackageReadmeFile)' == ''">README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(EnableSourceLink)'=='true'">
+        <!-- https://blog.ndepend.com/improved-net-debugging-experience-with-source-link/ -->
+        <!-- Reference this package to enable SourceLink used with the source control GitHub -->
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    
+    <PropertyGroup Label="Find LICENSE.md" Condition="'$(PackageLicenseFile)' != ''">
+        <_PackageLicenseDirectory>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), $(PackageLicenseFile)))</_PackageLicenseDirectory>
+        <_PackageLicenseFile Condition="'$(_PackageLicenseDirectory)' != ''">$(_PackageLicenseDirectory)\$(PackageLicenseFile)</_PackageLicenseFile>
+        <_PackageLicenseFile Condition="'$(_PackageLicenseFile)' == '' AND Exists('$(CommonPropertiesLicensesDirectory)$(PackageLicenseFile)')">$(CommonPropertiesLicensesDirectory)$(PackageLicenseFile)</_PackageLicenseFile>
+    </PropertyGroup>
+
+    <PropertyGroup Label="PushNugetPackage">
+
+    </PropertyGroup>
+
+    <PropertyGroup Label="Find README.md">
+        <_PackageReadmeDirectory>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), $(PackageReadmeFile)))</_PackageReadmeDirectory>
+        <_PackageReadmeFile Condition="'$(_PackageReadmeDirectory)' != ''">$(_PackageReadmeDirectory)\$(PackageReadmeFile)</_PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup Label="Add README and LICENSE">
+        <None Condition="'$(_PackageLicenseFile)'!='' AND Exists('$(_PackageLicenseFile)')" Include="$(_PackageLicenseFile)" Visible="false" Pack="true" PackagePath=""/>
+        <None Condition="'$(_PackageReadmeFile)'!='' AND Exists('$(_PackageReadmeFile)')" Include="$(_PackageReadmeFile)" Visible="false" Pack="true" PackagePath="\"/>
+        <None Condition="Exists('$(CommonPropertiesIconsDirectory)$(Company).png')" Include="$(CommonPropertiesIconsDirectory)$(Company).png" Visible="false" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+</Project>

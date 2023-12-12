@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+**********************************************************************************************************************************************
+build.root
+**********************************************************************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+**********************************************************************************************************************************************
+Function: identify the "CommonProperties" directory for a project 
+**********************************************************************************************************************************************
+Imported by:    'Directory.Build.props'
+    Imports:    'Company.props' from $(CommonPropertiesBuildScriptsDirectory) (throws error if not exists)
+    Imports:    'Company.props' from $(ProjectBuildScriptsDirectory) (if exists)
+    Imports:    'BeforeCommon.props' from $(ProjectBuildScriptsDirectory) (if exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)DefaultItems.props' from $(CommonPropertiesBuildScriptsDirectory) (throws error if not exists)
+**********************************************************************************************************************************************
+Properties defined
+    IsBuildRootFileImported               ... 'true'
+    BuildRootDirectory                      ... $(MSBuildThisFileDirectory) ... The directory portion of MSBuildThisFileFullPath. Include the final backslash in the path.
+    BuildProjectDirectory                   ... $(MSBuildProjectDirectory) ... The absolute path of the directory where the project file is located. Include the final backslash in the path.
+    BuildProjectPropertiesDirectory         ... $([MSBuild]::EnsureTrailingSlash($(BuildProjectDirectory)Properties)
+    SolutionDrive                           ... $([System.IO.Path]::GetPathRoot($(MSBuildProjectDirectory))) like D
+    CommonPropertiesDirectoryName           ... 'CommonProperties' if not already set
+    BuildScriptsDirectoryName               ... 'BuildScripts'
+    BuildDirectoryName                      ... 'Build'
+    BeforeCommonPropsName                   ... 'BeforeCommon.props'
+    AfterCommonPropsName                    ... 'AfterCommon.props'
+    ProjectBuildScriptsDirectory            ... the absolute path of the directory where we find the project specific build scripts. Include the final backslash in the path.
+    CommonPropertiesDirectory               ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
+    CommonPropertiesBuildScriptsDirectory   ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common build scripts. Include the final backslash in the path.
+    _DefaultSyntonyName                     ... 'Syntony'
+    DefaultCompanyName                      ... 'Syntony'
+    Syntony                                 ... 'false'
+    Company                                 ... '$(DefaultCompanyName)'
+**********************************************************************************************************************************************
+-->
+
+<Project>
+    <PropertyGroup Label="Imported">
+        <IsBuildRootFileImported>true</IsBuildRootFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Directories">
+        <!-- 
+             The directory portion of MSBuildThisFileFullPath. Include the root drive and including the final backslash in the path.
+             https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-reserved-and-well-known-properties?view=vs-2022
+        -->
+        <BuildRootDirectory>$([MSBuild]::EnsureTrailingSlash($(MSBuildThisFileDirectory)))</BuildRootDirectory>
+
+        <!-- 
+             The absolute path of the directory where the project file is located, for example C:\MyCompany\MyProduct\ including the final backslash in the path. 
+             https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-reserved-and-well-known-properties?view=vs-2022
+        -->
+        <!-- if it is already set we assume it was only temporary -->
+        <BuildProjectDirectory>$([MSBuild]::EnsureTrailingSlash($(MSBuildProjectDirectory)))</BuildProjectDirectory>
+
+        <!-- make a fix Properties directory property with a trailing slash -->
+        <BuildProjectPropertiesDirectory>$([MSBuild]::EnsureTrailingSlash($(BuildProjectDirectory)Properties))</BuildProjectPropertiesDirectory>
+        <SolutionDrive>$([System.IO.Path]::GetPathRoot($(MSBuildProjectDirectory)))</SolutionDrive>
+
+        <!-- define the common properties directory name and  the default build directory names where build scripts can be stored -->
+        <CommonPropertiesDirectoryName Condition="'$(CommonPropertiesDirectoryName)' == ''">CommonProperties</CommonPropertiesDirectoryName>
+        <BuildScriptsDirectoryName Condition="'$(BuildScriptsDirectoryName)' == ''">BuildScripts</BuildScriptsDirectoryName>
+        <BuildDirectoryName Condition="'$(BuildDirectoryName)' == ''">Build</BuildDirectoryName>
+        <BeforeCommonPropsName>BeforeCommon.props</BeforeCommonPropsName>
+        <AfterCommonPropsName>AfterCommon.props</AfterCommonPropsName>
+
+        <!-- search for the project build directory, if any -->
+        <_ProjectBuildDirectory Condition="'$(_ProjectBuildDirectory)' == '' OR !Exists('$(_ProjectBuildDirectory)')">$(BuildProjectDirectory)$(BuildScriptsDirectoryName)</_ProjectBuildDirectory>
+        <_ProjectBuildDirectory Condition="!Exists('$(_ProjectBuildDirectory)') OR '$(_ProjectBuildDirectory)' == ''">$(BuildProjectDirectory)$(BuildDirectoryName)</_ProjectBuildDirectory>
+        <_ProjectBuildDirectory Condition="!Exists('$(_ProjectBuildDirectory)') OR '$(_ProjectBuildDirectory)' == ''">$(BuildProjectDirectory).$(BuildDirectoryName)</_ProjectBuildDirectory>
+        <_ProjectBuildDirectory Condition="!Exists('$(_ProjectBuildDirectory)') OR '$(_ProjectBuildDirectory)' == ''">$(BuildProjectDirectory)</_ProjectBuildDirectory>
+        <ProjectBuildScriptsDirectory>$([MSBuild]::EnsureTrailingSlash($(_ProjectBuildDirectory)))</ProjectBuildScriptsDirectory>
+
+        <!-- now we try to find the first common properties directory upside the $(BuildProjectDirectory) e.g.: D:\Syntony\Proj\Syntony\CommonProperties -->
+        <_FirstCommonPropertiesDirectory Condition="'$(_FirstCommonPropertiesDirectory)' == '' OR !Exists('$(_FirstCommonPropertiesDirectory)')">$(BuildProjectDirectory)$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('$(_FirstCommonPropertiesDirectory)')">
+        <CommonPropertiesDirectory>$([MSBuild]::NormalizePath('$(_FirstCommonPropertiesDirectory)'))</CommonPropertiesDirectory>
+        <CommonPropertiesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesDirectory)))</CommonPropertiesDirectory>
+        <CommonPropertiesBuildScriptsDirectory>$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory)$(BuildScriptsDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
+        <CommonPropertiesBuildScriptsDirectory Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory)$(BuildDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
+        <CommonPropertiesBuildScriptsDirectory Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory).$(BuildDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
+        <CommonPropertiesBuildScriptsDirectory Condition="'$(CommonPropertiesBuildScriptsDirectory)' != ''">$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesBuildScriptsDirectory)))</CommonPropertiesBuildScriptsDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Syntony Globals">
+        <_DefaultSyntonyName>Syntony</_DefaultSyntonyName>
+    </PropertyGroup>
+
+    <!-- set the Company property to import the magic of our SDK implementation -->
+    <Import Label="Company" Project="$(CommonPropertiesBuildScriptsDirectory)Company.props" />
+    <Import Label="Company" Project="$(ProjectBuildScriptsDirectory)Company.props" Condition="Exists('$(ProjectBuildScriptsDirectory)Company.props')"/>
+
+    <PropertyGroup Label="Syntony Globals">
+        <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">$(_DefaultSyntonyName)</DefaultCompanyName>
+        <Company Condition="'$(Company)' == ''">$(DefaultCompanyName)</Company>
+        <Syntony Condition="'$(Company)' == '$(_DefaultSyntonyName)'">true</Syntony>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Set SDK name">
+        <_DefaultSdkImportPreFilename>$(Company).Sdk.</_DefaultSdkImportPreFilename>
+        <_DefaultImportFilename>$(_DefaultSdkImportPreFilename)DefaultItems.props</_DefaultImportFilename>
+        <_ImportCommonPropertiesDefaultSettingsFile>$(CommonPropertiesBuildScriptsDirectory)$(_DefaultImportFilename)</_ImportCommonPropertiesDefaultSettingsFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('$(_ProjectBuildDirectory)')">
+        <_ImportProjectBeforeCommonPropsFile Condition="'$(_ImportProjectBeforeCommonPropsFile)' == '' OR !Exists('$(_ImportProjectBeforeCommonPropsFile)')">$(ProjectBuildScriptsDirectory)$(BeforeCommonPropsName)</_ImportProjectBeforeCommonPropsFile>
+    </PropertyGroup>
+
+    <!-- IMPORT BeforeCommon.props in the found PROJECT build-scripts directory -->
+    <Import Project="$(_ImportProjectBeforeCommonPropsFile)" Condition="Exists('$(_ImportProjectBeforeCommonPropsFile)') AND '$(IsProjectDefaultSettingsPropsFileImported)' != 'true'" />
+
+    <!-- IMPORT Default.Settings.props in the found CommonProperties build-scripts directory throws an error if not found -->
+    <Import Label="$(Company).Sdk.DefaultItems.props" Project="$(_ImportCommonPropertiesDefaultSettingsFile)" Condition="'$(IsDefaultItemsPropsFileImported)' != 'true'" />
+
+</Project>

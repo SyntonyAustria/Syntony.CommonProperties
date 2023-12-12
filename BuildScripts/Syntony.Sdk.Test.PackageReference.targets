@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+***********************************************************************************************
+Syntony.Test.PackageReference.props
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+        ***********************************************************************************************
+        Function: sets all default PackageReference for TEST and BENCHMARK environment
+        Imported by: Directory.Build.targets
+        ***********************************************************************************************
+    -->
+    <!--
+        IMPORTANT: Properties defined
+        IsSyntonyTestPackageReferenceFileImported   ... 'true'
+        AssemblyToTestWithoutExtension              ... 
+    -->
+
+    <!-- This is used to determine whether Syntony.Test.PackageReference.props is already imported -->
+    <PropertyGroup>
+        <IsSyntonyTestPackageReferenceFileImported>true</IsSyntonyTestPackageReferenceFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(AssemblyToTest)' != '' AND '$(IsSyntonyTestProject)' == 'true'">
+        <AssemblyToTestWithoutExtension>$(AssemblyToTest)</AssemblyToTestWithoutExtension>
+        <!-- complete AssemblyToTest with extension -->
+        <AssemblyToTest >$(AssemblyToTest)$(TargetExt)</AssemblyToTest>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(AssemblyToTestWithoutExtension)' != '' AND ('$(UseProjectReference)'=='true' OR '$(UsePackageReference)'=='false')">
+        <!-- here we can include the assembly that should be tested into the references of the testproject -->
+        <ProjectReference Include="..\Source\$(AssemblyToTestWithoutExtension).csproj" Condition="Exists('..\Source\$(AssemblyToTestWithoutExtension).csproj')"/>
+    </ItemGroup>
+    <ItemGroup Condition="'$(AssemblyToTestWithoutExtension)' != '' AND ('$(UsePackageReference)'=='true' OR '$(UseProjectReference)'=='false')">
+        <!-- here we can include the assembly that should be tested into the references of the testproject -->
+        <PackageReference Include="$(AssemblyToTestWithoutExtension)" Version="*"/>
+    </ItemGroup>
+
+    <!-- RULESET PROPERTIES -->
+    <PropertyGroup>
+        <!-- 
+            Do not manually invoke "Run Code Analysis" command or set RunCodeAnalysis MSBuild property to true in CI builds. 
+            Analyzers always get executed as part of command line builds during compilation AND do not need any additional configuration or explicit invocation. 
+            If this flag is set to true, VisualStudio runs old analysers that are targeted for .Net AND not .NetCore
+        -->
+        <RunCodeAnalysis Condition="'$(UsingMicrosoftNETSdk)' == 'true'">false</RunCodeAnalysis>
+
+        <!-- The rule sets in this section pertain to static code analysis. -->
+        <_RuleSetName Condition="'$(IsSyntonyTestProject)' == 'false'">$(Company).ruleset</_RuleSetName>
+        <_RuleSetName Condition="'$(IsSyntonyTestProject)' == 'true'">$(Company).Tests.ruleset</_RuleSetName>
+        <CodeAnalysisRuleSet Condition="'$(_RuleSetName)' !='' AND Exists('$(MSBuildProjectDirectory)$(_RuleSetName)')">$(MSBuildProjectDirectory)$(_RuleSetName)</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet Condition="'$(_RuleSetName)' !='' AND Exists('$(BuildSolutionDirectory)$(_RuleSetName)')">$(BuildSolutionDirectory)$(_RuleSetName)</CodeAnalysisRuleSet>
+    </PropertyGroup>
+
+    <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
+    <ItemGroup Condition="'$(IsSyntonyTestProject)'=='true' AND '$(IsBenchmarkProject)'!='true'">
+        <!-- for TEST environment -->
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+        <PackageReference Include="MSTest.TestAdapter" Version="*" />
+        <PackageReference Include="MSTest.TestFramework" Version="*" />
+        <PackageReference Include="NUnit" Version="*" />
+        <PackageReference Include="NUnit3TestAdapter" Version="*" />
+        <PackageReference Include="xunit" Version="*" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="*" />
+        <!-- include Unit Test analyzers -->
+        <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Include="xunit.analyzers" Version="*" PrivateAssets="All" />
+    </ItemGroup>
+    <ItemGroup  Condition="'$(IsBenchmarkProject)'=='true'">
+        <!-- for BENCHMARK environment -->
+        <PackageReference Include="BenchmarkDotNet" Version="*" />
+    </ItemGroup>
+
+    <!--
+    <ItemGroup>
+        <PackageReference Include="$(Company).Common.NullableAttributes" Version="$(LatestCommonNullableAttributesVersion)" Condition="'$(MSBuildProjectName)' != '$(Company).Common.NullableAttributes'
+            AND ('$(Nullable)' == 'enable' OR '$(Nullable)' == 'annotations')
+            AND ('$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netstandard2.2' OR '$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1')">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+-->
+</Project>

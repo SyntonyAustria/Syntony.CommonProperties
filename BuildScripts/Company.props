@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+***********************************************************************************************
+Company.props
+***********************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+***********************************************************************************************
+***********************************************************************************************
+Function: set only the company name, further props should be set in $(Company).props
+***********************************************************************************************
+Imported by:    '$(BuildRootName)' => build.root
+***********************************************************************************************
+Properties defined
+    IsCompanyPropsFileImported  ... 'true'
+    DefaultCompanyName          ... set to 'Syntony'
+    Company                     ... set to '$(DefaultCompanyName)'
+    CompanyEmail                ... set to 'syntony@aon.at'
+    Trademark                   ... set to 'Syntony®'
+    CopyrightTimeSpan           ... 2017 - $(Year)
+    Copyright                   ... Copyright © $(CopyrightTimeSpan) by $(Trademark) - All rights reserved.
+***********************************************************************************************
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Label="Imported">
+        <IsCompanyPropsFileImported>true</IsCompanyPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Company settings">
+        <!-- Condition because an environment-variable 'DefaultCompanyName' could overwrite the property -->
+        <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">Syntony</DefaultCompanyName>
+        <Company Condition="'$(Company)' == ''">$(DefaultCompanyName)</Company>
+        <CompanyEmail>syntony@aon.at</CompanyEmail>
+        <Trademark>Syntony®</Trademark>
+        <CopyrightTimeSpan>2017 - $(Year)</CopyrightTimeSpan>
+        <Copyright>Copyright © $(CopyrightTimeSpan) by $(Trademark) / Ing. Josef Hahnl, MBA - $(CompanyEmail) - All rights reserved.</Copyright>
+    </PropertyGroup>
+
+</Project>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+******************************************************************************************************************************************************************
+Directory.Build.props
+******************************************************************************************************************************************************************
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
+******************************************************************************************************************************************************************
+Function: identify the "CommonProperties" directory for a project
+          'Directory.Build.props' is usually used to define global (default) properties 
+          while 'Directory.Build.targets' is to overwrite the properties.  
+******************************************************************************************************************************************************************
+Imported by:    at the begin of a *.csproj file
+    Imports:    '$(BuildRootName)' (build.root) searching upwards beginning in (and including) the directory of this file (throws error if not exists)
+    Imports:    'BeforeCommon.props' from $(ProjectBuildScriptsDirectory) (if exists)
+    Imports:    'Default.Settings.props' from $(CommonPropertiesBuildScriptsDirectory) (throws error if not exists)
+        Imports:    'Syntony.Sdk.DefaultItems.props' (throws error if not exists)
+        Imports:    '$(Company).props' (if exists)
+        Imports:    'User.props' (throws error if not exists)
+        Imports:    '$(USERNAME).props' (if exists)
+        Imports:    '$(Company).Common.props' (if exists)
+        Imports:    'Syntony.Sdk.ProjectEnvironment.props' (throws error if not exists)
+            Imports:    'Syntony.Sdk.LanguageSettings.props' from this directory (throws error if not exists)
+            Imports:    'Syntony.Sdk.SolutionConfigurationSettings.props' from this directory (throws error if not exists)
+            Imports:    'Syntony.Sdk.NuGetSettings.props' from this directory (throws error if not exists)
+            Imports:    '$(SolutionName).Build.props' from this directory (if exists)
+            Imports:    '$(MSBuildProjectName).Build.props' from this directory (if exists)
+******************************************************************************************************************************************************************
+Properties defined:
+    ImportDirectoryBuildProps       ... 'false'
+    IsDirectoryBuildPropsFileImported   ... 'true'
+    MSBuildDebug                    ... 'false' for fast switching to debug MSBUILD properties
+    StartTicks                      ... DateTime.UtcNow.Ticks
+    UnixTimestamp                   ... sets its value to the current Unix Timestamp in seconds since January 1, 1970, 00:00:00 UTC
+    BuildDateFormat                 ... 'yyyy-MM-dd'
+    BuildTimeFormat                 ... 'HH:mm:ss.FFFFFFF'
+    BuildDateTimeFormat             ... 'yyyy-MM-dd HH:mm:ss.FFFFFFF'
+    DefaultCultureInfoName          ... ''
+    Now                             ... the DateTime.UtcNow string
+    Today                           ... the current year-month-day ("yyyy-MM-dd")
+    Year                            ... the current year
+    Month                           ... the current month
+    Day                             ... the current day
+    Time                            ... the current hour-minute-second ("HH:mm:ss")
+    SourceRevisionId                ... build$([System.DateTime]::New($(StartTicks)).ToString("yyyyMMddHHmmss"))
+    IsWindows                       ... 'true' if the current OS is a Windows platform
+    IsOSX                           ... 'true' if the current OS is a Mac OS platform
+    IsLinux                         ... 'true' if the current OS is a Linux platform
+    MinimumVisualStudioVersion      ... '17.0' ... this is for Visual Studio 2019, adjust if necessary 
+                                        https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-history?view=vs-2019#release-dates-and-build-numbers
+    VSToolsPath                     ... the path to the Visual Studio tools. Include the final backslash.
+    IsRunningFromVisualStudio       ... 'true' if running from Visual Studio; otherwise 'false'.
+    UseArtifactsDir                 ... 'false'
+    BuildRootName                   ... the name of the build root file ('build.root' OR '.build' OR '.msbuild' OR '')
+**********************************************************************************************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- 
+        EXTERNAL_PROPERTIES: use only properties from https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-reserved-AND-well-known-properties?view=vs-2022 in this file
+        
+        IMPORTANT: This is the TOP Directory.Build.props.
+        If there is any Directory.Build.props in a sub-directory of this file take into account that once MSBuild finds a Directory.Build.props file, it STOPS further scanning.
+
+        To continue scanning AND merge into the outer files, place this code into inner files:
+        <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../')))"/>
+        
+        When searching for a Directory.Build.props file, MSBuild walks the directory structure upwards from your project location ($(MSBuildProjectFullPath)), STOPPING after it locates a Directory.Build.props file. 
+        For example, if your $(MSBuildProjectFullPath) was c:\users\username\code\test\case1, MSBuild would start searching there AND then search the directory structure upward until it located a Directory.Build.props file, 
+        as in the following directory structure.
+
+        c:\users\username\code\test\case1
+        c:\users\username\code\test
+        c:\users\username\code
+        c:\users\username
+        c:\users
+        c:\
+        
+        https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props
+
+        The location of the solution file is irrelevant to Directory.Build.props.
+        https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory?view=vs-2022
+        Also have a look at https://github.com/teroneko/Teronis.DotNet/blob/develop/Directory.Build.props 
+        and https://github.com/teroneko/Teronis.DotNet/blob/develop/Directory.Build.targets which uses Directory.Build.props and Directory.Build.targets perfectly.
+        
+        64 bit update: https://devblogs.microsoft.com/dotnet/msbuild-and-64-bit-visual-studio-2022/
+        
+        Customize MSBUILD https://github.com/MicrosoftDocs/visualstudio-docs/blob/main/docs/msbuild/customize-your-build.md 
+        IMPORTANT: Directory.Build.props is imported very early in Microsoft.Common.props, and properties defined later are unavailable to it. So, avoid referring to properties that are not yet defined (and will evaluate to empty).
+        C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Microsoft.Common.props
+
+        You should note that Directory.Build.props file is imported at the begin of the csproj file. In your side, because the imported property is too early to be overridden, it is overridden by defineConstants in *.csproj.
+        So Directory.Build.props is usually used to define global (default) properties while Directory.Build.targets is to overwrite the properties.
+
+        .props files are imported early in the import order.
+        .targets files are imported late in the build order.
+        -->
+
+    <PropertyGroup Label="Imported">
+        <!-- For non-SDK projects that import this file and then import Microsoft.Common.props, tell Microsoft.Common.props not to import Directory.Build.props again. -->
+        <ImportDirectoryBuildProps>false</ImportDirectoryBuildProps>
+        <IsDirectoryBuildPropsFileImported>true</IsDirectoryBuildPropsFileImported>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Debug">
+        <MSBuildDebug Condition="'$(MSBuildDebug)' == ''">true</MSBuildDebug>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Timestamp FormatItems">
+        <_BuildDateFormat>yyyy-MM-dd</_BuildDateFormat>
+        <BuildDateFormat>$(_BuildDateFormat)</BuildDateFormat>
+        <!-- The "fffffff" custom format specifier represents the SEVEN most significant digits of the seconds fraction; that is, it represents the ten millionths of a second in a date and time value. -->
+        <_BuildFractionPartSecondsFormat>FFFFFFF</_BuildFractionPartSecondsFormat>
+        <_BuildTimeFormat>HH:mm:ss.$(_BuildFractionPartSecondsFormat)</_BuildTimeFormat>
+        <BuildTimestampFormat>"yyyyMMddHHmmss"</BuildTimestampFormat>
+
+        <!-- yyyy'-'MM'-'dd HH':'mm':'ss'Z'-->
+        <BuildTimeFormat>$(_BuildTimeFormat)</BuildTimeFormat>
+        <BuildDateTimeFormat>$(BuildDateFormat) $(BuildTimeFormat)</BuildDateTimeFormat>
+        <!-- GetCultureInfo: instead of "en-US" we use an empty string. If name is String.Empty, the method returns the invariant culture. This is equivalent to retrieving the value of the InvariantCulture property. -->
+        <DefaultCultureInfoName></DefaultCultureInfoName>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Timestamp">
+        <StartTicks>$([System.DateTimeOffset]::UtcNow.Ticks)</StartTicks>
+        <!--
+            ATTENTION ATTENTION ATTENTION ATTENTION ATTENTION
+            Changes to this PropertyGroup should also be written to D:\Syntony\Proj\Syntony\CommonProperties\BuildScripts\Syntony.Sdk.Metacontent.TextTemplating.targets to Target "CustomPreTransform" 
+            ATTENTION ATTENTION ATTENTION ATTENTION ATTENTION
+        -->
+        <BuildTimestamp>$([System.DateTime]::new($(StartTicks)).ToString("$(BuildTimestampFormat)"))</BuildTimestamp>
+        <UnixTimestamp>$([MSBuild]::Subtract($([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::new($(StartTicks)).Ticks), 10000000)))), 62135596800))</UnixTimestamp>
+        <DaysSinceEpoch>$([System.DateTime]::op_Subtraction($([System.DateTime]::new($(StartTicks)).Date),$([System.DateTime]::new(621355968000000000))).TotalDays.ToString("00000"))</DaysSinceEpoch>
+        <!--
+            Note that, since this causes our version number to tick over every minute, we see a (far less severe) variant of dotnet/project-system#1457
+            where VS decides to restore packages at seemingly random times. https://github.com/Unity-Technologies/ProjNet4GeoAPI/blob/master/src/Directory.Build.props#L38
+        -->
+        <MinutesSinceStartOfUtcDay>$([System.DateTime]::new($(StartTicks)).TimeOfDay.TotalMinutes.ToString("0000"))</MinutesSinceStartOfUtcDay>
+
+        <!-- Now represents the UTC build date & time -->
+        <Now>$([System.DateTime]::New($(StartTicks)).ToString("$(BuildDateTimeFormat)"))</Now>
+        <Today>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("$(BuildDateFormat)"))</Today>
+        <Year>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("yyyy"))</Year>
+        <Month>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("MM"))</Month>
+        <Day>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("dd"))</Day>
+        <Time>$([System.DateTime]::Parse($(Now), '$([System.Globalization.CultureInfo]::GetCultureInfo("$(DefaultCultureInfoName)"))').ToString("$(BuildTimeFormat)"))</Time>
+
+        <!-- Date of Build for a .Net assembly https://www.meziantou.net/getting-the-date-of-build-of-a-dotnet-assembly-at-runtime.htm -->
+        <!-- file://C:/Program%20Files/dotnet/sdk/7.0.402/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.GenerateAssemblyInfo.targets -->
+        <!-- use of AssemblyInformationalVersionAttribute The value of SourceRevisionId is added to the metadata section of the version (after the +). The value is of the following form: 1.2.3+build20180101120000 -->
+        <SourceRevisionId>build$(BuildTimestamp)</SourceRevisionId>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <!-- The OS -->
+        <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
+        <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+        <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+
+        <!-- 17.0 is for Visual Studio 2022 adjust if necessary https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-history?view=vs-2022#release-dates-and-build-numbers -->
+        <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+        <VSToolsPath>$([MSBuild]::EnsureTrailingSlash($(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)))</VSToolsPath>
+        <IsRunningFromVisualStudio>$([MSBuild]::IsRunningFromVisualStudio())</IsRunningFromVisualStudio>
+        <UseArtifactsDir Condition="'$(UseArtifactsDir)' == ''">false</UseArtifactsDir>
+    </PropertyGroup>
+
+    <!-- 
+         Find the root props (build.root / .build / .msbuild) file
+         find the next root folder of our build like explained in https://www.mode19.net/posts/msbuildbuildroot/ by default Directory.Build.props is in the same directory as build.root. 
+         So MSBuildThisFileDirectory should in this case be equal to _BuildRoot 
+    -->
+    <PropertyGroup Label="BuildRoot">
+        <_DefaultBuildRootName>build.root</_DefaultBuildRootName>
+        <BuildRootName>$(_DefaultBuildRootName)</BuildRootName>
+        <_BuildRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), '$(BuildRootName)'))</_BuildRoot>
+    </PropertyGroup>
+    <PropertyGroup Label="BuildRoot" Condition="'$(_BuildRoot)' == ''">
+        <BuildRootName>.build</BuildRootName>
+        <_BuildRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), '$(BuildRootName)'))</_BuildRoot>
+    </PropertyGroup>
+    <PropertyGroup Label="BuildRoot" Condition="'$(_BuildRoot)' == ''">
+        <BuildRootName>.msbuild</BuildRootName>
+        <_BuildRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), '$(BuildRootName)'))</_BuildRoot>
+    </PropertyGroup>
+    <PropertyGroup Label="BuildRoot" Condition="'$(_BuildRoot)' == ''">
+        <BuildRootName></BuildRootName>
+    </PropertyGroup>
+
+    <!-- throw error because build.root file was not found -->
+    <Import Condition="'$(_BuildRoot)' == ''" Project="$(_DefaultBuildRootName)" />
+    
+    <!-- IMPORT the root props => build.root - here all the magic of Syntony MSBuild process starts -->
+    <Import Condition="'$(_BuildRoot)' != '' AND '$(IsBuildRootFileImported)' != 'true'" Project="$([MSBuild]::GetPathOfFileAbove('$(BuildRootName)'))" />
+</Project>
