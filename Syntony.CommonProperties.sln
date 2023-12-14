@@ -32,7 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedSources", "SharedSour
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs ROOT directories", ".configs ROOT directories", "{988F641D-17A5-4641-AE79-B35973C3D84E}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
 		.globalconfig = .globalconfig
@@ -59,7 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{23E8C881-1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonProperties", "CommonProperties", "{B7909B5F-05E6-4C5E-B1E2-AE7A5008E445}"
 	ProjectSection(SolutionItems) = preProject
-		README.Syntony.md = README.Syntony.md
+		README.md = README.md
 		README.txt = README.txt
 	EndProjectSection
 EndProject
@@ -435,6 +434,51 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project.Build", "Project.Bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Build", "Solution.Build", "{94F92F78-7EA6-48D7-98C2-616758D527B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs USER", ".configs USER", "{3DE47D0A-CD49-479E-9BFE-17B4EC461602}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Josef\AppData\Roaming\NuGet\NuGet.Config = C:\Users\Josef\AppData\Roaming\NuGet\NuGet.Config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs COMPUTER", ".configs COMPUTER", "{3D408E36-179D-4E7E-9116-CCDDAF120DDB}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config = C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+		C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config = C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F685-4E22-9495-0CBEC1F5205F}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\README.AI.md = Docs\README.AI.md
+		Docs\README.BuildOperation.md = Docs\README.BuildOperation.md
+		Docs\README.Contact.md = Docs\README.Contact.md
+		Docs\README.Directory.Build.props.md = Docs\README.Directory.Build.props.md
+		Docs\README.Directory.Build.targets.md = Docs\README.Directory.Build.targets.md
+		Docs\README.Documentation.md = Docs\README.Documentation.md
+		Docs\README.Editorconfig.md = Docs\README.Editorconfig.md
+		Docs\README.Git.md = Docs\README.Git.md
+		Docs\README.Gitattributes.md = Docs\README.Gitattributes.md
+		Docs\README.Gitignore.md = Docs\README.Gitignore.md
+		Docs\README.Globalconfig.md = Docs\README.Globalconfig.md
+		Docs\README.HelpfulLinks.md = Docs\README.HelpfulLinks.md
+		Docs\README.Introduction.md = Docs\README.Introduction.md
+		Docs\README.License.md = Docs\README.License.md
+		Docs\README.Mailmap.md = Docs\README.Mailmap.md
+		Docs\README.Markdown.md = Docs\README.Markdown.md
+		Docs\README.MSBuildFiles.md = Docs\README.MSBuildFiles.md
+		Docs\README.NetAnalyzers.md = Docs\README.NetAnalyzers.md
+		Docs\README.NetSDK.md = Docs\README.NetSDK.md
+		Docs\README.NuGet.md = Docs\README.NuGet.md
+		Docs\README.Pack.md = Docs\README.Pack.md
+		Docs\README.Props.md = Docs\README.Props.md
+		Docs\README.Readme.md = Docs\README.Readme.md
+		Docs\README.SignAssembly.md = Docs\README.SignAssembly.md
+		Docs\README.Sln.md = Docs\README.Sln.md
+		Docs\README.SoftwareWeUse.md = Docs\README.SoftwareWeUse.md
+		Docs\README.StrongNaming.md = Docs\README.StrongNaming.md
+		Docs\README.Suo.md = Docs\README.Suo.md
+		Docs\README.Syntony.md = Docs\README.Syntony.md
+		Docs\README.Targets.md = Docs\README.Targets.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -461,6 +505,9 @@ Global
 		{23FDCA41-C21B-4E7F-B663-0DBD5648C13C} = {2CEC25CF-7AEA-491B-842D-F1789B32C88E}
 		{9A6F05A5-4ED5-4D67-9141-BF145F7041C4} = {4633FDE7-2576-41C7-921B-B1F67C0E9B76}
 		{94F92F78-7EA6-48D7-98C2-616758D527B5} = {4633FDE7-2576-41C7-921B-B1F67C0E9B76}
+		{3DE47D0A-CD49-479E-9BFE-17B4EC461602} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{3D408E36-179D-4E7E-9116-CCDDAF120DDB} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
+		{726F31EC-F685-4E22-9495-0CBEC1F5205F} = {B7909B5F-05E6-4C5E-B1E2-AE7A5008E445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90599156-BC8B-4E38-8943-1E05FD0C40EF}

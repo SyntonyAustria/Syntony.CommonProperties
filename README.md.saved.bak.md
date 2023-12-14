@@ -1,25 +1,25 @@
 # Syntony.CommonProperties
-##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
+Copyright � 2017 - 2023 by Syntony� / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.
 -----------
-
 **Common Properties** is a repository for ***Syntony*** projects for managing the build process with MSBuild and the associated relevant settings.
 
+<details>
 <summary><b>Table of Contents</b> (click to open)</summary>
 <!-- MarkdownTOC -->
 
 1. [Introduction](Docs/README.Introduction.md)
 1. Some files explained
-    1. [Markdown](Docs/README.Markdown.md)
-    1. [README.md](Docs/README.Readme.md)
-    1. [License](Docs/README.License.md)
-    1. [.NET SDK](Docs/README.NetSDK.md)
-    1. [.NET Analyzers](Docs/README.NetAnalyzers.md)
-    1. [.globalconfig](Docs/README.Globalconfig.md)
-    1. [.editorconfig](Docs/README.Editorconfig.md)
-    1. [git](Docs/README.Git.md)
-    1. [.gitattributes](Docs/README.Gitattributes.md)
-    1. [.gitignore ](Docs/README.Gitignore.md)
-    1. [.mailmap ](Docs/README.Mailmap.md)
+    1. [Markdown](Docs/README.Introduction.md)
+    1. [README.md](Docs/README.Introduction.md)
+    1. [License](Docs/README.Introduction.md)
+    1. [.NET SDK](Docs/README.Introduction.md)
+    1. [.NET Analyzers](Docs/README.Introduction.md)
+    1. [.globalconfig](Docs/README.Introduction.md)
+    1. [.editorconfig](Docs/README.Introduction.md)
+    1. [git](Docs/README.Introduction.md)
+    1. [.gitattributes](Docs/README.Introduction.md)
+    1. [.gitignore ](Docs/README.Introduction.md)
+    1. [.mailmap ](Docs/README.Introduction.md)
     1. [.sln](Docs/README.Sln.md)
     1. [.suo](Docs/README.Suo.md)
     1. [.props](Docs/README.Props.md)
@@ -38,4 +38,5 @@
 1. [Contact](Docs/README.Contact.md)
 
 <!-- /MarkdownTOC -->
+</details>
 
