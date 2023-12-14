@@ -6,7 +6,7 @@
 The **.gitattributes** file is a text file that you can place in your repository's root directory or in any subdirectory. 
 It allows you to define attributes on a per-path basis. These attributes can affect the way Git handles certain files. 
 
-Here are some common uses of the **.gitattributes** file:
+Here are some common uses of the  file:
 
 **Line Endings:** You can use the **.gitattributes** file to normalize line endings to a standard style. 
 This can be helpful when working on a project across different operating systems.
@@ -41,3 +41,15 @@ int buffer_is_binary(const char *ptr, unsigned long size)
     return !!memchr(ptr, 0, size);
 }
 ```
+
+Git uses the **.gitattributes** file to control the behavior of certain Git operations. The **.gitattributes** file is usually placed in the root directory of the repository, but it can also be placed in subdirectories. 
+
+Here's how Git searches for **.gitattributes** files:
+
+1. Local **.gitattributes** file: Git first looks for a **.gitattributes** file in the same directory as the file being checked. This file applies to the files in the same directory and any subdirectories.
+
+2. Parent directories' **.gitattributes** files: If the local **.gitattributes** file does not exist or does not specify whether to ignore the file, Git then looks for **.gitattributes** files in the parent directories of the file, up to the root of the repository. These files also apply to the files in their directories and any subdirectories.
+
+3. Repository's **.gitattributes** file: If none of the above **.gitattributes** files specify whether to ignore the file, Git then looks for a **.gitattributes** file in the root of the repository. This file applies to all files in the repository.
+
+Please note that unlike [.gitignore](README.Gitignore.md), there is no global **.gitattributes** file that applies to all repositories on the machine. The **.gitattributes** file controls the attribute data that is associated with paths in the repository.
