@@ -39,6 +39,9 @@ Properties defined
         <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
         <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablenetanalyzers NET code quality analysis is enabled, by default, for projects that target .NET 5 or a later version. -->
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.CSharp" Version="*" PrivateAssets="All" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="*" PrivateAssets="All" />
         <PackageReference Include="AsyncFixer" Version="*" PrivateAssets="All" />
         <PackageReference Include="Roslynator.Analyzers" Version="*" PrivateAssets="All" />
@@ -46,8 +49,8 @@ Properties defined
     </ItemGroup>
 
     <ItemGroup Label="set analyzers package references for VSIX projects" Condition="'$(IsVsixProject)' == 'true'">
-        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="*" PrivateAssets="All" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="*" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="*" PrivateAssets="All" />
         <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="*" PrivateAssets="All" />
     </ItemGroup>
 </Project>

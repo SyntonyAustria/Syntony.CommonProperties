@@ -50,9 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{E252
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{23E8C881-18AC-44CF-9244-3010AA81ABAB}"
 	ProjectSection(SolutionItems) = preProject
-		Guidelines\cs-coding-standards.docx = Guidelines\cs-coding-standards.docx
 		..\README.md = ..\README.md
-		Guidelines\Syntony.Basics.docx = Guidelines\Syntony.Basics.docx
 		..\Syntony.Proj.Syntony.Readme.txt = ..\Syntony.Proj.Syntony.Readme.txt
 	EndProjectSection
 EndProject
@@ -475,10 +473,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F
 		Docs\README.Sln.md = Docs\README.Sln.md
 		Docs\README.SoftwareWeUse.md = Docs\README.SoftwareWeUse.md
 		Docs\README.StrongNaming.md = Docs\README.StrongNaming.md
+		Docs\README.Stylecop.md = Docs\README.Stylecop.md
 		Docs\README.Suo.md = Docs\README.Suo.md
 		Docs\README.Syntony.md = Docs\README.Syntony.md
 		Docs\README.Targets.md = Docs\README.Targets.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guidelines", "Guidelines", "{393B7323-787F-4508-B834-E8531A7776DE}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
@@ -509,6 +510,7 @@ Global
 		{3DE47D0A-CD49-479E-9BFE-17B4EC461602} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
 		{3D408E36-179D-4E7E-9116-CCDDAF120DDB} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
 		{726F31EC-F685-4E22-9495-0CBEC1F5205F} = {B7909B5F-05E6-4C5E-B1E2-AE7A5008E445}
+		{393B7323-787F-4508-B834-E8531A7776DE} = {23E8C881-18AC-44CF-9244-3010AA81ABAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90599156-BC8B-4E38-8943-1E05FD0C40EF}

@@ -17,6 +17,7 @@
     1. [.NET Analyzers](Docs/README.NetAnalyzers.md)
     1. [.globalconfig](Docs/README.Globalconfig.md)
     1. [.editorconfig](Docs/README.Editorconfig.md)
+    1. [.stylecop.json](Docs/README.Stylecop.md)
     1. [git](Docs/README.Git.md)
     1. [.gitattributes](Docs/README.Gitattributes.md)
     1. [.gitignore ](Docs/README.Gitignore.md)
