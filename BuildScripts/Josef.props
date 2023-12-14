@@ -32,5 +32,6 @@ Properties defined
         <AuthorLongName>Ing. Josef Hahnl, MBA</AuthorLongName>
         <AuthorEmail>syntony@aon.at</AuthorEmail>
         <UserSecretsId>312f415f-7cab-4532-9cfb-90d449705d2d</UserSecretsId>
+        <GenerateUserSecretsAttribute>true</GenerateUserSecretsAttribute>
     </PropertyGroup>
 </Project>

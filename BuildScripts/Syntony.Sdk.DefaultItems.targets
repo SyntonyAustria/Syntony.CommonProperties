@@ -150,4 +150,10 @@ Properties defined
         <RunSettingsFilePath Condition="'$(RunSettingsFilePath)' == '' AND Exists('$(GlobalCommonPropertiesDirectory)runsettings.xml')">$(GlobalCommonPropertiesDirectory)runsettings.xml</RunSettingsFilePath>
     </PropertyGroup>
 
+    <ItemGroup Condition=" '$(UserSecretsId)' != '' AND '$(GenerateUserSecretsAttribute)' != 'false' ">
+        <AssemblyAttribute Include="Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute">
+            <_Parameter1>$(UserSecretsId.Trim())</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
 </Project>

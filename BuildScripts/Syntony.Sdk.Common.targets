@@ -276,6 +276,11 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="Company:                                        '$(Company)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Author:                                         '$(Author)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AuthorLongName:                                 '$(AuthorLongName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="AuthorEmail:                                    '$(AuthorEmail)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="UserSecretsId:                                  '$(UserSecretsId)'" Importance="$(BuildMessageImportance)"/>
+
         <Message Text="__IsExecutable:                                 '$(__IsExecutable)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="TargetFramework:                                '$(TargetFramework)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="TargetFileName:                                 '$(TargetFileName)'" Importance="$(BuildMessageImportance)"/>
@@ -981,7 +986,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <!-- ensure key and ico in Properties directory -->
         <MakeDir Directories="$(MSBuildProjectDirectory)\Properties" Condition="!Exists('$(MSBuildProjectDirectory)\Properties')"/>
 
-
         <ItemGroup Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)')">
             <Compile Remove="$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)"/>
         </ItemGroup>
@@ -1006,7 +1010,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <ApplicationIcon>Properties\$(Company).ico</ApplicationIcon>
         </PropertyGroup>
 
-        <PropertyGroup Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')">
+        <PropertyGroup Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')">
             <__AssemblyInfoText>$([System.IO.File]::ReadAllText('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(Company)' != ''">$(__AssemblyInfoText.Replace("{Company}", '$(Company)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(Copyright)' != ''">$(__AssemblyInfoText.Replace("{Copyright}", '$(Copyright)'))</__AssemblyInfoText>
@@ -1029,7 +1033,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                          MatchExpression="SyntonyCommonCoreMetacontent"
                          ReplacementText="$(RootNamespace).Properties.$(MetacontentOutputFileName)" />
         -->
-        <WriteLinesToFile Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
+        <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
                           File="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)" Lines="$(__AssemblyInfoText)" Overwrite="true" />
 
         <Message Text="Copied to Properties directory: '@(_Changed)'" Importance="$(BuildMessageImportance)" />

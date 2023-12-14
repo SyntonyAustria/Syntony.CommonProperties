@@ -9,24 +9,25 @@
 //     <file type=".cs" created="{Now}" modified="{Now}" lastAccess="{Now}">
 //         {DestinationFile}
 //     </file>
-//     <lineStatistics total="85" netLines="74" blankLines ="11" codeLines="68" codeRatio="80.00 %" allCommentLines="25" commentLines="6" headerLines="19" documentationLines="0"/>
+//     <lineStatistics total="88" netLines="76" blankLines ="12" codeLines="70" codeRatio="79.55 %" allCommentLines="25" commentLines="6" headerLines="19" documentationLines="0"/>
 //     <language>C#</language>
 //     <codeMetric>
 //         <numberOfUsings>8</numberOfUsings>
-//         <numberOfAttributes>32</numberOfAttributes>
+//         <numberOfAttributes>24</numberOfAttributes>
 //     </codeMetric>
 // </information>
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #define TRUE
 
 // ReSharper disable FilesNotPartOfProjectWarning
+using Microsoft.Extensions.Configuration.UserSecrets;
+
 using Syntony;
 using Syntony.Annotations;
 
 using System;
 using System.Reflection;
 using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using MetaData = {SyntonyCommonCoreMetacontent};
@@ -56,8 +57,9 @@ using MetaData = {SyntonyCommonCoreMetacontent};
 [assembly: AssemblyProduct(MetaData.Product)]
 
 [assembly: AssemblyDefaultAlias(MetaData.Title + " " + MetaData.InformationalVersion)]
-[assembly: Guid(MetaData.AssemblyGuid)]
 [assembly: AssemblyMetadata(nameof(MetaData.RepositoryUrl), MetaData.RepositoryUrl)]
+[assembly: Guid(MetaData.AssemblyGuid)]
+[assembly: UserSecretsId(MetaData.UserSecretsId)]
 
 // stigmatize this assembly as a Syntony file.
 [assembly:

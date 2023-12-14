@@ -10,7 +10,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
 
 Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
 ***********************************************************************************************
-Function: set the default user name and the default UserSecretsId
+Function: set the default user name and E-mail
 Imported by:        '$(BuildRootName)' => build.root
     Imported by:    'Syntony.Sdk.DefaultItems.props'
 ***********************************************************************************************
