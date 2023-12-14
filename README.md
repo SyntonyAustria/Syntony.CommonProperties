@@ -1,13 +1,14 @@
-# Syntony.CommonProperties
 ##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
+# Syntony.CommonProperties
 -----------
 
 **Common Properties** is a repository for ***Syntony*** projects for managing the build process with MSBuild and the associated relevant settings.
 
-<summary><b>Table of Contents</b> (click to open)</summary>
+<summary><b>Table of Contents</b></summary>
 <!-- MarkdownTOC -->
 
 1. [Introduction](Docs/README.Introduction.md)
+1. [Why we are called **Syntony**?](Docs/README.Syntony.md)
 1. Some files explained
     1. [Markdown](Docs/README.Markdown.md)
     1. [README.md](Docs/README.Readme.md)
@@ -24,13 +25,15 @@
     1. [.suo](Docs/README.Suo.md)
     1. [.props](Docs/README.Props.md)
     1. [.targets](Docs/README.Targets.md)
-    1. [MSBuild Files](Docs/README.Sln.md)
-    1. [Directory.Build.props](Docs/README.Sln.md)
-    1. [Directory.Build.targets](Docs/README.Sln.md)
-    1. [Strong naming](Docs/README.Sln.md)
-    1. [Sign assembly](Docs/README.Sln.md)
+    1. [MSBuild Files](Docs/README.MSBuildFiles.md)
+    1. [Directory.Build.props](Docs/README.Directory.Build.props.md)
+    1. [Directory.Build.targets](Docs/README.Directory.Build.Targets.md)
+    1. [Strong naming](Docs/README.StrongNaming.md)
+    1. [Sign assembly](Docs/README.SignAssembly.md)
     1. [Pack](Docs/README.Pack.md)
+    1. [NuGet]((Docs/README.NuGet.md))
     1. [Documentation](Docs/README.Documentation.md)
+1. [Project Structure](Docs/README.ProjectStructure.md)
 1. [Build Operation](Docs/README.BuildOperation.md)
 1. [Software we use](Docs/README.SoftwareWeUse.md)
 1. [AI Tools](Docs/README.AI.md)

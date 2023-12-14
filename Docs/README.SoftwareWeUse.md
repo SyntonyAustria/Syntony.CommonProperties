@@ -1,3 +1,6 @@
+##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
+# [Syntony.CommonProperties](./../README.md)
+
 ## Software we use <a name="SoftwareWeUse"/>
 -----------
 1. [Visual Studio](https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-notes) 

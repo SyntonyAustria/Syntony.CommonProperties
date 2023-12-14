@@ -468,6 +468,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F
 		Docs\README.NetSDK.md = Docs\README.NetSDK.md
 		Docs\README.NuGet.md = Docs\README.NuGet.md
 		Docs\README.Pack.md = Docs\README.Pack.md
+		Docs\README.ProjectStructure.md = Docs\README.ProjectStructure.md
 		Docs\README.Props.md = Docs\README.Props.md
 		Docs\README.Readme.md = Docs\README.Readme.md
 		Docs\README.SignAssembly.md = Docs\README.SignAssembly.md
