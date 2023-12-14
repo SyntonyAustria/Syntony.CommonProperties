@@ -5,7 +5,7 @@
 **Common Properties** is a repository for ***Syntony*** projects for managing the build process with MSBuild and the associated relevant settings.
 
 <summary><b>Table of Contents</b></summary>
-<!-- MarkdownTOC -->
+
 
 1. [Introduction](Docs/README.Introduction.md)
 1. [Why we are called **Syntony**?](Docs/README.Syntony.md)
@@ -31,7 +31,7 @@
     1. [Strong naming](Docs/README.StrongNaming.md)
     1. [Sign assembly](Docs/README.SignAssembly.md)
     1. [Pack](Docs/README.Pack.md)
-    1. [NuGet]((Docs/README.NuGet.md))
+    1. [NuGet](Docs/README.NuGet.md)
     1. [Documentation](Docs/README.Documentation.md)
 1. [Project Structure](Docs/README.ProjectStructure.md)
 1. [Build Operation](Docs/README.BuildOperation.md)
@@ -39,6 +39,4 @@
 1. [AI Tools](Docs/README.AI.md)
 1. [Helpful Links](Docs/README.HelpfulLinks.md)
 1. [Contact](Docs/README.Contact.md)
-
-<!-- /MarkdownTOC -->
 
