@@ -4,7 +4,8 @@
 
 **Common Properties** is a repository for ***Syntony*** projects for managing the build process with MSBuild and the associated relevant settings.
 
-<summary><b>Table of Contents</b></summary>
+<details>
+<summary><b>Table of Contents</b> (click to expand</summary>
 
 1. [Introduction](Docs/README.Introduction.md)
 2. [Why we are called **Syntony**?](Docs/README.Syntony.md)
@@ -47,3 +48,4 @@
 1. [Helpful Links](Docs/README.HelpfulLinks.md)
 1. [Contact](Docs/README.Contact.md)
 
+<details>
