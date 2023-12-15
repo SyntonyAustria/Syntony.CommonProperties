@@ -10,9 +10,7 @@
 1. [Introduction](Docs/README.Introduction.md)
 2. [Why we are called **Syntony**?](Docs/README.Syntony.md)
 
-<details>
-<summary><b>3. Some files explained</b> (click to expand)</summary>
-
+<details><summary><b>3. Some files explained</b> (click to expand)</summary>
 1. [Markdown](Docs/README.Markdown.md)
 1. [README.md](Docs/README.Readme.md)
 1. [License](Docs/README.License.md)
@@ -37,7 +35,6 @@
 1. [Pack](Docs/README.Pack.md)
 1. [NuGet](Docs/README.NuGet.md)
 1. [Documentation](Docs/README.Documentation.md)
-
 </details>
 
 4. [Project Structure](Docs/README.ProjectStructure.md)
