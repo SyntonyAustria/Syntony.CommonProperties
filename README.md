@@ -12,7 +12,7 @@ This documents explains the files, the build process and the coding standard use
 2. [Why we are called **Syntony**?](Docs/README.Syntony.md)
 
 <details>
-<summary><b>3. Files explained</b> (click to expand)</summary>
+<summary><b>3. Some files explained</b> (click to expand)</summary>
 
 1. [Markdown](Docs/README.Markdown.md)
 1. [README.md](Docs/README.Readme.md)
