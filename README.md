@@ -1,16 +1,19 @@
-##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
 # Syntony.CommonProperties
 -----------
 
 **Common Properties** is a repository for ***Syntony*** projects for managing the build process with MSBuild and the associated relevant settings.
 
+This documents explains the files, the build process and the coding standard used.
+
 <details>
-<summary><b>Table of Contents</b> (click to expand</summary>
+<summary><b>Table of Contents</b> (click to expand)</summary>
 
 1. [Introduction](Docs/README.Introduction.md)
 2. [Why we are called **Syntony**?](Docs/README.Syntony.md)
 
-<details><summary><b>3. Some files explained</b> (click to expand)</summary>
+<details>
+<summary><b>3. Files explained</b> (click to expand)</summary>
+
 1. [Markdown](Docs/README.Markdown.md)
 1. [README.md](Docs/README.Readme.md)
 1. [License](Docs/README.License.md)
@@ -35,6 +38,7 @@
 1. [Pack](Docs/README.Pack.md)
 1. [NuGet](Docs/README.NuGet.md)
 1. [Documentation](Docs/README.Documentation.md)
+
 </details>
 
 4. [Project Structure](Docs/README.ProjectStructure.md)
@@ -45,4 +49,6 @@
 1. [Helpful Links](Docs/README.HelpfulLinks.md)
 1. [Contact](Docs/README.Contact.md)
 
-<details>
+</details>
+
+<sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
