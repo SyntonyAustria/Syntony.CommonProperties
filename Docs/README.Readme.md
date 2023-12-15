@@ -1,5 +1,5 @@
 ﻿##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
-# [Syntony.CommonProperties](./../README.md)
+# [Syntony.CommonProperties](..\README.md)
 
 <a name="readme"/>[**README.md**](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
 

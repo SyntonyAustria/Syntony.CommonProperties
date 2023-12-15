@@ -1,5 +1,5 @@
 ##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
-# [Syntony.CommonProperties](./../README.md)
+# [Syntony.CommonProperties](..\README.md)
 
 When MSBuild runs, **Microsoft.Common.props** searches your directory structure for the Directory.Build.props file. 
 If it finds one, it imports the file and reads the properties defined within it. 

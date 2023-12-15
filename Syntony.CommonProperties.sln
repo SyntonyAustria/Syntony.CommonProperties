@@ -448,7 +448,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F
 	ProjectSection(SolutionItems) = preProject
 		Docs\README.AI.md = Docs\README.AI.md
 		Docs\README.BuildOperation.md = Docs\README.BuildOperation.md
-		Docs\README.CodingStandards.md = Docs\README.CodingStandards.md
 		Docs\README.Contact.md = Docs\README.Contact.md
 		Docs\README.Directory.Build.props.md = Docs\README.Directory.Build.props.md
 		Docs\README.Directory.Build.targets.md = Docs\README.Directory.Build.targets.md
@@ -487,6 +486,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guidelines", "Guidelines", 
 		Guidelines\Syntony.Basics.docx = Guidelines\Syntony.Basics.docx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodingStandards", "CodingStandards", "{6F186831-20C3-4521-BF26-0CB8B9AFFE8D}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\README.CodingStandards.md = Docs\README.CodingStandards.md
+		Docs\README.CodingStandards.NamingConventions.md = Docs\README.CodingStandards.NamingConventions.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -517,6 +522,7 @@ Global
 		{3D408E36-179D-4E7E-9116-CCDDAF120DDB} = {D6EDA761-1B11-4162-898B-88D8CECAE0A7}
 		{726F31EC-F685-4E22-9495-0CBEC1F5205F} = {B7909B5F-05E6-4C5E-B1E2-AE7A5008E445}
 		{393B7323-787F-4508-B834-E8531A7776DE} = {23E8C881-18AC-44CF-9244-3010AA81ABAB}
+		{6F186831-20C3-4521-BF26-0CB8B9AFFE8D} = {726F31EC-F685-4E22-9495-0CBEC1F5205F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90599156-BC8B-4E38-8943-1E05FD0C40EF}

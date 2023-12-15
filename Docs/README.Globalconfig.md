@@ -1,5 +1,5 @@
 ##### <sub><sub>Copyright &copy; 2017 - 2023 by Syntony&reg; / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.</sub></sub>
-# [Syntony.CommonProperties](./../README.md)
+# [Syntony.CommonProperties](..\README.md)
 
 <a name="globalconfig"/>[**.globalconfig**](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig)
 
