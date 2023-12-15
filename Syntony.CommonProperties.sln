@@ -441,12 +441,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs COMPUTER", ".confi
 	ProjectSection(SolutionItems) = preProject
 		C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config = C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
 		C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config = C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+		C:\Users\Josef\AppData\Roaming\Microsoft\UserSecrets\312f415f-7cab-4532-9cfb-90d449705d2d\secrets.json = C:\Users\Josef\AppData\Roaming\Microsoft\UserSecrets\312f415f-7cab-4532-9cfb-90d449705d2d\secrets.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F685-4E22-9495-0CBEC1F5205F}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\README.AI.md = Docs\README.AI.md
 		Docs\README.BuildOperation.md = Docs\README.BuildOperation.md
+		Docs\README.CodingStandards.md = Docs\README.CodingStandards.md
 		Docs\README.Contact.md = Docs\README.Contact.md
 		Docs\README.Directory.Build.props.md = Docs\README.Directory.Build.props.md
 		Docs\README.Directory.Build.targets.md = Docs\README.Directory.Build.targets.md
@@ -480,6 +482,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guidelines", "Guidelines", "{393B7323-787F-4508-B834-E8531A7776DE}"
+	ProjectSection(SolutionItems) = preProject
+		Guidelines\cs-coding-standards.docx = Guidelines\cs-coding-standards.docx
+		Guidelines\Syntony.Basics.docx = Guidelines\Syntony.Basics.docx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution

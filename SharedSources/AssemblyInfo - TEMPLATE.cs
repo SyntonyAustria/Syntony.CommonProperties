@@ -20,8 +20,6 @@
 #define TRUE
 
 // ReSharper disable FilesNotPartOfProjectWarning
-using Microsoft.Extensions.Configuration.UserSecrets;
-
 using Syntony;
 using Syntony.Annotations;
 
@@ -59,7 +57,6 @@ using MetaData = {SyntonyCommonCoreMetacontent};
 [assembly: AssemblyDefaultAlias(MetaData.Title + " " + MetaData.InformationalVersion)]
 [assembly: AssemblyMetadata(nameof(MetaData.RepositoryUrl), MetaData.RepositoryUrl)]
 [assembly: Guid(MetaData.AssemblyGuid)]
-[assembly: UserSecretsId(MetaData.UserSecretsId)]
 
 // stigmatize this assembly as a Syntony file.
 [assembly:

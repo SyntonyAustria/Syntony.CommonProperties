@@ -1429,7 +1429,10 @@ internal static partial class <#= this.targetName #>
     public const string AssemblyGuid = SyntonyGuidConstants.CompanyToken + AssemblyToken + ExtensionToken;
 
     /// <summary>The user secrets Id for this assembly: <#= this.userSecretsId #>.</summary>
-    /// <devdoc><a href="https://makolyte.com/csharp-user-secrets-arent-being-loaded-when-youre-using-generateassemblyinfofalse/"/></devdoc>
+    /// <devdoc><a href="https://makolyte.com/csharp-user-secrets-arent-being-loaded-when-youre-using-generateassemblyinfofalse/"/>
+    /// The actual secrets associated with this UserSecretsId are stored in a JSON configuration file located in a directory on your machine.
+    /// The path to this directory is typically %APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json on Windows,
+    /// and ~/.microsoft/usersecrets/<user_secrets_id>/secrets.json on Linux and macOS. Replace <user_secrets_id> with your actual UserSecretsId.</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string UserSecretsId = "<#= this.userSecretsId #>";
 

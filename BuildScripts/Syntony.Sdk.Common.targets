@@ -1032,6 +1032,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                          OutputFilename="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)"
                          MatchExpression="SyntonyCommonCoreMetacontent"
                          ReplacementText="$(RootNamespace).Properties.$(MetacontentOutputFileName)" />
+                         
+        <Copy SourceFiles="%(DeploymentItems.FullPath)"
+        DestinationFiles="$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)"
+            Condition="%(Filename)!='' AND (!Exists('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)').Ticks))" />
         -->
         <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
                           File="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)" Lines="$(__AssemblyInfoText)" Overwrite="true" />
