@@ -4,8 +4,13 @@
 ## Naming Conventions and Standards<a name="NamingComventions"/>
 -----------
 
-| Note: The terms Pascal Casing and Camel Casing are used throughout this document. **Pascal Casing** - First character of all words are Upper Case and other characters are lower case. Example: BackColor **Camel Casing -** First character of all words, except the first word are Upper Case and other characters are lower case.Example: backColor |
-| --- |
+>The terms **Pascal Casing** and **Camel Casing** are used throughout this document.
+>    - **Pascal Casing** - First character of all words are Upper Case and other characters are lower case.
+>    Example: ***BackColor***
+>
+>    - **Camel Casing** - First character of all words, except the first word are Upper Case and other characters are lower case.
+>    Example: ***backColor***
+
 
 1. Use **Pascal Casing** for ***Class*** names
 ```csharp
@@ -41,6 +46,7 @@ public interface IWriteHello
     ...
 }
 ```
+
 
 Use `print("Hello, world!")` to print a message to the screen.
 
