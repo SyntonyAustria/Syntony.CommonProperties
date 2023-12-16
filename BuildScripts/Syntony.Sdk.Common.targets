@@ -459,10 +459,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
     <!-- 
         ***********************************************************************************************
-        PushNugetPackage
+        PushNuGetPackage
         ***********************************************************************************************
     -->
-    <Target Name="PushNugetPackage" AfterTargets="CopyPackage" Condition="'$(IsPushNugetPackageConfiguration)' == 'true'">
+    <Target Name="PushNuGetPackage" AfterTargets="CopyPackage" Condition="'$(IsPushNuGetPackageConfiguration)' == 'true'">
         <PropertyGroup>
             <!-- $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
             <_PackageSourceDirectory Condition="'$(_PackageSourceDirectory)' == ''">$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>

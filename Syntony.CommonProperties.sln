@@ -478,6 +478,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{726F31EC-F
 		Docs\README.Suo.md = Docs\README.Suo.md
 		Docs\README.Syntony.md = Docs\README.Syntony.md
 		Docs\README.Targets.md = Docs\README.Targets.md
+		Docs\README.Tests.md = Docs\README.Tests.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guidelines", "Guidelines", "{393B7323-787F-4508-B834-E8531A7776DE}"
@@ -490,6 +491,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodingStandards", "CodingSt
 	ProjectSection(SolutionItems) = preProject
 		Docs\README.CodingStandards.md = Docs\README.CodingStandards.md
 		Docs\README.CodingStandards.NamingConventions.md = Docs\README.CodingStandards.NamingConventions.md
+		Docs\README.CodingStandards.Security.md = Docs\README.CodingStandards.Security.md
 	EndProjectSection
 EndProject
 Global

@@ -33,15 +33,15 @@
 
     try
     {
-        this.rebuildT4 = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "RebuildT4"));
+        this.isCrossTargetingBuild = Convert.ToBoolean(this.Host.ResolveParameterValue(".", ".", "IsCrossTargetingBuild"));
     }
     catch
     {
-        this.rebuildT4 = true; // by default
+        this.isCrossTargetingBuild = false; // by default
     }
     finally
     {
-        this.rebuildT4String = this.rebuildT4.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+        this.isCrossTargetingBuildString = this.isCrossTargetingBuild.ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
     }
 
     try
@@ -924,8 +924,7 @@
     }
 
     this.targetName = this.targetName.Replace(" ", "").Replace("-", ""); // ensure correct class name
-#>
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#>// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="<#= this.targetName #>.cs" company="<#= this.company #>® / Ing. Josef Hahnl, MBA">
 //     <#= this.copyright #>
 // </copyright>
@@ -934,9 +933,9 @@
 // <date>08.02.2019 16:48:24</date>
 // <information solution="<#= this.solutionName #>" project="<#= this.msBuildProjectName #>" framework="<#= this.targetFramework #>" kind="Windows (C#)">
 //     <file type=".cs" created="<#= this.now #>" modified="<#= this.now #>" lastAccess="<#= this.now #>">
-//         D:\Syntony\Projects\Syntony\Source\Syntony.Metadata\Source\Properties\SyntonyCommonCoreBasicsMetacontent.cs
+//         <#= this.targetFile #>
 //     </file>
-//     <lineStatistics total="528" netLines="408" blankLines ="120" codeLines="237" codeRatio="44.89 %" allCommentLines="31" commentLines="3" headerLines="28" documentationLines="171"/>
+//     <lineStatistics total="620" netLines="478" blankLines ="142" codeLines="259" codeRatio="41.77 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="219"/>
 //     <language>C#</language>
 //     <namespace><#= this.rootNamespace #>.Properties</namespace>
 //     <class><#= this.targetName #></class>
@@ -945,8 +944,9 @@
 //         <Class><#= this.targetName #></Class>
 //     </identifiers>
 //     <codeMetric>
-//         <numberOfUsings>2</numberOfUsings>
-//         <numberOfFields>107</numberOfFields>
+//         <numberOfUsings>3</numberOfUsings>
+//         <numberOfFields>116</numberOfFields>
+//         <numberOfAttributes>79</numberOfAttributes>
 //     </codeMetric>
 // </information>
 // <summary>
@@ -984,7 +984,7 @@ using <#= this.company #>;
 [PublicAPI]
 internal static partial class <#= this.targetName #>
 {
-#if SYNTONY_CODE_ANALYSIS
+#if SYNTONY_CODE_ANALYSIS || CODE_ANALYSIS
 
     /// <summary>The current <b>build</b> configuration of this assembly: <see cref="Syntony.Configuration.BuildConfigurationState.CodeAnalysis"/>.</summary>
     public const Syntony.Configuration.BuildConfigurationState BuildConfigurationState = Syntony.Configuration.BuildConfigurationState.CodeAnalysis;
@@ -992,6 +992,18 @@ internal static partial class <#= this.targetName #>
     /// <summary>The current MSBUILD Configuration: CodeAnalysis.</summary>
     [JetBrains.Annotations.NotNull]
     public const string Configuration = "CodeAnalysis";
+
+    /// <summary>Indicates whether the current build configuration is set to Release: "false".</summary>
+    public const bool IsReleaseConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to Debug: "true".</summary>
+    public const bool IsDebugConfiguration = true;
+
+    /// <summary>Indicates whether the current build configuration is set to CodeAnalysis: "true".</summary>
+    public const bool IsCodeAnalysisConfiguration = true;
+
+    /// <summary>Indicates whether the current build configuration is set to PushNuGetPackage: "false".</summary>
+    public const bool IsPushNuGetPackageConfiguration = false;
 
 #elif DEBUG
 
@@ -1002,6 +1014,40 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string Configuration = "Debug";
 
+    /// <summary>Indicates whether the current build configuration is set to Release: "false".</summary>
+    public const bool IsReleaseConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to Debug: "true".</summary>
+    public const bool IsDebugConfiguration = true;
+
+    /// <summary>Indicates whether the current build configuration is set to CodeAnalysis: "false".</summary>
+    public const bool IsCodeAnalysisConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to PushNuGetPackage: "false".</summary>
+    public const bool IsPushNuGetPackageConfiguration = false;
+
+#elif PUSHNUGETPACKAGE
+
+    /// <summary>The current <b>build</b> configuration of this assembly: <see cref="Syntony.Configuration.BuildConfigurationState.PushNuGetPackage"/>.</summary>
+    public const Syntony.Configuration.BuildConfigurationState BuildConfigurationState = Syntony.Configuration.BuildConfigurationState.PushNuGetPackage;
+
+    /// <summary>The current MSBUILD Configuration: PushNuGetPackage.</summary>
+    /// <devdoc>The name "NuGet" comes from "New Get", indicating a new way to get libraries for .NET development.</devdoc>
+    [JetBrains.Annotations.NotNull]
+    public const string Configuration = "PushNuGetPackage";
+
+    /// <summary>Indicates whether the current build configuration is set to Release: "true".</summary>
+    public const bool IsReleaseConfiguration = true;
+
+    /// <summary>Indicates whether the current build configuration is set to Debug: "false".</summary>
+    public const bool IsDebugConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to CodeAnalysis: "false".</summary>
+    public const bool IsCodeAnalysisConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to PushNuGetPackage: "true".</summary>
+    public const bool IsPushNuGetPackageConfiguration = true;
+
 #else
 
     /// <summary>The current <b>build</b> configuration of this assembly: <see cref="Syntony.Configuration.BuildConfigurationState.Release"/>.</summary>
@@ -1010,6 +1056,18 @@ internal static partial class <#= this.targetName #>
     /// <summary>The current MSBUILD Configuration: Release.</summary>
     [JetBrains.Annotations.NotNull]
     public const string Configuration = "Release";
+
+    /// <summary>Indicates whether the current build configuration is set to Release: "true".</summary>
+    public const bool IsReleaseConfiguration = true;
+
+    /// <summary>Indicates whether the current build configuration is set to Debug: "false".</summary>
+    public const bool IsDebugConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to CodeAnalysis: "false".</summary>
+    public const bool IsCodeAnalysisConfiguration = false;
+
+    /// <summary>Indicates whether the current build configuration is set to PushNuGetPackage: "false".</summary>
+    public const bool IsPushNuGetPackageConfiguration = false;
 
 #endif
 
@@ -1229,6 +1287,24 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string RootNamespace = "<#= this.rootNamespace #>";
 
+    /// <summary>Defines if the assembly source code is based for a cross-targeting build: "<#= this.isCrossTargetingBuildString #>".</summary>
+    /// <remarks>
+    /// We are doing a cross-targeting build if there is a non-empty list of target frameworks specified
+    /// and there is no current target framework being built individually. In that case, a multitargeting
+    /// project file like Microsoft.&lt;language&gt;.CrossTargeting.targets gets imported.
+    /// <para></para>
+    /// Cross-targeting in the context of .NET development refers to the ability of a project to target multiple .NET frameworks.
+    /// This is useful when you want to create a library that can be used in projects targeting different versions of .NET, such as .NET Framework, .NET Core, or .NET Standard.
+    /// <para></para>
+    /// When a project cross-targets multiple frameworks, MSBuild essentially builds the project multiple times, once for each targeted framework.
+    /// This is done by the DispatchToInnerBuilds target, which invokes the Build target once for each targeted framework.
+    /// <para></para>
+    /// In the project file, you can specify multiple target frameworks by using the TargetFrameworks property (note the plural form).
+    /// </remarks>
+    /// <seealso cref="TargetFramework"/> <seealso cref="TargetFrameworks"/>
+    /// <devdoc><a href="https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting"/></devdoc>
+    public const bool IsCrossTargetingBuild = <#= this.isCrossTargetingBuildString #>;
+
     /// <summary>Defines if this assembly represents a test assembly: "<#= this.isTestProjectString #>".</summary>
     public const bool IsTestAssembly = <#= this.isTestProjectString #>;
 
@@ -1431,8 +1507,8 @@ internal static partial class <#= this.targetName #>
     /// <summary>The user secrets Id for this assembly: <#= this.userSecretsId #>.</summary>
     /// <devdoc><a href="https://makolyte.com/csharp-user-secrets-arent-being-loaded-when-youre-using-generateassemblyinfofalse/"/>
     /// The actual secrets associated with this UserSecretsId are stored in a JSON configuration file located in a directory on your machine.
-    /// The path to this directory is typically %APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json on Windows,
-    /// and ~/.microsoft/usersecrets/<user_secrets_id>/secrets.json on Linux and macOS. Replace <user_secrets_id> with your actual UserSecretsId.</devdoc>
+    /// The path to this directory is typically %APPDATA%\Microsoft\UserSecrets\&lt;user_secrets_id&gt;\secrets.json on Windows,
+    /// and ~/.microsoft/usersecrets/&lt;user_secrets_id&gt;/secrets.json on Linux and macOS. Replace &lt;user_secrets_id&gt; with your actual UserSecretsId.</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string UserSecretsId = "<#= this.userSecretsId #>";
 
@@ -1541,6 +1617,8 @@ internal static partial class <#= this.targetName #>
     string signAssemblyString;
     bool isShipping;
     string isShippingString;
+    bool isCrossTargetingBuild;
+    string isCrossTargetingBuildString;
     bool isShippingPackage;
     string isShippingPackageString;
     bool isShippingAssembly;
@@ -1568,8 +1646,6 @@ internal static partial class <#= this.targetName #>
     string metacontentOutputDirectory;
     string msBuildProjectName;
     string defineConstants;
-    bool rebuildT4;
-    string rebuildT4String;
     string isReleaseVersion;
     string lastPrefix = "";
     string testPrefix = "";

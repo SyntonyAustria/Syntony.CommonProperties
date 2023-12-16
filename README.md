@@ -44,6 +44,7 @@ This documents explains the files, the build process and the coding standard use
 4. [Project Structure](Docs/README.ProjectStructure.md)
 1. [Build Operation](Docs/README.BuildOperation.md)
 1. [Coding Standards](Docs/README.CodingStandards.md)
+1. [Tests](Docs/README.Tests.md)
 1. [Software we use](Docs/README.SoftwareWeUse.md)
 1. [AI Tools](Docs/README.AI.md)
 1. [Helpful Links](Docs/README.HelpfulLinks.md)

@@ -193,7 +193,7 @@ Properties defined
         <_PackageLicenseFile Condition="'$(_PackageLicenseFile)' == '' AND Exists('$(CommonPropertiesLicensesDirectory)$(PackageLicenseFile)')">$(CommonPropertiesLicensesDirectory)$(PackageLicenseFile)</_PackageLicenseFile>
     </PropertyGroup>
 
-    <PropertyGroup Label="PushNugetPackage">
+    <PropertyGroup Label="PushNuGetPackage">
 
     </PropertyGroup>
 

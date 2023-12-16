@@ -3,6 +3,7 @@
 
 ## Helpful Links <a name="helpful-links"/>
 -----------
+
 [Markdown Guide](https://about.gitlab.com/handbook/markdown-guide/)
 
 [MSBuild on github](https://github.com/dotnet/msbuild)
@@ -17,3 +18,5 @@
 [.gitattributes best practice](https://rehansaeed.com/gitattributes-best-practices/)
 [A Collection of Useful .gitattributes Templates](https://github.com/gitattributes/gitattributes)
 [dotnet runtime .gitattributes](https://github.com/dotnet/runtime/blob/main/.gitattributes)
+
+[Keyboard shortcuts in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022)

@@ -44,7 +44,7 @@ Properties defined
     ApplicationIcon                             ... 
     AllowUnsafeBlocks                           ... 'false'
     OutputType                                  ... 'Library' by default, 'Exe' if benchmark project
-    Configurations                              ... 'Release;Debug;CodeAnalysis;PushNugetPackage' or 'Release' if benchmark project
+    Configurations                              ... 'Release;Debug;CodeAnalysis;PushNuGetPackage' or 'Release' if benchmark project
     SkipInvalidConfigurations                   ... 'true'
     ErrorReport                                 ... 'prompt'
     AssemblyName                                ... the name of the final output assembly after the project is built
@@ -221,7 +221,7 @@ Properties defined
 
         <SkipInvalidConfigurations>true</SkipInvalidConfigurations>
 
-        <Configurations>Release;Debug;CodeAnalysis;PushNugetPackage</Configurations>
+        <Configurations>Release;Debug;CodeAnalysis;PushNuGetPackage</Configurations>
 
         <Configurations Condition="'$(IsBenchmarkProject)' == 'true'">Release</Configurations>
     </PropertyGroup>

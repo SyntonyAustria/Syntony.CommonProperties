@@ -9,3 +9,6 @@ An **.editorconfig** file is used to define and maintain consistent coding style
 It's a text file that contains a collection of code style settings. It supports a wide range of languages and can be used in almost any text editor or IDE. 
 In .NET projects, you can use **.editorconfig** to enforce specific conventions related to naming, layout, and language features. 
 For example, you can specify whether to use tabs or spaces for indentation, the maximum line length, and so on. When an **.editorconfig** file is placed in a directory, it applies to all applicable files in that directory and its subdirectories. Multiple **.editorconfig** files can be used in a project, with settings in closer files taking precedence.
+
+
+As a starting point, you can copy the [dotnet/docs repo's](https://github.com/dotnet/docs/blob/main/.editorconfig) to use Microsoft style.

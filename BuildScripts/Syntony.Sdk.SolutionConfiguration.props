@@ -42,7 +42,7 @@ Properties defined
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
 
-    <PropertyGroup Label="RELEASE" Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'PushNugetPackage'">
+    <PropertyGroup Label="RELEASE" Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'PushNuGetPackage'">
         <SignAssembly>true</SignAssembly>
         <IncludeSymbols>false</IncludeSymbols>
         <DebugSymbols>false</DebugSymbols>

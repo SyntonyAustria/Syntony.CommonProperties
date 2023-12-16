@@ -42,20 +42,22 @@ Properties defined
         When a project cross-targets multiple frameworks, MSBuild essentially builds the project multiple times, once for each targeted framework. 
         This is done by the DispatchToInnerBuilds target, which invokes the Build target once for each targeted framework.
 
-        In the project file, you can specify multiple target frameworks by using the TargetFrameworks property (note the plural form),        
+        In the project file, you can specify multiple target frameworks by using the TargetFrameworks property (note the plural form).
     -->
     <PropertyGroup Condition="'$(TargetFrameworks)' != '' and '$(TargetFramework)' == ''">
         <IsCrossTargetingBuild>true</IsCrossTargetingBuild>
     </PropertyGroup>
 
     <PropertyGroup Label="Check Configuration">
-        <!-- by default we have the following configurations Release;Debug;CodeAnalysis;PushNugetPackage -->
+        <!-- by default we have the following configurations Release;Debug;CodeAnalysis;PushNuGetPackage -->
         <IsDebugConfiguration Condition="'$(Configuration)' == 'Debug'">true</IsDebugConfiguration>
         <IsReleaseConfiguration Condition="'$(Configuration)' == 'Release'">true</IsReleaseConfiguration>
-        <IsCodeAnalysisConfiguration Condition="'$(Configuration)' == 'CodeAnalysis'">true</IsCodeAnalysisConfiguration>
         
-        <IsPushNugetPackageConfiguration Condition="'$(Configuration)' == 'PushNugetPackage'">true</IsPushNugetPackageConfiguration>
-        <IsReleaseConfiguration Condition="'$(IsPushNugetPackageConfiguration)' == 'true'">true</IsReleaseConfiguration>
+        <IsCodeAnalysisConfiguration Condition="'$(Configuration)' == 'CodeAnalysis'">true</IsCodeAnalysisConfiguration>
+        <IsDebugConfiguration Condition="'$(Configuration)' == 'CodeAnalysis'">true</IsDebugConfiguration>
+
+        <IsPushNuGetPackageConfiguration Condition="'$(Configuration)' == 'PushNuGetPackage'">true</IsPushNuGetPackageConfiguration>
+        <IsReleaseConfiguration Condition="'$(IsPushNuGetPackageConfiguration)' == 'true'">true</IsReleaseConfiguration>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -103,13 +105,22 @@ Properties defined
 
     <!-- adjuts DefineConstants -->
     <PropertyGroup>
+        <!--
+            By default, when you create a new project in Visual Studio, the DEBUG directive is defined for Debug configuration, and no directives are defined for Release configuration.
+            This means that any code inside an #if DEBUG block will be included in the Debug build but not in the Release build.
+        -->
         <_DefineConstants Condition="'$(Company)' != ''">$(Company.ToUpper())</_DefineConstants>
 
         <!-- The DefineConstants option defines symbols in all source code files of your program. -->
+
+        <!-- 
+            <_IsUnifiedDefined>$([System.Text.RegularExpressions.Regex]::IsMatch('$(DefineConstants.Trim())', '(^|;)__UNIFIED__($|;)'))</_IsUnifiedDefined>
+        -->
         <DefineConstants Condition="'$(_DefineConstants)' != ''">$(DefineConstants);$(_DefineConstants)</DefineConstants>
-        <DefineConstants Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*DEBUG(;.*)*$'))">$(DefineConstants);DEBUG</DefineConstants>
-        <DefineConstants Condition="'$(Configuration)' == 'CodeAnalysis'">$(DefineConstants);$(Company.ToUpper())_CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
-        <DefineConstants Condition="'$(IsVsixProject)' == 'true'">$(DefineConstants);VISUALSTUDIOPACKAGE</DefineConstants>
+        <DefineConstants Condition="('$(Configuration)' == 'Debug' OR '$(Configuration)' == 'CodeAnalysis') AND !$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*DEBUG(;.*)*$'))">$(DefineConstants);DEBUG</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' == 'CodeAnalysis' AND !$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*CODE_ANALYSIS(;.*)*$'))">$(DefineConstants);$(Company.ToUpper())_CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' == 'PushNuGetPackage' AND !$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*PUSHNUGETPACKAGE(;.*)*$'))">$(DefineConstants);PUSHNUGETPACKAGE</DefineConstants>
+        <DefineConstants Condition="'$(IsVsixProject)' == 'true' AND !$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*VISUALSTUDIOPACKAGE(;.*)*$'))">$(DefineConstants);VISUALSTUDIOPACKAGE</DefineConstants>
     </PropertyGroup>
 
     <!-- Handle XML documentation file settings -->
