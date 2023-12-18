@@ -59,13 +59,18 @@ Properties defined
         <MetacontentOutputDirectory Condition="'$(MetacontentOutputDirectory)' == ''">$([MSBuild]::EnsureTrailingSlash($(MSBuildProjectDirectory)))Properties</MetacontentOutputDirectory>
 
         <!-- if output file does NOT exist we must build it independent of BuildMetacontent is set or not-->
-        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' AND !Exists('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs')">true</BuildMetacontent>
+        <BuildMetacontent Condition="!Exists('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs')">true</BuildMetacontent>
 
         <!-- if output file is older than this file or older than tt file we must build it independent of BuildMetacontent is set or not-->
         <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
             AND ($([System.IO.File]::GetLastWriteTime('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
         <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
             AND ($([System.IO.File]::GetLastWriteTime('$(MSBuildThisFileFullPath)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <_ExistsMetacontentFile>false</_ExistsMetacontentFile>
+        <_ExistsMetacontentFile Condition="Exists('$(MetacontentOutputDirectory)\$(MetacontentFile).cs')">true</_ExistsMetacontentFile>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(SetMetaconentFile)' == 'true'">
@@ -85,6 +90,7 @@ Properties defined
             <!-- The name of the file that was created by any file generator that ran on this item. -->
             <LastGenOutput>$(MetacontentOutputFileName).cs</LastGenOutput>
         </None>
+        <!-- MSBuild automatically removes duplicates from ItemGroups liek Compile. So, if a file is included multiple times, it will still be in the ItemGroup only once. -->
         <Compile Update="Properties\$(MetacontentOutputFileName).cs">
             <DesignTime>true</DesignTime>
             <AutoGen>true</AutoGen>
@@ -188,6 +194,12 @@ Properties defined
             <__StartTicks>$(StartTicks)</__StartTicks>
         </PropertyGroup>
 
+        <PropertyGroup>
+            <DevelopmentTypes>@(_DevelopmentTypes)</DevelopmentTypes>
+        </PropertyGroup>
+
+        <Message Text="DevelopmentTypes:                               '$(DevelopmentTypes)'" Importance="$(BuildMessageImportance)"/>
+
         <!-- we must read file for StartTicks property if present otherweise we have to write it -->
         <ReadLinesFromFile File="$(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)" Condition="Exists('$(TEMP)\StartTicks(MsBuildPropertyToFileExtension)') AND '$(FirstAssemblyDefaultBehavior)' == 'false'">
             <Output TaskParameter="Lines" PropertyName="StartTicksProperty" />
@@ -274,6 +286,10 @@ Properties defined
 
         <!-- ensure 'Properties' directory is existing -->
         <CallTarget Targets="EnsurePropertiesDiretcoryAndContent"/>
+
+        <ItemGroup>
+            <Compile Include="Properties\$(MetacontentOutputFileName).cs"/>
+        </ItemGroup>
 
         <!-- MSBuild Properties TO T4 -->
         <ItemGroup>
@@ -475,6 +491,10 @@ Properties defined
             </T4ParameterValues>
             <T4ParameterValues Include="_CompileItems" Condition="'$(_CompileItems)' != ''">
                 <Value>$(_CompileItems)</Value>
+                <Visible>False</Visible>
+            </T4ParameterValues>
+            <T4ParameterValues Include="DevelopmentTypes" Condition="'$(DevelopmentTypes)' != ''">
+                <Value>$(DevelopmentTypes)</Value>
                 <Visible>False</Visible>
             </T4ParameterValues>
             <T4ParameterValues Include="_EmbeddedResourceItems" Condition="'$(_EmbeddedResourceItems)' != ''">

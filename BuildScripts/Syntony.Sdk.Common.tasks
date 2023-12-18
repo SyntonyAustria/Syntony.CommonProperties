@@ -298,10 +298,11 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     </UsingTask>
 
     <!--
-      =======================================================================================
-      ReplaceFileText
-      https://stackoverflow.com/questions/7837644/how-to-replace-string-in-file-using-msbuild
-      =======================================================================================
+        =======================================================================================
+        ReplaceFileText
+        https://stackoverflow.com/questions/7837644/how-to-replace-string-in-file-using-msbuild
+        https://github.com/dotnet/BenchmarkDotNet/blob/master/build/common.props#L68C3-L90C15
+        =======================================================================================
     -->
     <UsingTask TaskName="ReplaceFileText" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>

@@ -81,17 +81,17 @@ Properties defined
         <!-- if set to 'true' it will prevent all project references and nuget refeferences being packed into nupkg(as nuget dependencies). -->
         <SuppressDependenciesWhenPacking Condition="'$(SuppressDependenciesWhenPacking)' == ''">false</SuppressDependenciesWhenPacking>
 
-        <PackageTags Condition="'$(PackageTags)' == ''">$(AssemblyName);$(Authors)</PackageTags>
-
         <!-- https://blog.ndepend.com/improved-net-debugging-experience-with-source-link/ -->
         <EnableSourceLink Condition="'$(EnableSourceLink)' == ''">false</EnableSourceLink>
         
         <!-- A semicolon-separated list of packages authors, matching the profile names on nuget.org. These are displayed in the NuGet Gallery on nuget.org AND are used to cross-reference packages by the same authors. -->
-        <Authors Condition="'$(Authors)'=='' AND '$(AuthorLongName)'!=''">$(AuthorLongName);$(Company)</Authors>
-        <Authors Condition="'$(Authors)'=='' AND '$(Syntony)'=='true'">Josef Hahnl;$(Company)</Authors>
-        <Authors Condition="'$(Authors)'=='' AND '$(Syntony)'=='false'">$(Company)</Authors>
+        <Authors Condition="('$(Authors)'=='' OR '$(Authors)'=='$(AssemblyName)') AND '$(AuthorLongName)'!=''">$(AuthorLongName);$(Company)</Authors>
+        <Authors Condition="('$(Authors)'=='' OR '$(Authors)'=='$(AssemblyName)') AND '$(Syntony)'=='true' AND '$(Author)'!=''">$(Author);$(Company)</Authors>
+        <Authors Condition="('$(Authors)'=='' OR '$(Authors)'=='$(AssemblyName)') AND '$(Syntony)'=='false'">$(Company)</Authors>
         <Product Condition="'$(Product)' == ''">$(MSBuildProjectName)</Product>
         <CompanyEmail Condition="'$(CompanyEmail)'=='' AND '$(Syntony)'=='true'">syntony@aon.at</CompanyEmail>
+
+        <PackageTags Condition="'$(PackageTags)' == ''">$(AssemblyName);$(Authors)</PackageTags>
 
         <!-- Trademark details for the package. -->
         <Trademark Condition="'$(Trademark)'=='' AND '$(Syntony)'=='true'">Syntony®</Trademark>
@@ -207,5 +207,20 @@ Properties defined
         <None Condition="'$(_PackageReadmeFile)'!='' AND Exists('$(_PackageReadmeFile)')" Include="$(_PackageReadmeFile)" Visible="false" Pack="true" PackagePath="\"/>
         <None Condition="Exists('$(CommonPropertiesIconsDirectory)$(Company).png')" Include="$(CommonPropertiesIconsDirectory)$(Company).png" Visible="false" Pack="true" PackagePath="\"/>
     </ItemGroup>
+
+    <!-- this is the default behavior from Microsoft -->
+    <PropertyGroup Condition=" '$(Version)' == '' ">
+        <VersionPrefix Condition=" '$(VersionPrefix)' == '' ">1.0.0</VersionPrefix>
+        <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix)</Version>
+        <Version Condition=" '$(Version)' == '' ">$(VersionPrefix)</Version>
+    </PropertyGroup>
+
+    <!-- this is the default behavior from Microsoft -->
+    <PropertyGroup>
+        <Authors Condition=" '$(Authors)'=='' ">$(AssemblyName)</Authors>
+        <Company Condition=" '$(Company)'=='' ">$(Authors)</Company>
+        <AssemblyTitle Condition=" '$(AssemblyTitle)' == '' ">$(AssemblyName)</AssemblyTitle>
+        <Product Condition=" '$(Product)' == ''">$(AssemblyName)</Product>
+    </PropertyGroup>
 
 </Project>

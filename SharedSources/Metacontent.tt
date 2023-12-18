@@ -296,6 +296,12 @@
         this.authors = Undefined;
     }
 
+    this.developmentTypes = this.Host.ResolveParameterValue(".", ".", "DevelopmentTypes");
+    if (string.IsNullOrEmpty(this.developmentTypes))
+    {
+        this.developmentTypes = Undefined;
+    }
+
     this.packageDescription = this.Host.ResolveParameterValue(".", ".", "PackageDescription");
     if (string.IsNullOrEmpty(this.packageDescription))
     {
@@ -935,7 +941,7 @@
 //     <file type=".cs" created="<#= this.now #>" modified="<#= this.now #>" lastAccess="<#= this.now #>">
 //         <#= this.targetFile #>
 //     </file>
-//     <lineStatistics total="620" netLines="478" blankLines ="142" codeLines="259" codeRatio="41.77 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="219"/>
+//     <lineStatistics total="624" netLines="481" blankLines ="143" codeLines="261" codeRatio="41.83 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="220"/>
 //     <language>C#</language>
 //     <namespace><#= this.rootNamespace #>.Properties</namespace>
 //     <class><#= this.targetName #></class>
@@ -1196,6 +1202,10 @@ internal static partial class <#= this.targetName #>
     /// <summary>The <see cref="SyntonyConstants.Company"/> version short: "<#= this.major #>.<#= this.minor #>".</summary>
     [JetBrains.Annotations.NotNull]
     public const string VersionShortInfo = MajorVersionInfo + SyntonyConstants.DotString + MinorVersionInfo;
+
+    /// <summary>All possible development types of this assembly: "<#= this.developmentTypes #>".</summary>
+    [JetBrains.Annotations.NotNull]
+    public const string DevelopmentTypes = "<#= this.developmentTypes #>";
 
     /// <summary>The current ProjectFileName: "<#= this.projectFileName #>".</summary>
     [JetBrains.Annotations.NotNull]
@@ -1670,6 +1680,7 @@ internal static partial class <#= this.targetName #>
     string totalReleaseBuildCounter;
     string totalProjectBuildCounter;
     string userSecretsId;
+    string developmentTypes;
 
     private static string CreateRandomString(int length = 8, string validChars = "0123456789ABCDEF")
     {

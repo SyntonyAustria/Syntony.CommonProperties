@@ -58,4 +58,18 @@ Properties defined
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+        <_DevelopmentTypes Include="PLANNING"/>
+        <_DevelopmentTypes Include="PREALPHA"/>
+        <_DevelopmentTypes Include="DEVELOP"/>
+        <_DevelopmentTypes Include="ALPHA"/>
+        <_DevelopmentTypes Include="BETA"/>
+        <_DevelopmentTypes Include="SYSTEMUNDERTEST"/>
+        <_DevelopmentTypes Include="RELEASECANDIDATE"/>
+        <_DevelopmentTypes Include="RC"/>
+        <_DevelopmentTypes Include="RELEASETOMANUFACTURING"/>
+        <_DevelopmentTypes Include="RTM"/>
+        <_DevelopmentTypes Include="RELEASE"/>
+    </ItemGroup>
+
 </Project>

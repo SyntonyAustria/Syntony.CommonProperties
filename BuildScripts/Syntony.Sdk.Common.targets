@@ -60,10 +60,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <!-- set to "high" to get messages in the Output window.  This parameter can have a value of "high", "normal" or "low". -->
             <BuildMessageImportance>High</BuildMessageImportance>
         </PropertyGroup>
-        <PropertyGroup>
-            <_ExistsMetacontentFile>false</_ExistsMetacontentFile>
-            <_ExistsMetacontentFile Condition="Exists('$(MetacontentOutputDirectory)\$(MetacontentFile).cs')">true</_ExistsMetacontentFile>
-        </PropertyGroup>
 
         <Message Text=" " Importance="$(BuildMessageImportance)"/>
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
@@ -1070,7 +1066,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <WriteCodeFragment Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true'"
                            AssemblyAttributes="@(SyntonyAssemblyAttributes)"
                            OutputFile="$(SyntonyAssemblyAttributesPath)"
-                           Language="$(Language)">
+                           Language="$(Language)" ContinueOnError="true">
             <Output TaskParameter="OutputFile" ItemName="Compile"/>
             <Output TaskParameter="OutputFile" ItemName="FileWrites"/>
         </WriteCodeFragment>
