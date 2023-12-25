@@ -14,7 +14,7 @@
     try
     {
         // "updateRevision" is a parameter value for a directive processor ... see https://msdn.microsoft.com/en-us/library/bb126245.aspx and https://msdn.microsoft.com/en-us/library/microsoft.visualstudio.texttemplating.itexttemplatingenginehost.resolveparametervalue(v=vs.110).aspx
-        this.updateRevision = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", nameof(updateRevision)));
+        this.updateRevision = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", nameof(this.updateRevision)));
     }
     catch
     {
@@ -24,7 +24,7 @@
     try
     {
         // "updateBuild" is a parameter value for a directive processor ... see https://msdn.microsoft.com/en-us/library/bb126245.aspx and https://msdn.microsoft.com/en-us/library/microsoft.visualstudio.texttemplating.itexttemplatingenginehost.resolveparametervalue(v=vs.110).aspx
-        this.updateBuild = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", nameof(updateBuild)));
+        this.updateBuild = Convert.ToBoolean(this.Host.ResolveParameterValue("", "", nameof(this.updateBuild)));
     }
     catch
     {
@@ -246,7 +246,7 @@
         this.Warning("ERROR at this.fractionPartSeconds " + ex.Message);
     }
 
-    this.configuration = this.Host.ResolveParameterValue(".", ".", nameof(Configuration));
+    this.configuration = this.Host.ResolveParameterValue(".", ".", nameof(this.Configuration));
     if (!string.IsNullOrEmpty(this.Configuration))
     {
         this.configuration = this.Configuration;

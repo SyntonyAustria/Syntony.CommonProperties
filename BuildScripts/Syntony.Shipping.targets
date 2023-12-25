@@ -92,5 +92,7 @@ Properties defined
         <DistributionConstants>DISTRIBUTION</DistributionConstants>
         <DefineConstants Condition="'$(DefineConstants)' != ''">$(DefineConstants);$(DistributionConstants)</DefineConstants>
         <DefineConstants Condition="'$(DefineConstants)' == ''">$(DistributionConstants)</DefineConstants>
+
+        <!-- BUG: in DISTRIBUTION all Tests should not be compiled -->
     </PropertyGroup>
 </Project>

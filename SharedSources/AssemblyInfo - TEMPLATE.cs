@@ -28,7 +28,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-using MetaData = {SyntonyCommonCoreMetacontent};
+using MetaData = {Company_Metacontent};
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]

@@ -1018,15 +1018,15 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__AssemblyInfoText>
             
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
-            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{SyntonyCommonCoreMetacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__AssemblyInfoText>
+            <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{Company_Metacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__AssemblyInfoText>
         </PropertyGroup>
 
-        <!-- Note: The MatchExpression = {SyntonyCommonCoreMetacontent} does not contain any special regex characters, so it's used as is.  -->
+        <!-- Note: The MatchExpression = {Company_Metacontent} does not contain any special regex characters, so it's used as is.  -->
         <!--
         <ReplaceFileText Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')" 
                          InputFilename="$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)"
                          OutputFilename="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)"
-                         MatchExpression="SyntonyCommonCoreMetacontent"
+                         MatchExpression="Company_Metacontent"
                          ReplacementText="$(RootNamespace).Properties.$(MetacontentOutputFileName)" />
                          
         <Copy SourceFiles="%(DeploymentItems.FullPath)"
@@ -1051,7 +1051,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{MSBuildProjectName}", '$(MSBuildProjectName)'))</__InternalsVisibleToAssemblyInfoText>
             <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__InternalsVisibleToAssemblyInfoText>
             <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)'))</__InternalsVisibleToAssemblyInfoText>
-            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{SyntonyCommonCoreMetacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{Company_Metacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__InternalsVisibleToAssemblyInfoText>
         </PropertyGroup>
         <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
                           AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')

@@ -9,7 +9,7 @@
 //     <file type=".cs" created="{Now}" modified="{Now}" lastAccess="{Now}">
 //         {DestinationFile}
 //     </file>
-//     <lineStatistics total="88" netLines="77" blankLines ="11" codeLines="71" codeRatio="80.68 %" allCommentLines="28" commentLines="6" headerLines="22" documentationLines="0"/>
+//     <lineStatistics total="92" netLines="79" blankLines ="13" codeLines="73" codeRatio="79.35 %" allCommentLines="28" commentLines="6" headerLines="22" documentationLines="0"/>
 //     <language>C#</language>
 //     <codeMetric>
 //         <numberOfUsings>1</numberOfUsings>
@@ -25,7 +25,7 @@ using System.Runtime.CompilerServices;
 using Syntony;
 #endif
 
-using MetaData = { SyntonyCommonCoreMetacontent};
+using MetaData = {Company_Metacontent};
 
 // ====================================================================================================================================================================================
 // All following assemblies that can use internals from {MSBuildProjectName} --- ATTENTION: add new assemblies, if more packages are developed
@@ -61,6 +61,8 @@ using MetaData = { SyntonyCommonCoreMetacontent};
 // ATTENTION: add new assemblies, if more packages are developed
 // [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon + FrameworkConstants.InternalsVisibleToPublicKey)]
 
+// #if !DISTRIBUTION
+
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
@@ -79,5 +81,7 @@ using MetaData = { SyntonyCommonCoreMetacontent};
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+
+// #endif
 
 #endif
