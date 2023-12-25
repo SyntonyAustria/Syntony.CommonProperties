@@ -481,37 +481,37 @@
     this._compileItems = this.Host.ResolveParameterValue(".", ".", "_CompileItems");
     if (string.IsNullOrEmpty(this._compileItems))
     {
-        this._compileItems = "SyntonyConstants.InvalidIdentifier";
+        this._compileItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this._embeddedResourceItems = this.Host.ResolveParameterValue(".", ".", "_EmbeddedResourceItems");
     if (string.IsNullOrEmpty(this._embeddedResourceItems))
     {
-        this._embeddedResourceItems = "SyntonyConstants.InvalidIdentifier";
+        this._embeddedResourceItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this._contentItems = this.Host.ResolveParameterValue(".", ".", "_ContentItems");
     if (string.IsNullOrEmpty(this._contentItems))
     {
-        this._contentItems = "SyntonyConstants.InvalidIdentifier";
+        this._contentItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this._referenceItems = this.Host.ResolveParameterValue(".", ".", "_ReferenceItems");
     if (string.IsNullOrEmpty(this._referenceItems))
     {
-        this._referenceItems = "SyntonyConstants.InvalidIdentifier";
+        this._referenceItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this._projectReferenceItems = this.Host.ResolveParameterValue(".", ".", "_ProjectReferenceItems");
     if (string.IsNullOrEmpty(this._projectReferenceItems))
     {
-        this._projectReferenceItems = "SyntonyConstants.InvalidIdentifier";
+        this._projectReferenceItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this._packageReferenceItems = this.Host.ResolveParameterValue(".", ".", "_PackageReferenceItems");
     if (string.IsNullOrEmpty(this._packageReferenceItems))
     {
-        this._packageReferenceItems = "SyntonyConstants.InvalidIdentifier";
+        this._packageReferenceItems = "FrameworkConstants.InvalidIdentifier";
     }
 
     this.companyLinkHomepage = this.Host.ResolveParameterValue(".", ".", "CompanyLinkHomepage");
@@ -606,7 +606,7 @@
     }
 
     // =====================================================================================================================================
-    // ATTENTION: this dictionary is used by SyntonyGuidConstants.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
+    // ATTENTION: this dictionary is used by FrameworkGuidConstants.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
     // =====================================================================================================================================
     // The currently supported Assemblies:
     // "800000000" "Syntony.Common.Core.Basics
@@ -637,79 +637,79 @@
     // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "yyyyyyyyy" part, 9 hex numbers.
     Dictionary<string, (string solution, string assembly, string extension)> supportedAssemblies = new()
     {
-            { this.company + ".Common.NullableAttributes", ("SyntonyGuidConstants.SolutionTokenAll", "000000000", "SyntonyGuidConstants.ExtensionTokenSyntony") },
-            { this.company + ".Application", ("SyntonyGuidConstants.SolutionTokenFramework", "870000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common", ("SyntonyGuidConstants.SolutionTokenFramework", "801000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "800000001", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core.Basics", ("SyntonyGuidConstants.SolutionTokenFramework", "800000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core.Unsafe", ("SyntonyGuidConstants.SolutionTokenFramework", "800000002", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "850000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Core", ("SyntonyGuidConstants.SolutionTokenFramework", "810000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Core.Primitives", ("SyntonyGuidConstants.SolutionTokenFramework", "810100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Diagnostics", ("SyntonyGuidConstants.SolutionTokenFramework", "880000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Environment", ("SyntonyGuidConstants.SolutionTokenFramework", "840000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensibility", ("SyntonyGuidConstants.SolutionTokenFramework", "860000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions", ("SyntonyGuidConstants.SolutionTokenFramework", "830000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "830100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions.Event", ("SyntonyGuidConstants.SolutionTokenFramework", "830200000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Finance", ("SyntonyGuidConstants.SolutionTokenFramework", "820A00001", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Mathematics", ("SyntonyGuidConstants.SolutionTokenFramework", "820A00000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Metadata", ("SyntonyGuidConstants.SolutionTokenFramework", "820000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Metadata.Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "820100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.Windows", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010100", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.Linux", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010200", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.MacOs", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010300", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Repositories", ("SyntonyGuidConstants.SolutionTokenFramework", "890000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Repositories.Ef", ("SyntonyGuidConstants.SolutionTokenFramework", "890000001", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".VisualStudioFramework", ("SyntonyGuidConstants.SolutionTokenFramework", "8A0000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".TestsBase", ("SyntonyGuidConstants.SolutionTokenTestFramework", "8000008FF", "SyntonyGuidConstants.ExtensionTokenTestsBase") },
-            { this.company + ".GetSharper", ("SyntonyGuidConstants.SolutionTokenVisualStudioExtension", "8A0100000", "SyntonyGuidConstants.ExtensionTokenVisualStudioExtension") },
-            { this.company + ".DebuggerVisualizers", ("SyntonyGuidConstants.SolutionTokenVisualStudioDebuggerVisualizers", "8F00008FF", "SyntonyGuidConstants.ExtensionTokenVisualStudioDebuggerVisualizers") },
+            { this.company + ".Common.NullableAttributes", ("FrameworkGuidConstants.SolutionTokenAll", "000000000", "FrameworkGuidConstants.ExtensionTokenSyntony") },
+            { this.company + ".Application", ("FrameworkGuidConstants.SolutionTokenFramework", "870000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common", ("FrameworkGuidConstants.SolutionTokenFramework", "801000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core", ("FrameworkGuidConstants.SolutionTokenFramework", "800000001", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core.Basics", ("FrameworkGuidConstants.SolutionTokenFramework", "800000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core.Unsafe", ("FrameworkGuidConstants.SolutionTokenFramework", "800000002", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Configuration", ("FrameworkGuidConstants.SolutionTokenFramework", "850000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Core", ("FrameworkGuidConstants.SolutionTokenFramework", "810000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Core.Primitives", ("FrameworkGuidConstants.SolutionTokenFramework", "810100000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Diagnostics", ("FrameworkGuidConstants.SolutionTokenFramework", "880000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Environment", ("FrameworkGuidConstants.SolutionTokenFramework", "840000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensibility", ("FrameworkGuidConstants.SolutionTokenFramework", "860000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions", ("FrameworkGuidConstants.SolutionTokenFramework", "830000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions.Core", ("FrameworkGuidConstants.SolutionTokenFramework", "830100000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Extensions.Event", ("FrameworkGuidConstants.SolutionTokenFramework", "830200000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Finance", ("FrameworkGuidConstants.SolutionTokenFramework", "820A00001", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Mathematics", ("FrameworkGuidConstants.SolutionTokenFramework", "820A00000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Metadata", ("FrameworkGuidConstants.SolutionTokenFramework", "820000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Metadata.Configuration", ("FrameworkGuidConstants.SolutionTokenFramework", "820100000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform", ("FrameworkGuidConstants.SolutionTokenFramework", "8EF000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop", ("FrameworkGuidConstants.SolutionTokenFramework", "8EF010000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.Windows", ("FrameworkGuidConstants.SolutionTokenFramework", "8EF010100", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.Linux", ("FrameworkGuidConstants.SolutionTokenFramework", "8EF010200", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Platform.Interop.MacOs", ("FrameworkGuidConstants.SolutionTokenFramework", "8EF010300", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Repositories", ("FrameworkGuidConstants.SolutionTokenFramework", "890000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Repositories.Ef", ("FrameworkGuidConstants.SolutionTokenFramework", "890000001", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".VisualStudioFramework", ("FrameworkGuidConstants.SolutionTokenFramework", "8A0000000", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".TestsBase", ("FrameworkGuidConstants.SolutionTokenTestFramework", "8000008FF", "FrameworkGuidConstants.ExtensionTokenTestsBase") },
+            { this.company + ".GetSharper", ("FrameworkGuidConstants.SolutionTokenVisualStudioExtension", "8A0100000", "FrameworkGuidConstants.ExtensionTokenVisualStudioExtension") },
+            { this.company + ".DebuggerVisualizers", ("FrameworkGuidConstants.SolutionTokenVisualStudioDebuggerVisualizers", "8F00008FF", "FrameworkGuidConstants.ExtensionTokenVisualStudioDebuggerVisualizers") },
                                                                 };  
 
     Dictionary<string, string> supportedTests = new()
     {
-                                                                    { "UnitTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests" },
-                                                                    { "UnitTests.Net", "SyntonyGuidConstants.ExtensionTokenNetUnitTests" },
-                                                                    { "IntegrationTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests" },
-                                                                    { "IntegrationTests.Net", "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests" },
-                                                                    { "PerformanceTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests" },
-                                                                    { "PerformanceTests.Net", "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests" },
-                                                                    { "SecurityTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests" },
-                                                                    { "SecurityTests.Net", "SyntonyGuidConstants.ExtensionTokenNetSecurityTests" },
-                                                                    { "BenchmarkTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests" },
-                                                                    { "BenchmarkTests.Net", "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests" },
+                                                                    { "UnitTests.NetFramework", "FrameworkGuidConstants.ExtensionTokenNetFrameworkUnitTests" },
+                                                                    { "UnitTests.Net", "FrameworkGuidConstants.ExtensionTokenNetUnitTests" },
+                                                                    { "IntegrationTests.NetFramework", "FrameworkGuidConstants.ExtensionTokenNetFrameworkIntegrationTests" },
+                                                                    { "IntegrationTests.Net", "FrameworkGuidConstants.ExtensionTokenNetIntegrationTests" },
+                                                                    { "PerformanceTests.NetFramework", "FrameworkGuidConstants.ExtensionTokenNetFrameworkPerformanceTests" },
+                                                                    { "PerformanceTests.Net", "FrameworkGuidConstants.ExtensionTokenNetPerformanceTests" },
+                                                                    { "SecurityTests.NetFramework", "FrameworkGuidConstants.ExtensionTokenNetFrameworkSecurityTests" },
+                                                                    { "SecurityTests.Net", "FrameworkGuidConstants.ExtensionTokenNetSecurityTests" },
+                                                                    { "BenchmarkTests.NetFramework", "FrameworkGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests" },
+                                                                    { "BenchmarkTests.Net", "FrameworkGuidConstants.ExtensionTokenNetBenchmarkTests" },
                                                                 };
 
     // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "TTT-" part, 3 hex numbers one hyphen.
     Dictionary<string, string> solutionTokenValues = new()
     {
-                                                                    { "SyntonyGuidConstants.SolutionTokenAll", "000-" }, // or undefined
-                                                                    { "SyntonyGuidConstants.SolutionTokenFramework", "001-" },
+                                                                    { "FrameworkGuidConstants.SolutionTokenAll", "000-" }, // or undefined
+                                                                    { "FrameworkGuidConstants.SolutionTokenFramework", "001-" },
                                                                 };
 
     // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "ZZZ" part, 3 hex numbers.
     Dictionary<string, string> extensionTokenValues = new()
     {
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests", "F00" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetUnitTests", "F01" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests", "F10" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests", "F11" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests", "F20" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests", "F21" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests", "F30" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetSecurityTests", "F31" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests", "FB0" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests", "FB1" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenTestsBase", "8FF" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenSyntony", "000" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenCore", "001" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenAbstractions", "010" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenDefaultImplementations", "011" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenTrialAndErrorConsole", "EFE" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenWarehouseRepository", "EFF" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetFrameworkUnitTests", "F00" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetUnitTests", "F01" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetFrameworkIntegrationTests", "F10" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetIntegrationTests", "F11" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetFrameworkPerformanceTests", "F20" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetPerformanceTests", "F21" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetFrameworkSecurityTests", "F30" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetSecurityTests", "F31" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests", "FB0" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenNetBenchmarkTests", "FB1" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenTestsBase", "8FF" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenSyntony", "000" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenCore", "001" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenAbstractions", "010" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenDefaultImplementations", "011" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenTrialAndErrorConsole", "EFE" },
+                                                                    { "FrameworkGuidConstants.ExtensionTokenWarehouseRepository", "EFF" },
                                                                 };
     int index;
     string coreAssembly = this.projectTargetName;
@@ -1199,9 +1199,9 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string RevisionVersionInfo = "<#= this.revision #>";
 
-    /// <summary>The <see cref="SyntonyConstants.Company"/> version short: "<#= this.major #>.<#= this.minor #>".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> version short: "<#= this.major #>.<#= this.minor #>".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionShortInfo = MajorVersionInfo + SyntonyConstants.DotString + MinorVersionInfo;
+    public const string VersionShortInfo = MajorVersionInfo + FrameworkConstants.DotString + MinorVersionInfo;
 
     /// <summary>All possible development types of this assembly: "<#= this.developmentTypes #>".</summary>
     [JetBrains.Annotations.NotNull]
@@ -1364,7 +1364,7 @@ internal static partial class <#= this.targetName #>
     /// <summary>If this assembly is designated to be release: "<#= this.isReleaseVersion #>".</summary>
     public const bool IsReleaseVersion = <#= this.isReleaseVersion #>;
 
-    /// <summary>The <see cref="SyntonyConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "<#= this.major #>.<#= this.minor #>.0.0".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "<#= this.major #>.<#= this.minor #>.0.0".</summary>
     /// <remarks>Every assembly you produce as part of your build process has a version number embedded in it, which forms an important part of the assembly's identity.
     /// It's stored in the assembly manifest and is used by the runtime to ensure correct versions are loaded etc.
     /// The <seealso cref="System.Reflection.AssemblyVersionAttribute"/> is used along with name, public key token and culture information only if the assemblies are strong-named signed.
@@ -1372,16 +1372,16 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionInfo = VersionShortInfo + ".0.0";
 
-    /// <summary>The full <see cref="SyntonyConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #>".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #>".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string FullVersionInfo = VersionShortInfo + SyntonyConstants.DotString + BuildVersionInfo + SyntonyConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
+    public const string FullVersionInfo = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + FrameworkConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
 
-    /// <summary>The full <see cref="SyntonyConstants.Company"/> semantic version: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #><#= this.fullPreReleaseVersion #>+<#= this.buildDateTime.Year #>-<#= this.buildDateTime.Month #>-<#= this.buildDateTime.Day #>-<#= this.buildDateTime.Hour #>-<#= this.buildDateTime.Minute #>-<#= this.buildDateTime.Second #>".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #><#= this.fullPreReleaseVersion #>+<#= this.buildDateTime.Year #>-<#= this.buildDateTime.Month #>-<#= this.buildDateTime.Day #>-<#= this.buildDateTime.Hour #>-<#= this.buildDateTime.Minute #>-<#= this.buildDateTime.Second #>".</summary>
     /// <devdoc>https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ http://semver.org .</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string FullSyntonyVersionInfo = FullVersionInfo + "-" + VersionSuffix + "+" + VersionMetadata;
 
-    /// <summary>The full <see cref="SyntonyConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #>".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #>".</summary>
     /// <remarks>
     /// The file version is literally the version number exposed by the DLL to the file system. It's the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to.
     /// The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are concerned.
@@ -1389,11 +1389,11 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyFileVersionInfo = FullVersionInfo;
 
-    /// <summary>The <see cref="SyntonyConstants.Company"/> file version:"<#= this.major #>.<#= this.minor #>.<#= this.build #>.0".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> file version:"<#= this.major #>.<#= this.minor #>.<#= this.build #>.0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string CompanyFileVersion = VersionShortInfo + SyntonyConstants.DotString + BuildVersionInfo + ".0"; // "15.2.3.0"
+    public const string CompanyFileVersion = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + ".0"; // "15.2.3.0"
 
-    /// <summary>The <see cref="SyntonyConstants.Company"/> package version: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.0<#= this.fullPreReleaseVersion #>".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> package version: "<#= this.major #>.<#= this.minor #>.<#= this.build #>.0<#= this.fullPreReleaseVersion #>".</summary>
     [JetBrains.Annotations.NotNull]
     public const string PackageVersionInfo = CompanyFileVersion + "-" + VersionSuffix;
 
@@ -1408,7 +1408,7 @@ internal static partial class <#= this.targetName #>
 
     /// <summary>The marketing version: "<#= this.projectTargetFileName #> <#= this.major #>.<#= this.minor #>.<#= this.build #>.0<#= this.fullPreReleaseVersion #>".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string MarketingVersion = TargetFileName + SyntonyConstants.SpaceString + PackageVersionInfo;
+    public const string MarketingVersion = TargetFileName + FrameworkConstants.SpaceString + PackageVersionInfo;
 
     /// <summary>The product version used by <see cref="System.Reflection.AssemblyInformationalVersionAttribute"/>: "<#= this.projectTargetFileName #> <#= this.major #>.<#= this.minor #>.<#= this.build #>.0<#= this.fullPreReleaseVersion #>".</summary>
     /// <remarks>
@@ -1430,11 +1430,11 @@ internal static partial class <#= this.targetName #>
 
     /// <summary>The metadata information of this version includes the build date and time as UTC: <#= this.buildDateTime.Year #>-<#= this.buildDateTime.Month #>-<#= this.buildDateTime.Day #>-<#= this.buildDateTime.Hour #>-<#= this.buildDateTime.Minute #>-<#= this.buildDateTime.Second #>.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionMetadata = "<#= this.buildDateTime.Year #>" + SyntonyConstants.HyphenString + "<#= this.buildDateTime.Month #>" + SyntonyConstants.HyphenString + "<#= this.buildDateTime.Day #>" + SyntonyConstants.HyphenString + "<#= this.buildDateTime.Hour #>" + SyntonyConstants.HyphenString + "<#= this.buildDateTime.Minute #>" + SyntonyConstants.HyphenString + "<#= this.buildDateTime.Second #>";
+    public const string VersionMetadata = "<#= this.buildDateTime.Year #>" + FrameworkConstants.HyphenString + "<#= this.buildDateTime.Month #>" + FrameworkConstants.HyphenString + "<#= this.buildDateTime.Day #>" + FrameworkConstants.HyphenString + "<#= this.buildDateTime.Hour #>" + FrameworkConstants.HyphenString + "<#= this.buildDateTime.Minute #>" + FrameworkConstants.HyphenString + "<#= this.buildDateTime.Second #>";
 
     /// <summary>The full assembly version extension: ", Version=<#= this.major #>.<#= this.minor #>.<#= this.build #>.<#= this.revision #>, Culture=neutral, PublicKeyToken=...".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + SyntonyConstants.SyntonyPublicKeyToken;
+    public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + FrameworkConstants.SyntonyPublicKeyToken;
 
     /// <summary>The satellite contract version: "<#= this.major #>.<#= this.minor #>.0.0".</summary>
     [JetBrains.Annotations.NotNull]
@@ -1446,11 +1446,11 @@ internal static partial class <#= this.targetName #>
 
     /// <summary>The version suffix: ".v<#= this.major #>.<#= this.minor #>".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionSuffixWithSeparator = SyntonyConstants.DotString + VersionSuffixWithoutSeparator;
+    public const string VersionSuffixWithSeparator = FrameworkConstants.DotString + VersionSuffixWithoutSeparator;
 
     /// <summary>The full product name info: "<#= this.projectTargetFileName #> © <#= this.versionSuffix #>".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ProductNameInformation = MarketingVersion + SyntonyConstants.SpaceString + VersionSuffix;
+    public const string ProductNameInformation = MarketingVersion + FrameworkConstants.SpaceString + VersionSuffix;
 
     /// <summary>The neutral resource language: "<#= this.neutralResourcesLanguage #>".</summary>
     [JetBrains.Annotations.NotNull]
@@ -1505,14 +1505,14 @@ internal static partial class <#= this.targetName #>
     public const string ExtensionToken = <#= this.extensionTokenName #>;
 
     /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8<#= this.solutionTokenValue #><#= this.assemblyGuidAssemblyPart #><#= this.extensionTokenValue #>".</summary>
-    /// <remarks>For details see <see cref="SyntonyGuidConstants.CompanyToken"/> and <see cref="<#= this.extensionTokenName #>"/>.</remarks>
-    /// <seealso cref="SyntonyGuidConstants.CompanyToken"/>
+    /// <remarks>For details see <see cref="FrameworkGuidConstants.CompanyToken"/> and <see cref="<#= this.extensionTokenName #>"/>.</remarks>
+    /// <seealso cref="FrameworkGuidConstants.CompanyToken"/>
     /// <seealso cref="AssemblyToken"/>
     /// <seealso cref="ExtensionToken"/>
     /// <seealso cref="<#=this.solutionTokenName #>"/>
     /// <seealso cref="<#=this.extensionTokenName #>"/>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyGuid = SyntonyGuidConstants.CompanyToken + AssemblyToken + ExtensionToken;
+    public const string AssemblyGuid = FrameworkGuidConstants.CompanyToken + AssemblyToken + ExtensionToken;
 
     /// <summary>The user secrets Id for this assembly: <#= this.userSecretsId #>.</summary>
     /// <devdoc><a href="https://makolyte.com/csharp-user-secrets-arent-being-loaded-when-youre-using-generateassemblyinfofalse/"/>
@@ -1560,7 +1560,7 @@ internal static partial class <#= this.targetName #>
     /// <summary>A hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
     /// while not strictly enforcing it to allow older 4-digit versioning schemes to continue working.</summary>
     [PublicAPI]
-    public static readonly SyntonyVersion Version = new(AssemblyVersion, PreReleaseVersion, VersionMetadata);
+    public static readonly FrameworkVersion Version = new(AssemblyVersion, PreReleaseVersion, VersionMetadata);
 }
 <#+
     const string Undefined = "undefined";
@@ -1659,17 +1659,17 @@ internal static partial class <#= this.targetName #>
     string isReleaseVersion;
     string lastPrefix = "";
     string testPrefix = "";
-    string solutionTokenName = "SyntonyGuidConstants.SolutionTokenFramework";
+    string solutionTokenName = "FrameworkGuidConstants.SolutionTokenFramework";
     string solutionTokenValue = "000-";
     string assemblyGuidAssemblyPart = "FFFFFFFFF"; // length 9 - defines an INVALID GUID
-    string extensionTokenName = "SyntonyGuidConstants.ExtensionTokenSyntony";
+    string extensionTokenName = "FrameworkGuidConstants.ExtensionTokenSyntony";
     string extensionTokenValue = "000";
-    string _compileItems = "SyntonyConstants.InvalidIdentifier";
-    string _embeddedResourceItems = "SyntonyConstants.InvalidIdentifier";
-    string _contentItems = "SyntonyConstants.InvalidIdentifier";
-    string _referenceItems = "SyntonyConstants.InvalidIdentifier";
-    string _projectReferenceItems = "SyntonyConstants.InvalidIdentifier";
-    string _packageReferenceItems = "SyntonyConstants.InvalidIdentifier";
+    string _compileItems = "FrameworkConstants.InvalidIdentifier";
+    string _embeddedResourceItems = "FrameworkConstants.InvalidIdentifier";
+    string _contentItems = "FrameworkConstants.InvalidIdentifier";
+    string _referenceItems = "FrameworkConstants.InvalidIdentifier";
+    string _projectReferenceItems = "FrameworkConstants.InvalidIdentifier";
+    string _packageReferenceItems = "FrameworkConstants.InvalidIdentifier";
     bool useProjectReference;
     string useProjectReferenceString;
     bool usePackageReference;

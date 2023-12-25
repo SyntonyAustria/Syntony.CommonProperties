@@ -1,4 +1,6 @@
 # Top level entry required to mark this as a global AnalyzerConfig file
+# is_global = true: This means that the configuration settings in this .globalconfig file apply to all the projects in the solution, regardless of their location in the directory structure. 
+# It's a global configuration that overrides any other EditorConfig settings.
 is_global = true
 
 # NOTE: No section headers for configuration entries

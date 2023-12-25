@@ -1021,7 +1021,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{SyntonyCommonCoreMetacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__AssemblyInfoText>
         </PropertyGroup>
 
-        <!-- Note: The MatchExpression = {{SyntonyCommonCoreMetacontent}} does not contain any special regex characters, so it's used as is.  -->
+        <!-- Note: The MatchExpression = {SyntonyCommonCoreMetacontent} does not contain any special regex characters, so it's used as is.  -->
         <!--
         <ReplaceFileText Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')" 
                          InputFilename="$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)"
@@ -1036,13 +1036,44 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
                           File="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)" Lines="$(__AssemblyInfoText)" Overwrite="true" />
 
+        <!-- add InternalsVisibleTo for tests if '$(IsBaseProject)' == 'true' -->
+        <PropertyGroup Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
+                       AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')
+                       AND '$(IsBaseProject)' == 'true'">
+
+            <__InternalsVisibleToAssemblyInfoText>$([System.IO.File]::ReadAllText('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText Condition="'$(Company)' != ''">$(__InternalsVisibleToAssemblyInfoText.Replace("{Company}", '$(Company)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText Condition="'$(Copyright)' != ''">$(__InternalsVisibleToAssemblyInfoText.Replace("{Copyright}", '$(Copyright)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText Condition="'$(Author)' != ''">$(__InternalsVisibleToAssemblyInfoText.Replace("{Author}", '$(Author)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText Condition="'$(AuthorEmail)' != ''">$(__InternalsVisibleToAssemblyInfoText.Replace("{AuthorEmail}", '$(AuthorEmail)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText Condition="'$(SolutionName)' != ''">$(__InternalsVisibleToAssemblyInfoText.Replace("{SolutionName}", '$(SolutionName)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{Now}", '$(Now)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{MSBuildProjectName}", '$(MSBuildProjectName)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)'))</__InternalsVisibleToAssemblyInfoText>
+            <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{SyntonyCommonCoreMetacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__InternalsVisibleToAssemblyInfoText>
+        </PropertyGroup>
+        <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
+                          AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')
+                          AND '$(IsBaseProject)' == 'true'"
+                          File="$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)"
+                          Lines="$(__InternalsVisibleToAssemblyInfoText)" 
+                          Overwrite="true" />
+
         <Message Text="Copied to Properties directory: '@(_Changed)'" Importance="$(BuildMessageImportance)" />
 
+
+        <!--
+        <Delete Condition="'$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == 'true' AND Exists('$(SyntonyAssemblyAttributesPath)')"
+                Files="$(CommonPropertiesSharedSourcesDirectory)GlobalAssemblyInfo$(DefaultLanguageSourceExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
+        -->
+
+        <!--
         <ItemGroup>
             <SyntonyInternalsVisibleTo Condition="'%(SyntonyInternalsVisibleTo.PublicKey)' != ''">
                 <Key>%(SyntonyInternalsVisibleTo.PublicKey)</Key>
             </SyntonyInternalsVisibleTo>
-            <SyntonyAssemblyAttributes Include="System.Runtime.CompilerServices.InternalsVisibleTo" Condition="%(SyntonyInternalsVisibleTo.Identity) != '' AND '$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true'">
+            <SyntonyAssemblyAttributes Include="System.Runtime.CompilerServices.InternalsVisibleTo" Condition="%(SyntonyInternalsVisibleTo.Identity) != '' AND '$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == 'true'">
                 <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' != ''">%(SyntonyInternalsVisibleTo.Identity), PublicKey=%(SyntonyInternalsVisibleTo.Key)</_Parameter1>
                 <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' == '' and '$(PublicKey)' != ''">%(SyntonyInternalsVisibleTo.Identity), PublicKey=$(PublicKey)</_Parameter1>
                 <_Parameter1 Condition="'%(SyntonyInternalsVisibleTo.Key)' == '' and '$(PublicKey)' == ''">%(SyntonyInternalsVisibleTo.Identity)</_Parameter1>
@@ -1056,20 +1087,17 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="DefaultLanguageSourceExtension:                 '$(DefaultLanguageSourceExtension)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="SyntonyAssemblyAttributesPath:                  '$(SyntonyAssemblyAttributesPath)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Language:                                       '$(Language)'" Importance="$(BuildMessageImportance)"/>
-        <Message Text="GenerateSyntonyInternalsVisibleToAttributes:    '$(GenerateSyntonyInternalsVisibleToAttributes)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="GenerateSyntonyInternalsVisibleToAttributesForTests:    '$(GenerateSyntonyInternalsVisibleToAttributesForTests)'" Importance="$(BuildMessageImportance)"/>
 
-        <!--
-        <Delete Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true' AND Exists('$(SyntonyAssemblyAttributesPath)')"
-                Files="$(CommonPropertiesSharedSourcesDirectory)GlobalAssemblyInfo$(DefaultLanguageSourceExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
-        -->
 
-        <WriteCodeFragment Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == 'true'"
+        <WriteCodeFragment Condition="'$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == 'true'"
                            AssemblyAttributes="@(SyntonyAssemblyAttributes)"
                            OutputFile="$(SyntonyAssemblyAttributesPath)"
                            Language="$(Language)" ContinueOnError="true">
             <Output TaskParameter="OutputFile" ItemName="Compile"/>
             <Output TaskParameter="OutputFile" ItemName="FileWrites"/>
         </WriteCodeFragment>
+        -->
 
         <Error Condition="!Exists('$(MSBuildProjectDirectory)\Properties')" Text="$(MSBuildProjectDirectory)\Properties not exists" />
     </Target>

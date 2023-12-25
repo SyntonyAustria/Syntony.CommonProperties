@@ -73,7 +73,8 @@ Properties defined
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(IsBaseProject)' == 'true' AND '$(IsShipping)' != 'true'">
-        <GenerateSyntonyInternalsVisibleToAttributes Condition="'$(GenerateSyntonyInternalsVisibleToAttributes)' == ''">true</GenerateSyntonyInternalsVisibleToAttributes>
+        <!-- InternalsVisibleToAttribute for Tests -->
+        <GenerateSyntonyInternalsVisibleToAttributesForTests Condition="'$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == ''">true</GenerateSyntonyInternalsVisibleToAttributesForTests>
     </PropertyGroup>
 
     <ItemGroup Label="All internals visible to all tests if assembly not shipped" Condition="'$(IsBaseProject)' == 'true' AND '$(IsShipping)' != 'true'">

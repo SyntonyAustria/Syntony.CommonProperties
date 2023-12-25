@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedSources", "SharedSour
 		SharedSources\AssemblyInfo - TEMPLATE.cs = SharedSources\AssemblyInfo - TEMPLATE.cs
 		SharedSources\Global.AssemblyInfo.cs = SharedSources\Global.AssemblyInfo.cs
 		SharedSources\Metacontent.tt = SharedSources\Metacontent.tt
+		SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs = SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs
 		..\Syntony.Proj.Syntony.Readme.txt = ..\Syntony.Proj.Syntony.Readme.txt
 	EndProjectSection
 EndProject
