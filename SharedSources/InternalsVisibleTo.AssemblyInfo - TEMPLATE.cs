@@ -1,31 +1,25 @@
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="InternalsVisibleTo.AssemblyInfo.cs" company="{Company}">
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// <copyright file="InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs" company="Syntony">
 //     {Copyright}
 // </copyright>
-// <author>{Author}</author>
-// <email>{AuthorEmail}</email>
-// <date>{Now}</date>
-// <information solution="{SolutionName}" project="{MSBuildProjectName}" framework="{TargetFramework}" kind="(C# - csproj)">
-//     <file type=".cs" created="{Now}" modified="{Now}" lastAccess="{Now}">
-//         {DestinationFile}
+// <author>Josef Hahnl - Josef</author>
+// <email>syntony@aon.at</email>
+// <date>25.12.2023 11:11:13</date>
+// <information solution="Syntony.CommonProperties" project="SharedSources" framework="{ProjectTargetFramework}" kind="Project Folders">
+//     <file type=".cs" created="19.12.2023 13:43:44" modified="25.12.2023 11:11:13" lastAccess="25.12.2023 11:11:13">
+//         D:\Syntony\Proj\Syntony\CommonProperties\SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs
 //     </file>
-//     <lineStatistics total="72" netLines="67" blankLines ="5" codeLines="62" codeRatio="86.11 %" allCommentLines="24" commentLines="5" headerLines="19" documentationLines="0"/>
-//     <language>C#</language>
-//     <codeMetric>
-//         <numberOfUsings>1</numberOfUsings>
-//         <numberOfAttributes>18</numberOfAttributes>
-//     </codeMetric>
+//     <lineStatistics total="66" netLines="62" blankLines ="4" codeLines="57" codeRatio="86.36 %" allCommentLines="20" commentLines="5" headerLines="15" documentationLines="0"/>
+//     <language>.cs</language>
 // </information>
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #define TRUE
 
 // ReSharper disable FilesNotPartOfProjectWarning
-using System.Runtime.CompilerServices;
-
 // ====================================================================================================================================================================================
 // All assemblies that can use internals from {MSBuildProjectName} --- ATTENTION: add new assemblies, if more packages are developed
 // ====================================================================================================================================================================================
-// like [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon + SyntonyConstants.InternalsVisibleToPublicKey)]
+// like [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon + FrameworkConstants.InternalsVisibleToPublicKey)]
 
 #if !DISTRIBUTION
 
@@ -49,24 +43,24 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net")]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework")]
 #else      
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net" + SyntonyConstants.InternalsVisibleToPublicKey)]
-[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework" + SyntonyConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.UnitTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.PerformanceTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.SecurityTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.BenchmarkTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
+[assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
 
 #endif
 #endif
