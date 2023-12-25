@@ -60,17 +60,17 @@ using MetaData = {Company_Metacontent};
 
 // stigmatize this assembly as a Syntony file.
 [assembly:
-    AssemblySyntony(
-        SyntonyAssemblyApplicationScopes.Syntony | SyntonyAssemblyApplicationScopes.Framework,
+    AssemblyApplication(
+        ApplicationScopes.Company | ApplicationScopes.Framework,
         MetaData.TargetFileName,
         MetaData.StartDate,
         MetaData.ExpirationDate,
-        SyntonyConstants.DefaultUpdateUrl,
-        SyntonyConstants.DefaultUpdateLinkText,
+        FrameworkConstants.DefaultUpdateUrl,
+        FrameworkConstants.DefaultUpdateLinkText,
         MetaData.PreReleaseVersion,
         MetaData.VersionMetadata,
         Active = true,
-        Identifier = SyntonyConstants.DefaultIdentifier,
+        Identifier = FrameworkConstants.DefaultIdentifier,
         PackageGuidValue = MetaData.AssemblyGuid,
         BuildDate = MetaData.BuildDateTimeString,
         DateTimeInfo = MetaData.BuildDateTimeString,
@@ -82,4 +82,4 @@ using MetaData = {Company_Metacontent};
 // ====================================================================================================================================================================================
 // All assemblies that can use internals from this Application
 // ====================================================================================================================================================================================
-// [assembly: InternalsVisibleTo(MetaData.TargetName + SyntonyConstants.DotString + SyntonyTestsConstants.DefaultUnitTestsModuleName + SyntonyConstants.InternalsVisibleToPublicKey)]
+// [assembly: InternalsVisibleTo(MetaData.TargetName + FrameworkConstants.DotString + SyntonyTestsConstants.DefaultUnitTestsModuleName + FrameworkConstants.InternalsVisibleToPublicKey)]
