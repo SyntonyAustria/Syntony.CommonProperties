@@ -1,29 +1,42 @@
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs" company="Syntony">
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// <copyright file="InternalsVisibleTo.AssemblyInfo.cs" company="{Company}">
 //     {Copyright}
 // </copyright>
-// <author>Josef Hahnl - Josef</author>
-// <email>syntony@aon.at</email>
-// <date>25.12.2023 11:11:13</date>
-// <information solution="Syntony.CommonProperties" project="SharedSources" framework="{ProjectTargetFramework}" kind="Project Folders">
-//     <file type=".cs" created="19.12.2023 13:43:44" modified="25.12.2023 11:11:13" lastAccess="25.12.2023 11:11:13">
-//         D:\Syntony\Proj\Syntony\CommonProperties\SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs
+// <author>{Author}</author>
+// <email>{AuthorEmail}</email>
+// <date>{Now}</date>
+// <information solution="{SolutionName}" project="{MSBuildProjectName}" framework="{TargetFramework}" kind="(C# - csproj)">
+//     <file type=".cs" created="{Now}" modified="{Now}" lastAccess="{Now}">
+//         {DestinationFile}
 //     </file>
-//     <lineStatistics total="66" netLines="62" blankLines ="4" codeLines="57" codeRatio="86.36 %" allCommentLines="20" commentLines="5" headerLines="15" documentationLines="0"/>
-//     <language>.cs</language>
+//     <lineStatistics total="88" netLines="77" blankLines ="11" codeLines="71" codeRatio="80.68 %" allCommentLines="28" commentLines="6" headerLines="22" documentationLines="0"/>
+//     <language>C#</language>
+//     <codeMetric>
+//         <numberOfUsings>1</numberOfUsings>
+//         <numberOfAttributes>18</numberOfAttributes>
+//     </codeMetric>
 // </information>
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #define TRUE
 
-// ReSharper disable FilesNotPartOfProjectWarning
-// ====================================================================================================================================================================================
-// All assemblies that can use internals from {MSBuildProjectName} --- ATTENTION: add new assemblies, if more packages are developed
-// ====================================================================================================================================================================================
-// like [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon + FrameworkConstants.InternalsVisibleToPublicKey)]
+using System.Runtime.CompilerServices;
 
-#if !DISTRIBUTION
+#if !DEBUG
+using Syntony;
+#endif
+
+using MetaData = { SyntonyCommonCoreMetacontent};
+
+// ====================================================================================================================================================================================
+// All following assemblies that can use internals from {MSBuildProjectName} --- ATTENTION: add new assemblies, if more packages are developed
+// SignAssembly is set to 'true' only in 'Release' and 'PushNuGetPackage' configuration
+// ====================================================================================================================================================================================
 
 #if DEBUG
+
+// ATTENTION: add new assemblies, if more packages are developed
+// [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon)]
+
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests")]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net")]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net.NetFramework")]
@@ -42,7 +55,12 @@
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests")]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net")]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework")]
+
 #else      
+
+// ATTENTION: add new assemblies, if more packages are developed
+// [assembly: InternalsVisibleTo(MetaData.InternalSyntonyCommon + FrameworkConstants.InternalsVisibleToPublicKey)]
+
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.Tests.Net.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
@@ -62,5 +80,4 @@
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.Net" + FrameworkConstants.InternalsVisibleToPublicKey)]
 [assembly: InternalsVisibleTo("{MSBuildProjectName}.QuickBenchmarkTests.NetFramework" + FrameworkConstants.InternalsVisibleToPublicKey)]
 
-#endif
 #endif
