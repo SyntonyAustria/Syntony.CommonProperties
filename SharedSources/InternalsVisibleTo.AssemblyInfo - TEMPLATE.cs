@@ -25,8 +25,8 @@ using System.Runtime.CompilerServices;
 using Syntony;
 #endif
 
-using MetaData = {Company_Metacontent};
-
+// using MetaData = {Company_Metacontent};
+//
 // ====================================================================================================================================================================================
 // All following assemblies that can use internals from {MSBuildProjectName} --- ATTENTION: add new assemblies, if more packages are developed
 // SignAssembly is set to 'true' only in 'Release' and 'PushNuGetPackage' configuration
