@@ -1487,7 +1487,7 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string DefineConstants = "<#= this.defineConstants #>";
 
-    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute" />: "<#= this.defaultResourceLocation #>.</summary>
+    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute"/>: "<#= this.defaultResourceLocation #>.</summary>
     /// <devdoc>The resources file inside the Resources directory.</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string DefaultResourceLocation = "<#= this.defaultResourceLocation #>";
