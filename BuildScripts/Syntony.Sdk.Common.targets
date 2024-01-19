@@ -990,8 +990,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                 Files="$(MSBuildProjectDirectory)\Properties\GlobalAssemblyInfo$(DefaultLanguageSourceExtension)" RetryDelayMilliseconds="500" Retries="3" ContinueOnError="true" />
 
         <ItemGroup>
-            <_MyPropertiesSourceFiles Include="$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx')"/>
-            <_MyPropertiesSourceFiles Include="$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx') AND Exists('$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx')"/>
+            <_MyPropertiesSourceFiles Include="$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx" Condition="'$(SignAssembly)' == 'true' AND !Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx')"/>
+            <_MyPropertiesSourceFiles Include="$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx" Condition="'$(SignAssembly)' == 'true' AND !Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(CommonPropertiesIconsDirectory)Keys\$(Company)KeyPair.pfx') AND Exists('$(GlobalCommonPropertiesDirectory)Keys\$(Company)KeyPair.pfx')"/>
 
             <_MyPropertiesSourceFiles Include="$(CommonPropertiesIconsDirectory)$(Company).ico" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company).ico') AND Exists('$(CommonPropertiesIconsDirectory)$(Company).ico')"/>
             <_MyPropertiesSourceFiles Include="$(GlobalCommonPropertiesDirectory)$(Company).ico" Condition="!Exists('$(MSBuildProjectDirectory)\Properties\$(Company).ico') AND !Exists('$(CommonPropertiesIconsDirectory)$(Company).ico') AND Exists('$(GlobalCommonPropertiesDirectory)$(Company).ico')"/>
@@ -1006,7 +1006,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <ApplicationIcon>Properties\$(Company).ico</ApplicationIcon>
         </PropertyGroup>
 
-        <PropertyGroup Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')">
+        <PropertyGroup Condition="'$(IncludeSyntonyAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')">
             <__AssemblyInfoText>$([System.IO.File]::ReadAllText('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(Company)' != ''">$(__AssemblyInfoText.Replace("{Company}", '$(Company)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(Copyright)' != ''">$(__AssemblyInfoText.Replace("{Copyright}", '$(Copyright)'))</__AssemblyInfoText>
@@ -1033,11 +1033,14 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         DestinationFiles="$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)"
             Condition="%(Filename)!='' AND (!Exists('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)').Ticks))" />
         -->
-        <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
+        <WriteLinesToFile Condition="'$(IncludeSyntonyAssemblyInfo)' == 'true'
+                          AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
+                          AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
                           File="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)" Lines="$(__AssemblyInfoText)" Overwrite="true" />
 
         <!-- add InternalsVisibleTo for tests if '$(IsBaseProject)' == 'true' -->
-        <PropertyGroup Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
+        <PropertyGroup Condition="'$(IncludeInternalsVisibleToSyntonyAssemblyInfo)' == 'true'
+                       AND Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
                        AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')
                        AND '$(IsBaseProject)' == 'true'">
 
@@ -1053,7 +1056,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)'))</__InternalsVisibleToAssemblyInfoText>
             <__InternalsVisibleToAssemblyInfoText>$(__InternalsVisibleToAssemblyInfoText.Replace("{Company_Metacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__InternalsVisibleToAssemblyInfoText>
         </PropertyGroup>
-        <WriteLinesToFile Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
+        <WriteLinesToFile Condition="'$(IncludeInternalsVisibleToSyntonyAssemblyInfo)' == 'true'
+                          AND Exists('$(CommonPropertiesSharedSourcesDirectory)InternalsVisibleTo.AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)')
                           AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')
                           AND '$(IsBaseProject)' == 'true'"
                           File="$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)"
@@ -1061,7 +1065,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                           Overwrite="true" />
 
         <Message Text="Copied to Properties directory: '@(_Changed)'" Importance="$(BuildMessageImportance)" />
-
 
         <!--
         <Delete Condition="'$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == 'true' AND Exists('$(SyntonyAssemblyAttributesPath)')"

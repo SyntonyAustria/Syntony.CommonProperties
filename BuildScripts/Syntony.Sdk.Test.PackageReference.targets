@@ -65,7 +65,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
         <PackageReference Include="MSTest.TestAdapter" Version="*" />
         <PackageReference Include="MSTest.TestFramework" Version="*" />
-        <PackageReference Include="NUnit" Version="*" />
+        <PackageReference Include="NUnit" Version="*"/>
         <PackageReference Include="NUnit3TestAdapter" Version="*" />
         <PackageReference Include="xunit" Version="*" />
         <PackageReference Include="xunit.runner.visualstudio" Version="*" />

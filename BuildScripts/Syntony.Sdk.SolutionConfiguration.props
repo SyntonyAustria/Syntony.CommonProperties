@@ -20,8 +20,6 @@ Properties defined
     IsSolutionConfigurationFileImported         ... 'true'
     DelaySign                                   ... 'false'
     SignAssembly                                ... 'true'
-    AssemblyOriginatorKeyFile                   ... the .pfx file to sign the assembly
-    ManifestKeyFile                             ... 
 ***********************************************************************************************
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
