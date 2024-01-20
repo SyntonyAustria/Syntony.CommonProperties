@@ -68,8 +68,8 @@ Properties defined
 
     <!-- latest version $(Company).Framework -->
     <PropertyGroup>
-        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.0-beta</LatestSyntonyFrameworkVersion>
-        <SyntonyVersion>$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.1-beta</LatestSyntonyFrameworkVersion>
+        <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
     </PropertyGroup>
 
