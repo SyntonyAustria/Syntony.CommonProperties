@@ -67,14 +67,15 @@ Properties defined
     -->
 
     <!-- latest version $(Company).Framework -->
-    <PropertyGroup>
-        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.1-alpha</LatestSyntonyFrameworkVersion>
+    <PropertyGroup Label="Framework Version">
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.1</LatestSyntonyFrameworkVersion>
         <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
+        <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">0.1.0-beta</LatestPublicSyntonyCommonCoreBasicsVersion>
     </PropertyGroup>
 
     <PropertyGroup Label="OfficialRelease">
-        <IsSyntonyPreRelease>false</IsSyntonyPreRelease>
+        <IsSyntonyPreRelease Condition="'$(IsSyntonyPreRelease)' == ''">false</IsSyntonyPreRelease>
         <IsSyntonyPreRelease Condition="$(SyntonyVersion.Contains('-'))">true</IsSyntonyPreRelease>
         <IsOfficialRelease Condition="'$(IsOfficialRelease)' == ''">false</IsOfficialRelease>
     </PropertyGroup>

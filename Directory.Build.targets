@@ -18,9 +18,11 @@ Imported by:    at the end of the *.csproj file
     Imports:    '$(_DefaultSdkImportPreFilename)'VSIX.targets' (if exists)
     Imports:    'BeforeCommon.targets' (PROJECT) (if exists)
     Imports:    '$(_DefaultSdkImportPreFilename)DefaulItems.targets' (throws error if not exists)
-    Imports:    '$(Company).Version.targets' (if exists)
+    
     Imports:    '$(MSBuildProjectName).Version.targets' (if exists)
     Imports:    '$(ProjectBuildScriptsDirectory).Version.targets' (if exists)
+    Imports:    '$(Company).Version.targets' (if exists)
+
     Imports:    '$(Company).Shipping.targets' (if exists)
     Imports:    '$(MSBuildProjectName).Shipping.targets' (if exists)
     Imports:    '$(ProjectBuildScriptsDirectory).Shipping.targets' (if exists)
@@ -73,9 +75,9 @@ Properties defined
     <PropertyGroup>
         <_VersionTargetsFileName>Version.targets</_VersionTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)')"/>
     <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)')"/>
+    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)')"/>
 
     <!-- IMPORT $(Company).Shipping.targets AND / OR $(MSBuildProjectName).Shipping.targets AND / OR Shipping.targets -->
     <PropertyGroup>

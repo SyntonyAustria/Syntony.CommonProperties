@@ -32,12 +32,12 @@ Properties defined
         <ProjectReference Condition="Exists('..\..\$(_ReferenceItemToSet)\Source\$(_ReferenceItemToSet).csproj')" Include="..\..\$(_ReferenceItemToSet)\Source\$(_ReferenceItemToSet).csproj" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(PackageReference)' =='true' AND !Exists('@(PackageReference -> WithMetadataValue('Name', '$(_ReferenceItemToSet)'))')">
+    <ItemGroup Condition="'$(UsePackageReference)' =='true' AND !Exists('@(PackageReference -> WithMetadataValue('Name', '$(_ReferenceItemToSet)'))')">
         <PackageReference Include="$(_ReferenceItemToSet)" Version="*" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IncludeSyntonyCommonCoreBasics)' == 'true'">
-        <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(SyntonyCommonCoreBasicsVersion)" />
+        <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestSyntonyFrameworkVersion)" />
     </ItemGroup>
 
 </Project>

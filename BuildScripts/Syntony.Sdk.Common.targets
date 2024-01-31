@@ -128,6 +128,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="NuspecProperties:                               '$(NuspecProperties)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="SyntonyAssemblyAttributesPath:                  '$(SyntonyAssemblyAttributesPath)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="DefaultLanguageSourceExtension:                 '$(DefaultLanguageSourceExtension)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="CodeAnalysisRuleSet:                            '$(CodeAnalysisRuleSet)'" Importance="$(BuildMessageImportance)" />
 
         <Message Text="AllowedOutputExtensionsInPackageBuildOutputFolder:        '$(AllowedOutputExtensionsInPackageBuildOutputFolder)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder: '$(AllowedOutputExtensionsInSymbolsPackageBuildOutputFolder)'" Importance="$(BuildMessageImportance)"/>
@@ -221,11 +222,11 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="InternalsVisibleTo: %(InternalsVisibleTo.Identity)" Importance="$(BuildMessageImportance)"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyVersion:                                 '$(SyntonyVersion)'" Importance="$(BuildMessageImportance)" />
         <Message Text="VersionPrefix:                                  '$(VersionPrefix)'" Importance="$(BuildMessageImportance)" />
         <Message Text="VersionSuffix:                                  '$(VersionSuffix)'" Importance="$(BuildMessageImportance)" />
         <Message Text="FullVersion:                                    '$(VersionPrefix)'" Condition="'$(VersionSuffix)'==''" Importance="$(BuildMessageImportance)" />
         <Message Text="FullVersion:                                    '$(VersionPrefix)-$(VersionSuffix)'" Condition="'$(VersionSuffix)' != ''" Importance="$(BuildMessageImportance)" />
-        <Message Text="CodeAnalysisRuleSet:                            '$(CodeAnalysisRuleSet)'" Importance="$(BuildMessageImportance)" />
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="MSBuildRuntimeType:                             '$(MSBuildRuntimeType)'" Importance="$(BuildMessageImportance)"/>
@@ -254,6 +255,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="GlobalCommonPropertiesToolsDirectory:           '$(GlobalCommonPropertiesToolsDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="GlobalCommonPropertiesLicensesDirectory:        '$(GlobalCommonPropertiesLicensesDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="GlobalCommonPropertiesIconsDirectory:           '$(GlobalCommonPropertiesIconsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Project-Build-Version file:                     '$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IsProjectVersionTargetsFileImported:            '$(IsProjectVersionTargetsFileImported)'" Importance="$(BuildMessageImportance)"/>
         
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="GenerateDocumentationFile:                      '$(GenerateDocumentationFile)'" Importance="$(BuildMessageImportance)"/>

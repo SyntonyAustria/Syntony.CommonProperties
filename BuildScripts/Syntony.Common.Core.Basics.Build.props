@@ -27,4 +27,5 @@ Properties defined
         <IsProjectNameBuildPropsImported>true</IsProjectNameBuildPropsImported>
         <IncludeSyntonyCommonCoreBasics>false</IncludeSyntonyCommonCoreBasics>
     </PropertyGroup>
+    
 </Project>
