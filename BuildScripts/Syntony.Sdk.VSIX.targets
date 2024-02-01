@@ -53,13 +53,13 @@ Properties defined
     
     <!-- set package references for VSIX projects -->
     <ItemGroup Condition="'$(IsVsixProject)' == 'true'">
-        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="*" ExcludeAssets="runtime" />
-        <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="*" />
-        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="*">
+        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.8.37222" ExcludeAssets="runtime" />
+        <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="17.8.222" />
+        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.8.2365">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="*" />
+        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26031-preview" />
     </ItemGroup>
 
     <!-- IMPORT PROJECT Microsoft.VsSDK.targets if $(IsVsixProject) -->

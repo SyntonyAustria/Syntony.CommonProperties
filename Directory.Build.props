@@ -107,7 +107,7 @@ Properties defined:
     </PropertyGroup>
 
     <PropertyGroup Label="Debug">
-        <MSBuildDebug Condition="'$(MSBuildDebug)' == ''">true</MSBuildDebug>
+        <MSBuildDebug Condition="'$(MSBuildDebug)' == ''">false</MSBuildDebug>
     </PropertyGroup>
 
     <PropertyGroup Label="Timestamp FormatItems">
