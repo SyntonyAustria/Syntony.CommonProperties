@@ -143,17 +143,20 @@ Properties defined
 
         <!-- version when you make incompatible API changes -->
         <Major Condition="'$(Version)' == '' AND '$(Major)' == ''">$([MSBuild]::ValueOrDefault('$(MajorVersion)', '$(AnswerToEverything)'))</Major>
-        <Major Condition="'$(Version)' != '' AND '$(Major)' == ''">$(Version.Split('.')[0])</Major>
+        <Major Condition="'$(Version)' != '' AND '$(Major)' == '' AND $(Version.Split('.').Length) &gt; 0">$(Version.Split('.')[0])</Major>
+        <Major Condition="'$(Major)' == ''">1</Major>
 
         <!-- version when you add functionality in a backwards-compatible manner -->
         <Minor Condition="'$(Version)' == '' AND '$(Minor)' == ''">$([MSBuild]::ValueOrDefault('$(MinorVersion)', '$(AnswerToEverything)'))</Minor>
-        <Minor Condition="'$(Version)' != '' AND '$(Minor)' == ''">$(Version.Split('.')[1])</Minor>
+        <Minor Condition="'$(Version)' != '' AND '$(Minor)' == '' AND $(Version.Split('.').Length) &gt; 1">$(Version.Split('.')[1])</Minor>
+        <Minor Condition="'$(Minor)' == ''">0</Minor>
 
         <!-- version when you make backwards-compatible bug fixes -->
         <Patch Condition="'$(Version)' == '' AND '$(Patch)' == ''">$([MSBuild]::ValueOrDefault('$(PatchVersion)', '0'))</Patch>
-        <_tempPatch Condition="'$(Version)' != '' AND '$(Patch)' == ''">$(Version.Split('.')[2])</_tempPatch>
+        <_tempPatch Condition="'$(Version)' != '' AND '$(Patch)' == '' AND $(Version.Split('.').Length) &gt; 2">$(Version.Split('.')[2])</_tempPatch>
         <Patch Condition="'$(Version)' != '' AND '$(Patch)' == ''">$([MSBuild]::ValueOrDefault('$(_tempPatch)', '0'))</Patch>
         <Patch Condition="'$(Patch)' != '' AND $(Patch.IndexOf('-')) &gt; -1">$(Patch.Split('-')[0])</Patch>
+        <Patch Condition="'$(Patch)' == ''">0</Patch>
 
         <!-- The normal part of the semver version number. This is used to determine the beginning of the Version value. Format: major.minor.patch -->
         <VersionPrefix>$(Major).$(Minor).$(Patch)</VersionPrefix>
