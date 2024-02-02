@@ -83,6 +83,7 @@ Properties defined
         <!-- be sure to exclude Metacontent.cs files -->
         <None Remove="$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).cs" Condition="Exists('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).cs')"/>
         <None Remove="$(MetacontentOutputDirectory)\$(MetacontentFile).cs" Condition="Exists('$(MetacontentOutputDirectory)\$(MetacontentFile).cs')"/>
+        <!-- now we add the text template to the -->
         <None Include="$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt" Link="Properties\$(MetacontentFile).tt">
             <Generator>TextTemplatingFileGenerator</Generator>
             <OutputFileName>$(MetacontentOutputFileName).cs</OutputFileName>
@@ -90,7 +91,7 @@ Properties defined
             <!-- The name of the file that was created by any file generator that ran on this item. -->
             <LastGenOutput>$(MetacontentOutputFileName).cs</LastGenOutput>
         </None>
-        <!-- MSBuild automatically removes duplicates from ItemGroups liek Compile. So, if a file is included multiple times, it will still be in the ItemGroup only once. -->
+        <!-- MSBuild automatically removes duplicates from ItemGroups like Compile. So, if a file is included multiple times, it will still be in the ItemGroup only once. -->
         <Compile Update="Properties\$(MetacontentOutputFileName).cs">
             <DesignTime>true</DesignTime>
             <AutoGen>true</AutoGen>
@@ -286,10 +287,6 @@ Properties defined
 
         <!-- ensure 'Properties' directory is existing -->
         <CallTarget Targets="EnsurePropertiesDiretcoryAndContent"/>
-
-        <ItemGroup>
-            <Compile Include="Properties\$(MetacontentOutputFileName).cs"/>
-        </ItemGroup>
 
         <!-- MSBuild Properties TO T4 -->
         <ItemGroup>
