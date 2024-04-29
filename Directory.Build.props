@@ -25,7 +25,7 @@ Imported by:    at the begin of a *.csproj file
         Imports:    '$(Company).Common.props' (if exists)
         Imports:    'Syntony.Sdk.ProjectEnvironment.props' (throws error if not exists)
             Imports:    'Syntony.Sdk.LanguageSettings.props' from this directory (throws error if not exists)
-            Imports:    'Syntony.Sdk.SolutionConfigurationSettings.props' from this directory (throws error if not exists)
+            Imports:    'Syntony.Sdk.SolutionConfiguration.props' from this directory (throws error if not exists)
             Imports:    'Syntony.Sdk.NuGetSettings.props' from this directory (throws error if not exists)
             Imports:    '$(SolutionName).Build.props' from this directory (if exists)
             Imports:    '$(MSBuildProjectName).Build.props' from this directory (if exists)

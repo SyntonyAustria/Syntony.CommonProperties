@@ -205,7 +205,7 @@
     {
         this.buildDateTimeFormat = "yyyy-MM-dd HH:mm:ss.FFFFFFF";
     }
-   
+
     this.now = this.Host.ResolveParameterValue(".", ".", "Now");
     if (string.IsNullOrEmpty(this.now))
     {
@@ -220,7 +220,7 @@
             DateTime result;
             if (DateTime.TryParseExact(this.now, this.buildDateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles, out result) || DateTime.TryParse(this.now, CultureInfo.InvariantCulture, DateTimeStyles, out result))
             {
-                this.buildDateTime = TimeZoneInfo.ConvertTimeToUtc(result); 
+                this.buildDateTime = TimeZoneInfo.ConvertTimeToUtc(result);
             }
             else
             {
@@ -355,7 +355,7 @@
         this.neutralResourcesLanguage = "en-us";
     }
 
-    
+
     this.userSecretsId = this.Host.ResolveParameterValue(".", ".", "UserSecretsId");
     if (string.IsNullOrEmpty(this.userSecretsId))
     {
@@ -562,7 +562,7 @@
             this.defaultResourceLocation = this.defaultResourceLocationPath;
         }
     }
-   
+
     this.defineConstants = this.Host.ResolveParameterValue(".", ".", "DefineConstants");
     if (string.IsNullOrEmpty(this.defineConstants))
     {
@@ -613,26 +613,26 @@
     // "800000001" "Syntony.Common.Core
     // "8000008FF" "Syntony.TestBase
     // "801000000" "Syntony.Common
-    // "810000000" "Syntony.Core                   
-    // "810100000" "Syntony.Core.Primitives        
-    // "820000000" "Syntony.Metadata               
-    // "820100000" "Syntony.Metadata.Configuration 
-    // "820A00000" "Syntony.Mathematics               
-    // "830000000" "Syntony.Extensions             
-    // "830100000" "Syntony.Extensions.Core        
-    // "830200000" "Syntony.Extensions.Event       
-    // "840000000" "Syntony.Environment            
-    // "850000000" "Syntony.Configuration          
-    // "860000000" "Syntony.Extensibility          
-    // "870000000" "Syntony.Application            
-    // "880000000" "Syntony.Diagnostics            
-    // "8A0000000" "Syntony.VisualStudioFramework 
-    // "8A0100000" "Syntony.GetSharper 
-    // "8EF000000" "Syntony.Platform               
-    // "8EF010000" "Syntony.Platform.Interop       
+    // "810000000" "Syntony.Core
+    // "810100000" "Syntony.Core.Primitives
+    // "820000000" "Syntony.Metadata
+    // "820100000" "Syntony.Metadata.Configuration
+    // "820A00000" "Syntony.Mathematics
+    // "830000000" "Syntony.Extensions
+    // "830100000" "Syntony.Extensions.Core
+    // "830200000" "Syntony.Extensions.Event
+    // "840000000" "Syntony.Environment
+    // "850000000" "Syntony.Configuration
+    // "860000000" "Syntony.Extensibility
+    // "870000000" "Syntony.Application
+    // "880000000" "Syntony.Diagnostics
+    // "8A0000000" "Syntony.VisualStudioFramework
+    // "8A0100000" "Syntony.GetSharper
+    // "8EF000000" "Syntony.Platform
+    // "8EF010000" "Syntony.Platform.Interop
     // "8EF010100" "Syntony.Platform.Interop.Windows
-    // "8EF010200" "Syntony.Platform.Interop.Linux 
-    // "8EF010300" "Syntony.Platform.Interop.MacOs 
+    // "8EF010200" "Syntony.Platform.Interop.Linux
+    // "8EF010300" "Syntony.Platform.Interop.MacOs
     // "8F00008FF" "Syntony.DebuggerVisualizers
     // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "yyyyyyyyy" part, 9 hex numbers.
     Dictionary<string, (string solution, string assembly, string extension)> supportedAssemblies = new()
@@ -667,7 +667,7 @@
             { this.company + ".TestsBase", ("FrameworkGuidConstants.SolutionTokenTestFramework", "8000008FF", "FrameworkGuidConstants.ExtensionTokenTestsBase") },
             { this.company + ".GetSharper", ("FrameworkGuidConstants.SolutionTokenVisualStudioExtension", "8A0100000", "FrameworkGuidConstants.ExtensionTokenVisualStudioExtension") },
             { this.company + ".DebuggerVisualizers", ("FrameworkGuidConstants.SolutionTokenVisualStudioDebuggerVisualizers", "8F00008FF", "FrameworkGuidConstants.ExtensionTokenVisualStudioDebuggerVisualizers") },
-                                                                };  
+                                                                };
 
     Dictionary<string, string> supportedTests = new()
     {
@@ -728,17 +728,17 @@
             }
             else
             {
-                // should not happen ... but handle it if 
+                // should not happen ... but handle it if
                 index = this.projectTargetName.LastIndexOf('.');
                 this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
             }
-    
+
             this.extensionTokenName = supportedTests.TryGetValue(this.testPrefix, out string test) ? test : this.extensionTokenName;
             this.extensionTokenValue = extensionTokenValues.TryGetValue(this.extensionTokenName, out string value) ? value : this.extensionTokenValue;
         }
         else
         {
-            // Syntony*.dll 
+            // Syntony*.dll
             index = this.projectTargetName.LastIndexOf('.');
             this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
         }
@@ -748,7 +748,7 @@
         coreAssembly = this.projectTargetName;
         this.Warning(ex.Message);
     }
-    
+
     if (supportedAssemblies.ContainsKey(coreAssembly))
     {
         this.solutionTokenName = supportedAssemblies[coreAssembly].solution;
@@ -786,7 +786,7 @@
         this.targetFile = this.metacontentOutputDirectory + "\\" + this.metacontentOutputFileName + ".cs";
         this.targetFile = File.Exists(this.targetFile) ? this.targetFile : Path.ChangeExtension(this.targetFile, "cs");
         this.targetName = File.Exists(this.targetFile) ? Path.GetFileNameWithoutExtension(this.targetFile) : this.classPrefix +  Path.GetFileNameWithoutExtension(host);
-        
+
         if (this.updateBuild && !string.IsNullOrEmpty(this.targetFile) && File.Exists(this.targetFile))
         {
             // Attention: for days since a specified date use:  => this.build = (int)(this.buildDateTime - this.startDate).TotalDays; // see catch
@@ -885,7 +885,7 @@
     {
         this.releaseType = "ReleaseType.None";
     }
-    
+
     this.langVersion = this.Host.ResolveParameterValue(".", ".", "LangVersion");
     if (string.IsNullOrEmpty(this.langVersion))
     {
@@ -1487,7 +1487,7 @@ internal static partial class <#= this.targetName #>
     [JetBrains.Annotations.NotNull]
     public const string DefineConstants = "<#= this.defineConstants #>";
 
-    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute"/>: "<#= this.defaultResourceLocation #>.</summary>
+    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute"/>: "<#= this.defaultResourceLocation #>".</summary>
     /// <devdoc>The resources file inside the Resources directory.</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string DefaultResourceLocation = "<#= this.defaultResourceLocation #>";

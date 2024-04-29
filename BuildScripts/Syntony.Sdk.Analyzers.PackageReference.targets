@@ -26,11 +26,11 @@ Properties defined
 
     <!-- default Packages: Analyzers, JetBrains.Annotations etc. https://nugetmusthaves.com/Tag/analyzers or https://www.meziantou.net/the-roslyn-analyzers-i-use.htm -->
     <ItemGroup Label="ANALYZERS PACKAGES">
-        <!-- 
+        <!--
             Microsoft.CodeAnalysis.NetAnalyzers https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
-            This is the primary analyzer package for this repo that contains all the .NET code analysis rules (CAxxxx) that are built into the .NET SDK starting .NET5 release. 
+            This is the primary analyzer package for this repo that contains all the .NET code analysis rules (CAxxxx) that are built into the .NET SDK starting .NET5 release.
             The documentation for CA rules can be found at learn.microsoft.com/visualstudio/code-quality/code-analysis-for-managed-code-warnings.
-            You do not need to manually install this NuGet package to your project if you are using .NET5 SDK or later. These analyzers are enabled by default for projects targeting .NET5 or later. 
+            You do not need to manually install this NuGet package to your project if you are using .NET5 SDK or later. These analyzers are enabled by default for projects targeting .NET5 or later.
             For projects targeting earlier .NET frameworks, you can enable them in your MSBuild project file by setting one of the following properties:
             <PackageReference Include="Microsoft.CodeAnalysis" Version="4.3.0-2.final" Condition="'$(IsVsixProject)' != 'true'"/>
         -->
@@ -41,16 +41,16 @@ Properties defined
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*" PrivateAssets="All" />
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="*" PrivateAssets="All" />
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="*" PrivateAssets="All" />
-        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.CSharp" Version="*" PrivateAssets="All" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.24.0.89429" PrivateAssets="All" />
         <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.10.0" PrivateAssets="All" />
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.139" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.2" PrivateAssets="All" />
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.149" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Label="set analyzers package references for VSIX projects" Condition="'$(IsVsixProject)' == 'true'">
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.8.14" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="4.8.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="4.9.2" PrivateAssets="All" />
     </ItemGroup>
 </Project>

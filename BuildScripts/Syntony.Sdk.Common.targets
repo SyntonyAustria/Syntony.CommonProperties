@@ -24,7 +24,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         IsSyntonyTestPackageReferenceFileImported   ... 'true'
         AssemblyToTest
         RootNamespace
-        
+
         IMPORTANT: Targets defined
         ForceGenerationOfBindingRedirects
         SyntonyValidateStartup
@@ -49,7 +49,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
     <!-- https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2017 -->
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         PrintProperties
         ***********************************************************************************************
@@ -66,6 +66,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="Properties before Target 'Build' for '$(MSBuildProjectName)': $(Configuration) with $(TargetFramework) on $(OS)" Importance="$(BuildMessageImportance)"/>
         <Message Text="MSBuildProjectDirectory:                        '$(MSBuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="BuildProjectDirectory:                          '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeSyntonyCommonCoreBasics:                 '$(IncludeSyntonyCommonCoreBasics)'" Importance="$(BuildMessageImportance)"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="MSBuildDebug:                                   '$(MSBuildDebug)'" Importance="$(BuildMessageImportance)"/>
@@ -168,12 +169,12 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="IsCompanyAnalyzersPackageReferenceFileImported: '$(IsCompanyAnalyzersPackageReferenceFileImported)'" Importance="$(BuildMessageImportance)" />
         <Message Text="IsDefaultItemsTargtesFileImported:              '$(IsDefaultItemsTargtesFileImported)'" Importance="$(BuildMessageImportance)" />
         <Message Text="IsProjectEnvironmentTargetsFileImported:        '$(IsProjectEnvironmentTargetsFileImported)'" Importance="$(BuildMessageImportance)" />
-        
+
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="FirstAssembly:                                  '$(FirstAssembly)'" Importance="$(BuildMessageImportance)" />
         <Message Text="FirstAssemblyDefaultBehavior:                   '$(FirstAssemblyDefaultBehavior)'" Importance="$(BuildMessageImportance)" />
         <Message Text="MsBuildPropertyToFileExtension:                 '$(MsBuildPropertyToFileExtension)'" Importance="$(BuildMessageImportance)" />
-        
+
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsRunningFromVisualStudio:                      '$(IsRunningFromVisualStudio)'" Importance="$(BuildMessageImportance)" />
         <Message Text="UsingMicrosoftNETSdk:                           '$(UsingMicrosoftNETSdk)'" Importance="$(BuildMessageImportance)" />
@@ -234,7 +235,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="DevEnvDir:                                      '$(DevEnvDir)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="StartProgram:                                   '$(StartProgram)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="StartArguments:                                 '$(StartArguments)'" Importance="$(BuildMessageImportance)"/>
-        
+
         <Message Text="BuildRootDirectory:                             '$(BuildRootDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="BuildProjectDirectory:                          '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="BuildProjectPropertiesDirectory:                '$(BuildProjectPropertiesDirectory)'" Importance="$(BuildMessageImportance)"/>
@@ -257,7 +258,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="GlobalCommonPropertiesIconsDirectory:           '$(GlobalCommonPropertiesIconsDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Project-Build-Version file:                     '$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsProjectVersionTargetsFileImported:            '$(IsProjectVersionTargetsFileImported)'" Importance="$(BuildMessageImportance)"/>
-        
+
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="GenerateDocumentationFile:                      '$(GenerateDocumentationFile)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="DocumentationFile:                              '$(DocumentationFile)'" Importance="$(BuildMessageImportance)"/>
@@ -288,7 +289,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="MSBuildProjectName:                             '$(MSBuildProjectName)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="RootNamespace:                                  '$(RootNamespace)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Language:                                       '$(Language)'" Importance="$(BuildMessageImportance)"/>
-        
+
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="EnableNETAnalyzers:                             '$(EnableNETAnalyzers)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="AnalysisLevel:                                  '$(AnalysisLevel)'" Importance="$(BuildMessageImportance)"/>
@@ -313,7 +314,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </PropertyGroup>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SyntonyValidateStartup
         ***********************************************************************************************
@@ -323,7 +324,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Condition="'$(_BuildRoot)'==''" Text="BuildRoot file not found. '$(_BuildRoot)'"/>
         <Error Condition="'$(VSToolsPath)'==''" Text="VSToolsPath not set. '$(VSToolsPath)'"/>
         <Error Condition="'$(DevEnvDir)'==''" Text="DevEnvDir not set. '$(DevEnvDir)'"/>
-        
+
         <Error Condition="'$(Company)'==''" Text="Company property not defined."/>
         <Error Condition="'$(PackageIcon)'==''" Text="PackageIcon property not defined."/>
         <Error Condition="'$(RootNamespace)'==''" Text="RootNamespace property not defined."/>
@@ -362,14 +363,14 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Condition="'$(GenerateDocumentationFile)'==''" Text="GenerateDocumentationFile property not defined."/>
         <Error Condition="'$(GenerateDocumentationFile)'=='true' AND '$(DocumentationFile)'==''" Text="GenerateDocumentationFile is true but DocumentationFile not set."/>
         <Error Condition="'$(GenerateDocumentationFile)'=='false' AND '$(DocumentationFile)'!=''" Text="GenerateDocumentationFile is false but DocumentationFile is set."/>
-        
+
         <Error Condition="'$(BuildMetacontent)'=='true' AND '$(SetMetaconentFile)'!='true'" Text="BuildMetacontent is true but SetMetaconentFile is '$(SetMetaconentFile)'."/>
         <Error Condition="'$(IsShipping)'=='true' AND '$(IsSyntonyTestProject)'=='true'" Text="TestProject but IsShipping set to 'true'."/>
         <Error Condition="'$(IsShipping)'=='true' AND '$(IsExampleProject)'=='true'" Text="ExampleProject but IsShipping set to 'true'."/>
 
         <Warning Condition="'$(BuildProjectDirectory)'=='$(BuildSolutionDirectory)'" Text="BuildProjectDirectory and BuildSolutionDirectory are equal. Is that intentional?"/>
         <Warning Condition="'$(DisableRoslynDesignTime)' == 'true'" Text="Roslyn language services are disabled. Is that intentional?" />
-        
+
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="$(Company.ToUpper()) - MSBuild-Environment validation succeeded" Importance="$(BuildMessageImportance)"/>
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
@@ -377,7 +378,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <OnError ExecuteTargets="SyntonyBuildError" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         PostBuild
         ***********************************************************************************************
@@ -387,7 +388,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Exec Command="xcopy %22$(TargetDir)$(TargetName).*%22 $(GlobalCommonPropertiesDirectory)Assemblies\Syntony /y" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         DisplayPackMessages
         ***********************************************************************************************
@@ -418,7 +419,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </PropertyGroup>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         CopyPackage
         ***********************************************************************************************
@@ -448,7 +449,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="nuget $(_nuget)" Importance="high"/>
         <Message Text="STARTING nuget add $(PackageId).$(PackageVersion).nupkg -source $(_PackageSourceDirectory)" Importance="high"/>
 
-        <!-- https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-add Adds a specified package to a non-HTTP package source. 
+        <!-- https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-add Adds a specified package to a non-HTTP package source.
         $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
         <Exec Command="$(_nuget) add $(_outputPath) -source $(_PackageSourceDirectory)" Condition="'$(_outputPath)'!=''" ContinueOnError="true"/>
         <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
@@ -456,7 +457,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="ERROR: nuget add failed" Condition="'$(_outputPath)'==''" Importance="high"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         PushNuGetPackage
         ***********************************************************************************************
@@ -479,20 +480,20 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="Nuget push command cannot be executed. '$(_FullPathOfNugetPackage)' NOT exists." Importance="high" Condition="!Exists('$(_FullPathOfNugetPackage)')"/>
         <Message Text="Nuget push command: '$(_nuget) push $(_FullPathOfNugetPackage)'" Importance="high" Condition="Exists('$(_FullPathOfNugetPackage)')"/>
 
-        <!-- 
+        <!--
             https://learn.microsoft.com/en-us/nuget/nuget-org/publish-a-package#use-the-nuget-cli
             https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-push
             we assume that your API key ist stored in your NuGet configuration
             nuget push YourPackage.nupkg -Source https://api.nuget.org/v3/index.json
-            
+
             The SkipDuplicate option is used with the nuget push command. When you push a NuGet package to a repository, if a package with the same Id and version already exists in the repository, the push operation fails with an error.
-            If you use the SkipDuplicate option, NuGet will ignore the error if a package with the same Id and version already exists. 
+            If you use the SkipDuplicate option, NuGet will ignore the error if a package with the same Id and version already exists.
             Instead of failing, the push operation completes successfully, but the existing package in the repository is NOT overwritten.
         -->
         <Exec Command="$(_nuget) push $(_FullPathOfNugetPackage) -Source https://api.nuget.org/v3/index.json -SkipDuplicate -Verbosity detailed" Condition="Exists('$(_FullPathOfNugetPackage)')" ContinueOnError="true"/>
         </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         CleanAll
         ***********************************************************************************************
@@ -534,7 +535,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <RemoveDir Directories="%(ProjFiles.RelativeDir)obj\" ContinueOnError="true" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         BeforeClean
         ***********************************************************************************************
@@ -560,7 +561,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="ERROR: File '$(TEMP)\*$(MsBuildPropertyToFileExtension)' STILL Exists!" Importance="high" Condition="Exists('$(TEMP)\*$(MsBuildPropertyToFileExtension)')"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         AfterClean
         ***********************************************************************************************
@@ -593,7 +594,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="ERROR: Directory '$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)' STILL Exists!" Importance="high" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         GeneratePropertiesOnce
         ***********************************************************************************************
@@ -616,7 +617,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="Succeeded - Properties generated for '$(MSBuildProjectName)' on $(TargetFramework) / $(OS)" Importance="$(BuildMessageImportance)" Condition="'$(_PropertiesUpdated)' == 'true'"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         IncrementTotalBuildCounters
         ***********************************************************************************************
@@ -640,7 +641,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <PropertyGroup>
             <_ProjectCounterProperty Condition="'$(_ProjectCounterProperty)' == ''">0</_ProjectCounterProperty>
         </PropertyGroup>
-        
+
         <!-- Configuration counter -->
         <ReadLinesFromFile File="$(_TotalConfigurationFile)" Condition="Exists('$(_TotalConfigurationFile)')">
             <Output TaskParameter="Lines" PropertyName="_ConfigurationCounterProperty" />
@@ -676,7 +677,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <OnError ExecuteTargets="SyntonyBuildError" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         WriteToFile ... overwrite ... file is deleted first
         ***********************************************************************************************
@@ -697,7 +698,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <OnError ExecuteTargets="SyntonyBuildError" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         DeleteDirectory
         ***********************************************************************************************
@@ -760,7 +761,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Text="[$(MSBuildThisFileName)] The task failed to delete the directory $(Directory)." Condition="'$(_TaskOnceFailed)' == 'true' And $(Retries) &lt; 0" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SyntonyAfterBuild
         ***********************************************************************************************
@@ -778,7 +779,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <MSBuild Projects="$(MSBuildProjectFile)" Properties="Elapsed=$(Elapsed);Operation=AfterBuild;__Message=Information" Targets="SyntonyShowElapsedTime"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SyntonyShowElapsedTime
         ***********************************************************************************************
@@ -790,7 +791,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="$(MessageSeparator)" Importance="high"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SyntonyBuildError
         ***********************************************************************************************
@@ -799,7 +800,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <MSBuild Projects="$(MSBuildProjectFile)" Properties="Elapsed=$(Elapsed);Operation=AfterBuild;__Message=MSBuildError" Targets="SyntonyShowElapsedTime"/>
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SearchPackage
         ***********************************************************************************************
@@ -832,7 +833,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="[$(MSBuildThisFileName)] - Evaluated package version -&gt; %(_FoundPackage.Version)" Importance="$(BuildMessageImportance)" />
     </Target>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         UnzipPackage
         ***********************************************************************************************
@@ -871,8 +872,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="[$(MSBuildThisFileName)] Package @(_FoundPackage) has been unzipped to $(_UnzipPackageDestinationDirectory)" Importance="$(BuildMessageImportance)" Condition="'@(_FoundPackage)' != ''" />
     </Target>
 
-    
-    <!-- 
+
+    <!--
         ***********************************************************************************************
         ForceGenerationOfBindingRedirects
         ***********************************************************************************************
@@ -886,8 +887,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
         </PropertyGroup>
     </Target>
-    
-    
+
+
     <!-- ################################################################################ -->
     <!-- Integration "SyntonyPreBuild" into the normal build process -->
     <!-- ################################################################################ -->
@@ -901,8 +902,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="SyntonyPreBuild $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
         <!-- Insert the build counter incrementation task into the normal project build sequence -->
         <!--
-            When using CallTarget, MSBuild evaluates the called target in a new scope, as opposed to the same scope it's called from. 
-            This means that any item and property changes in the called target are NOT visible to the calling target. 
+            When using CallTarget, MSBuild evaluates the called target in a new scope, as opposed to the same scope it's called from.
+            This means that any item and property changes in the called target are NOT visible to the calling target.
             To pass information to the calling target, use the TargetOutputs output parameter. -->
         <!--
             <CallTarget Targets="TransformAll"/>
@@ -918,10 +919,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     <!--
         =======================================================================================================
         PreDispatchToInnerBuilds this is only call once for multitarget projects '$(IsMultiTargeted)' == 'true'
-        The DispatchToInnerBuilds target is a part of the .NET SDK's multi-targeting support. 
-        It's used when a project targets multiple frameworks. 
-        When you build a project that targets multiple frameworks, MSBuild doesn't build all the targets in one pass. 
-        Instead, it invokes the DispatchToInnerBuilds target, which in turn invokes the Build target once for each targeted framework. 
+        The DispatchToInnerBuilds target is a part of the .NET SDK's multi-targeting support.
+        It's used when a project targets multiple frameworks.
+        When you build a project that targets multiple frameworks, MSBuild doesn't build all the targets in one pass.
+        Instead, it invokes the DispatchToInnerBuilds target, which in turn invokes the Build target once for each targeted framework.
         This target is defined in Microsoft.Common.CurrentVersion.targets file which is a part of the .NET SDK.
         =======================================================================================================
                                        DispatchToInnerBuilds
@@ -942,9 +943,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             Copied to Properties directory: ''
             IncrementTotalBuildCounters called by BeforeBuild for ConsoleApp1-Debug with net8.0 on Windows_NT
             IncrementTotalBuildCounters UPDATED total project build counter from '1' to '2' for ConsoleApp1-Debug with net8.0 on Windows_NT with 0 retries.
-            IncrementTotalBuildCounters UPDATED Debug project build counter from '0' to '1' for ConsoleApp1-Debug with net8.0 on Windows_NT with 0 retries.        
+            IncrementTotalBuildCounters UPDATED Debug project build counter from '0' to '1' for ConsoleApp1-Debug with net8.0 on Windows_NT with 0 retries.
         =======================================================================================================
-        for multitarget projects '$(IsMultiTargeted)' == 'true' the call order is:            
+        for multitarget projects '$(IsMultiTargeted)' == 'true' the call order is:
             PreDispatchToInnerBuilds netstandard1.0;netstandard2.0;netstandard2.1;net472;netcoreapp3.1;net20;net7.0;net8.0 =>  with configuration 'Release'
             SyntonyBeforeBuild before Target 'DispatchToInnerBuilds' ... netstandard1.0;netstandard2.0;netstandard2.1;net472;netcoreapp3.1;net20;net7.0;net8.0 =>  with configuration 'Release'
             Copied to Properties directory: ''
@@ -954,9 +955,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         =======================================================================================================
     -->
     <Target Name="PreDispatchToInnerBuilds" BeforeTargets="DispatchToInnerBuilds">
-        <!-- 
-            PreDispatchToInnerBuilds this is only call once for multitarget projects '$(IsMultiTargeted)' == 'true' 
-            and is nver called for 
+        <!--
+            PreDispatchToInnerBuilds this is only call once for multitarget projects '$(IsMultiTargeted)' == 'true'
+            and is nver called for
         -->
         <Message Text="PreDispatchToInnerBuilds $(TargetFrameworks) => $(TargetFramework) with configuration '$(Configuration)'" Importance="$(BuildMessageImportance)" />
     </Target>
@@ -1019,19 +1020,19 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{Now}", '$(Now)'))</__AssemblyInfoText>
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{MSBuildProjectName}", '$(MSBuildProjectName)'))</__AssemblyInfoText>
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__AssemblyInfoText>
-            
+
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{DestinationFile}", '$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)'))</__AssemblyInfoText>
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{Company_Metacontent}", '$(RootNamespace).Properties.$(MetacontentOutputFileName)'))</__AssemblyInfoText>
         </PropertyGroup>
 
         <!-- Note: The MatchExpression = {Company_Metacontent} does not contain any special regex characters, so it's used as is.  -->
         <!--
-        <ReplaceFileText Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')" 
+        <ReplaceFileText Condition="'$(IncludeGlobalAssemblyInfo)' == 'true' AND Exists('$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)') AND !Exists('$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)')"
                          InputFilename="$(CommonPropertiesSharedSourcesDirectory)AssemblyInfo - TEMPLATE$(DefaultLanguageSourceExtension)"
                          OutputFilename="$(MSBuildProjectDirectory)\Properties\AssemblyInfo$(DefaultLanguageSourceExtension)"
                          MatchExpression="Company_Metacontent"
                          ReplacementText="$(RootNamespace).Properties.$(MetacontentOutputFileName)" />
-                         
+
         <Copy SourceFiles="%(DeploymentItems.FullPath)"
         DestinationFiles="$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)"
             Condition="%(Filename)!='' AND (!Exists('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(PublicDocumentsFolder)%(Path)\%(RecursiveDir)%(Filename)%(DeploymentItems.Extension)').Ticks))" />
@@ -1064,7 +1065,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                           AND !Exists('$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)')
                           AND '$(IsBaseProject)' == 'true'"
                           File="$(MSBuildProjectDirectory)\Properties\InternalsVisibleTo.AssemblyInfo$(DefaultLanguageSourceExtension)"
-                          Lines="$(__InternalsVisibleToAssemblyInfoText)" 
+                          Lines="$(__InternalsVisibleToAssemblyInfoText)"
                           Overwrite="true" />
 
         <Message Text="Copied to Properties directory: '@(_Changed)'" Importance="$(BuildMessageImportance)" />
@@ -1121,8 +1122,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
       <ItemGroup>
           <__FilesToDelete Remove="@(FilesToDelete)"/>
       </ItemGroup>
-      
+
       <OnError ExecuteTargets="SyntonyBuildError" />
     </Target>
-   
+
 </Project>

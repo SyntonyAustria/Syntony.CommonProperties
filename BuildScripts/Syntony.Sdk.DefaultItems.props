@@ -132,7 +132,7 @@ Properties defined
         <IsVSTOProject>false</IsVSTOProject>
     </PropertyGroup>
 
-    <PropertyGroup Label="Minimum Include for $(Compnay) projects">
+    <PropertyGroup Label="Minimum Include for $(Company) projects">
         <SyntonyCommonCoreBasics>Syntony.Common.Core.Basics</SyntonyCommonCoreBasics>
         <IncludeSyntonyCommonCoreBasics>true</IncludeSyntonyCommonCoreBasics>
     </PropertyGroup>

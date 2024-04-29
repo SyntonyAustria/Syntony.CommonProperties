@@ -10,7 +10,7 @@ WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and
 Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights reserved.
 ***********************************************************************************************
 Function: sets company wide version properties (calculates the version from
-          The project (Version.props) may set VersionPrefix, MajorVersion, MinorVersion, 
+          The project (Version.props) may set VersionPrefix, MajorVersion, MinorVersion,
           or AutoGenerateAssemblyVersion properties, which are consumed below.
 Imported by: Directory.Build.targets (AFTER PROJECT specific version files)
 ***********************************************************************************************
@@ -19,23 +19,23 @@ Properties defined
 ***********************************************************************************************
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <!-- 
-        NUGET package 
-        https://learn.microsoft.com/en-us/dotnet/core/tools/csproj 
-        https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets 
-        https://learn.microsoft.com/en-us/dotnet/core/tools/project-json-to-csproj#common-top-level-properties 
+    <!--
+        NUGET package
+        https://learn.microsoft.com/en-us/dotnet/core/tools/csproj
+        https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets
+        https://learn.microsoft.com/en-us/dotnet/core/tools/project-json-to-csproj#common-top-level-properties
         https://github.com/dotnet/docs/blob/master/docs/core/tools/csproj.md
         https://stackoverflow.com/questions/42183300/what-is-the-difference-between-various-msbuild-version-properties-such-as-versi
-        
+
         https://github.com/dotnet/arcade/blob/main/Documentation/CorePackages/Versioning.md
-        Syntony repositories should use SemVer2 for their asset versioning scheme. 
+        Syntony repositories should use SemVer2 for their asset versioning scheme.
         Package versions take the general form of: MAJOR.MINOR.PATCH-PRERELEASE+BUILDMETADATA
     -->
     <PropertyGroup Label="Imported">
         <IsCompanyVersionTargetsFileImported>true</IsCompanyVersionTargetsFileImported>
     </PropertyGroup>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         ther are the following important properties:
         $(Version)          ... the full version
@@ -54,9 +54,9 @@ Properties defined
                                 Examples: alpha, beta, rc-preview-2-final
                                 Default: '' (blank)
 
-        If $(Version) is set: use it as it is. If the $(Version) property is hardcoded in the project’s file, 
+        If $(Version) is set: use it as it is. If the $(Version) property is hardcoded in the project’s file,
                               then passing $(VersionPrefix) and $(VersionSuffix) from the outside has no effect.
-                              
+
         ***********************************************************************************************
     -->
 
@@ -68,10 +68,10 @@ Properties defined
 
     <!-- latest version $(Company).Framework -->
     <PropertyGroup Label="Framework Version">
-        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.2</LatestSyntonyFrameworkVersion>
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.4</LatestSyntonyFrameworkVersion>
         <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
-        <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">0.1.2</LatestPublicSyntonyCommonCoreBasicsVersion>
+        <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">0.1.4</LatestPublicSyntonyCommonCoreBasicsVersion>
     </PropertyGroup>
 
     <PropertyGroup Label="OfficialRelease">
@@ -83,7 +83,7 @@ Properties defined
     <!-- some default version settings if no version set -->
     <Choose>
         <!-- default $(Company) Framework and C$(Company) VisualStudio Framework libraries -->
-        <When Condition="('$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName.StartsWith($(Company)))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == ''))) 
+        <When Condition="('$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName.StartsWith($(Company)))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
               OR (('$(MSBuildProjectName.StartsWith($(Company).VisualStudio))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
               OR (('$(MSBuildProjectName.StartsWith($(Company).Common))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))">
             <!-- Version, a specific version number in the form Major.Minor.Patch[-Suffix] where -Suffix identifies pre-release versions. If not specified, the default value is 1.0.0. -->
@@ -132,7 +132,7 @@ Properties defined
     <PropertyGroup>
         <NtsBuildMetadata Condition=" '$(NtsBuildMetadata)' == '' ">local</NtsBuildMetadata>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <!-- use <Version> to set any version for current sproject -->
         <!-- Version represents the full version used like the following examples: 0.1.0, 1.2.3.5, 99.0.3-rc-preview-2-final -->
@@ -174,8 +174,8 @@ Properties defined
     <PropertyGroup>
         <!--
             PackageVersion is the only version number that isn't embedded in the output dll directly. Instead, it's used to control the version number of the NuGet package that's generated when you call dotnet pack.
-            By default, PackageVersion takes the same value as Version, so it's typically a three value SemVer version number, with or without a pre-release label. 
-            As with all the other version numbers, it can be overridden at build time, so it can differ from all the other assembly version numbers.        
+            By default, PackageVersion takes the same value as Version, so it's typically a three value SemVer version number, with or without a pre-release label.
+            As with all the other version numbers, it can be overridden at build time, so it can differ from all the other assembly version numbers.
         -->
         <PackageVersion Condition="'$(PackageVersion)' == '' AND '$(Version)' != ''">$(Version)</PackageVersion>
         <PreReleaseVersionLabel>$(VersionSuffix)</PreReleaseVersionLabel>
@@ -186,10 +186,10 @@ Properties defined
         <IsPreReleaseVersion Condition="$(Version.Contains('-'))">true</IsPreReleaseVersion>
     </PropertyGroup>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
-        IMPORT $(Company).ReleaseNotes.props, 
-        IMPORT $(MSBuildProjectName).ReleaseNotes.props, 
+        IMPORT $(Company).ReleaseNotes.props,
+        IMPORT $(MSBuildProjectName).ReleaseNotes.props,
         IMPORT $(ProjectBuildScriptsDirectory) ReleaseNotes.props
         ***********************************************************************************************
     -->

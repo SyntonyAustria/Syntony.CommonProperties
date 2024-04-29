@@ -62,9 +62,9 @@ Properties defined
         <BuildMetacontent Condition="!Exists('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs')">true</BuildMetacontent>
 
         <!-- if output file is older than this file or older than tt file we must build it independent of BuildMetacontent is set or not-->
-        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
+        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true'
             AND ($([System.IO.File]::GetLastWriteTime('$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile).tt').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
-        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true' 
+        <BuildMetacontent Condition="'$(BuildMetacontent)' != 'true'
             AND ($([System.IO.File]::GetLastWriteTime('$(MSBuildThisFileFullPath)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MetacontentOutputDirectory)\$(MetacontentOutputFileName).cs').Ticks))">true</BuildMetacontent>
     </PropertyGroup>
 
@@ -101,8 +101,8 @@ Properties defined
     </ItemGroup>
 
     <PropertyGroup Condition="'$(BuildMetacontent)' == 'true'">
-        <!-- 
-            https://www.thomaslevesque.com/2017/11/13/transform-t4-templates-as-part-of-the-build-AND-pass-variables-from-the-project/ 
+        <!--
+            https://www.thomaslevesque.com/2017/11/13/transform-t4-templates-as-part-of-the-build-AND-pass-variables-from-the-project/
             https://github.com/jazzdelightsme/UnofficialT4BuildTasks/tree/master/Package
             https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process?view=vs-2019
             https://www.codeproject.com/Tips/5160335/Auto-Transform-T4-Text-Template-Transformation-Too
@@ -127,9 +127,9 @@ Properties defined
     </PropertyGroup>
 
     <PropertyGroup Label="EXTEND TRANSFORM BUILD PROCESS">
-       <!-- 
+       <!--
              Text transformation happens before other tasks in the build process. You can define tasks that are invoked before and after transformation, by setting the properties $(BeforeTransform) and $(AfterTransform).
-             https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process?view=vs-2022 
+             https://learn.microsoft.com/en-us/visualstudio/modeling/code-generation-in-a-build-process?view=vs-2022
         -->
         <!-- List of targets that should be run before the transforming. By default, no pre-processing is carried out. The next line is effectively a no-op: it is only here as placeholder to document this customisation point. -->
         <BeforeTransform>CustomPreTransform</BeforeTransform>
@@ -142,7 +142,7 @@ Properties defined
     </PropertyGroup>
 
     <!--
-                                            | FirstAssembly    | FirstAssemblyDefaultBehavior   | 
+                                            | FirstAssembly    | FirstAssemblyDefaultBehavior   |
         $(Company).Common.Core.Basics       | true             | false                          | delete, update and write $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
         any other project from Framework    | false            | false                          | read $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
         every other project                 | true             | true                           | ignore $(TEMP)\StartTicks$(MsBuildPropertyToFileExtension)
@@ -166,7 +166,7 @@ Properties defined
         <FirstAssemblyDefaultBehavior Condition="'$(FirstAssemblyDefaultBehavior)' == ''">true</FirstAssemblyDefaultBehavior>
     </PropertyGroup>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         T4 Metacontent Targets
         ***********************************************************************************************
@@ -216,7 +216,7 @@ Properties defined
         <PropertyGroup Condition="'$(StartTicks)' == ''">
             <StartTicks>$([System.DateTimeOffset]::UtcNow.Ticks)</StartTicks>
         </PropertyGroup>
-        
+
         <PropertyGroup Label="Update Timestamp from Directory.Build.props">
             <!--
                 ATTENTION ATTENTION ATTENTION ATTENTION ATTENTION
@@ -261,7 +261,7 @@ Properties defined
         </PropertyGroup>
 
         <PropertyGroup>
-            <!-- 
+            <!--
             Specifies the path to the default resource. see also task for resx file: https://www.codeproject.com/Articles/104313/Automatic-ResX-Comment-Checking-with-MSBuild-Integ
             Different locations can be defined by adding a ';' between the locations. For example: "Resources.String1; Resources.String2".
             this property is handled by DefaultResourceLocationAttribute
@@ -269,10 +269,9 @@ Properties defined
             https://learn.microsoft.com/en-us/visualstudio/msbuild/item-functions?view=vs-2022
             https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-well-known-item-metadata?view=vs-2022
             @(EmbeddedResource->Reverse()->'%(RelativeDir)%(Filename)%(Extension)')
-
+            -->
             <_defaultResourceLocationPath>@(EmbeddedResource->Reverse()->'$(RootNamespace)\%(RelativeDir)%(Filename)')</_defaultResourceLocationPath>
             <DefaultResourceLocationPath Condition="'$(DefaultResourceLocationPath)'==''">$(_defaultResourceLocationPath.Replace('\', '.').Replace('/', '.'))</DefaultResourceLocationPath>
-            -->
         </PropertyGroup>
 
         <!-- Configuration counter -->
@@ -611,7 +610,7 @@ Properties defined
                 <Value>0</Value>
                 <Visible>False</Visible>
             </T4ParameterValues>
-            
+
             <T4ParameterValues Include="TotalProjectBuildCounter" Condition="'$(TotalProjectBuildCounter)' != ''">
                 <Value>$(TotalProjectBuildCounter)</Value>
                 <Visible>False</Visible>

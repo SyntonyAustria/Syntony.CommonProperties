@@ -8,15 +8,3 @@
 	email = syntony@aon.at
 [safe]
 	directory = D:/Syntony
-[diff]
-	guitool = vsdiffmerge
-[merge]
-	guitool = vsdiffmerge
-[pull]
-	rebase = false
-[fetch]
-	prune = false
-[rebase]
-	autoStash = false
-	autosquash = false
-	updateRefs = false
