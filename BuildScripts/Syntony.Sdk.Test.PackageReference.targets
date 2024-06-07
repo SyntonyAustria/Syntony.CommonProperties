@@ -67,11 +67,11 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <PackageReference Include="MSTest.TestFramework" Version="*" />
         <PackageReference Include="NUnit" Version="*"/>
         <PackageReference Include="NUnit3TestAdapter" Version="*" />
-        <PackageReference Include="xunit" Version="2.7.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.8" />
+        <PackageReference Include="xunit" Version="2.8.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1" />
         <!-- include Unit Test analyzers -->
         <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="All" />
-        <PackageReference Include="xunit.analyzers" Version="1.12.0" PrivateAssets="All" />
+        <PackageReference Include="xunit.analyzers" Version="1.14.0" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup  Condition="'$(IsBenchmarkProject)'=='true'">
         <!-- for BENCHMARK environment -->
