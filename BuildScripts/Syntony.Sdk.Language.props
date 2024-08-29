@@ -41,7 +41,7 @@ Properties defined
     TargetFramework                             ... 'net8.0'
     GenerateAssemblyInfo                        ... 'false'
     GenerateAssemblyInfoWithT4                  ... 'false'
-    ApplicationIcon                             ... 
+    ApplicationIcon                             ...
     AllowUnsafeBlocks                           ... 'false'
     OutputType                                  ... 'Library' by default, 'Exe' if benchmark project
     Configurations                              ... 'Release;Debug;CodeAnalysis;PushNuGetPackage' or 'Release' if benchmark project
@@ -53,7 +53,7 @@ Properties defined
     PlatformName                                ... the platform
     RootNamespace                               ... the root namespace for the project: '$(MSBuildProjectName.Replace(" ", "_"))'
     SetDefaultCompanyRootNamespace              ... used to set RootNamespace. The root namespace to use when you name an embedded resource
-    SetDefaultRootNamespace                     ... 
+    SetDefaultRootNamespace                     ...
     GeneratePackageOnBuild                      ... 'false' To automatically run dotnet pack set it to 'true'
     NoWarn                                      ... ignore this warning specified
     IncludeGlobalAssemblyInfo                   ... 'true' to set a global assembyl info file, to fullfill all basic company needs
@@ -90,25 +90,25 @@ Properties defined
             .NET Standard       1.x         C#  7.3
             .NET Framework      all         C#  7.3
             https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version
-      
-            With the release of C# 8.0, support for nullable reference types has been added to the language. 
+
+            With the release of C# 8.0, support for nullable reference types has been added to the language.
             Futhermore, .NET Core 3.0 added new nullable attributes like the AllowNullAttribute which are sometimes required to exactly declare when and how null is allowed in specific code sections.
             Unfortunately, these attributes are not available in older target frameworks like .NET Standard 2.0 which makes annotating existing code harder.
 
-            The compiler accepts syntax from the latest released version of the compiler (including minor version). 
+            The compiler accepts syntax from the latest released version of the compiler (including minor version).
             https://www.meziantou.net/csharp-8-nullable-reference-types.htm
             https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-contexts
             https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/upgrade-to-nullable-references
         -->
 
-        <!-- 
-            https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablepreviewfeatures 
+        <!--
+            https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablepreviewfeatures
             When a project contains this property set to True, the following assembly-level attribute is added to the AssemblyInfo.cs file:
             [assembly: RequiresPreviewFeatures]
         -->
         <EnablePreviewFeatures>true</EnablePreviewFeatures>
 
-        <!-- 
+        <!--
             https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version#c-language-version-reference
             default or latestMajor: The compiler accepts syntax from the latest released major version of the compiler.
             preview: The compiler accepts all valid language syntax from the latest preview version. -->
@@ -116,27 +116,27 @@ Properties defined
 
         <!-- https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-contexts enable: The compiler enables all null reference analysis and all language features -->
         <Nullable>enable</Nullable>
-        
-        <!-- The ImplicitUsings property can be used to enable and disable implicit global using directives in C# projects that target .NET 6 or a later version and C# 10 or a later version. 
+
+        <!-- The ImplicitUsings property can be used to enable and disable implicit global using directives in C# projects that target .NET 6 or a later version and C# 10 or a later version.
              When the feature is enabled, the .NET SDK adds global using directives for a set of default namespaces based on the type of project SDK.
              Set this property to true or enable to enable implicit global using directives. To disable implicit global using directives, remove the property or set it to false or disable.
              https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#implicitusings
              We don't use implicit global using directives
         -->
         <ImplicitUsings>false</ImplicitUsings>
-        
-        <!-- Causes the compiler to produce an assembly whose byte-for-byte output is identical across compilations for identical inputs. 
-             https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory?view=vs-2022#directorybuildprops-example 
+
+        <!-- Causes the compiler to produce an assembly whose byte-for-byte output is identical across compilations for identical inputs.
+             https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory?view=vs-2022#directorybuildprops-example
              https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022
-             https://github.com/clairernovotny/DeterministicBuilds     
+             https://github.com/clairernovotny/DeterministicBuilds
         -->
         <Deterministic>true</Deterministic>
-        
+
         <!-- Resource naming https://learn.microsoft.com/en-us/dotnet/core/resources/manifest-file-names#embeddedresourceusedependentuponconvention-property -->
         <EmbeddedResourceUseDependentUponConvention>false</EmbeddedResourceUseDependentUponConvention>
 
         <!--
-            generating binding redirects 
+            generating binding redirects
             (1) If there are no binding conflicts then the *.config file is not generated.
             (2) If there are binding conflicts then the *.config file is generated.
         -->
@@ -147,17 +147,17 @@ Properties defined
     <PropertyGroup Label="Analyzers">
         <!--
             How to enable / disable source code analysis for managed code
-            https://learn.microsoft.com/en-us/visualstudio/code-quality/disable-code-analysis?view=vs-2019 
+            https://learn.microsoft.com/en-us/visualstudio/code-quality/disable-code-analysis?view=vs-2019
         -->
         <!-- Controls whether NuGet-based analyzers run at build time. Default: true -->
         <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-        
+
         <!-- Controls whether NuGet-based analyzers analyze code live at design time. Default: true -->
         <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-        
+
         <!-- Disables NuGet-based analyzers at both build AND design time. This property takes precedence over RunAnalyzersDuringBuild AND RunAnalyzersDuringLiveAnalysis. Default: true -->
         <RunAnalyzers>true</RunAnalyzers>
-        <!-- 
+        <!--
             https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview?tabs=net-8
             https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#code-analysis-properties
             https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysismode
@@ -174,9 +174,9 @@ Properties defined
     </PropertyGroup>
 
     <PropertyGroup Label="Enable Analyzers based on EffectiveAnalysisLevel"  Condition="'$(EffectiveAnalysisLevel)' != '' And $([MSBuild]::VersionGreaterThanOrEquals($(EffectiveAnalysisLevel), '5.0'))">
-        <!-- 
+        <!--
             NET code quality analysis is enabled, by default, for projects that target .NET 5 or a later version.
-            https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablenetanalyzers  
+            https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablenetanalyzers
             https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild
         -->
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -196,7 +196,7 @@ Properties defined
                  net8.0-windows
         -->
         <TargetFramework>$(SyntonyDefaultTargetFramework)</TargetFramework>
-        
+
         <!-- Controls AssemblyInfo attribute generation for the project. The default value is true. We set it to false, because we create our own one except for benchmark tests -->
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateAssemblyInfoWithT4>false</GenerateAssemblyInfoWithT4>
@@ -227,25 +227,25 @@ Properties defined
     </PropertyGroup>
 
     <PropertyGroup Label="Other project properties">
-        <!-- 
-            https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022 
+        <!--
+            https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022
             C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets
-            Specifies how the compiler task should report internal compiler errors. Valid values are "prompt," "send," or "none." This property is equivalent to the /errorreport compiler switch. 
+            Specifies how the compiler task should report internal compiler errors. Valid values are "prompt," "send," or "none." This property is equivalent to the /errorreport compiler switch.
         -->
         <ErrorReport>prompt</ErrorReport>
 
         <!-- The name of the final output assembly after the project is built. -->
         <AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
-        
+
         <Configuration Condition="'$(IsBenchmarkProject)' == 'true' OR '$(IsQuickBenchmarkProject)' == 'true'">Release</Configuration>
         <ConfigurationName Condition="'$(ConfigurationName)' == ''">$(Configuration)</ConfigurationName>
 
         <Platforms Condition="'$(Platforms)' == ''">AnyCPU;x64;x86</Platforms>
         <Platforms Condition="'$(Platform)' == ''">AnyCPU</Platforms>
         <PlatformName Condition="'$(PlatformName)' == ''">$(Platform)</PlatformName>
-        
-        <!-- 
-            https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli#automatically-generate-package-on-build 
+
+        <!--
+            https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli#automatically-generate-package-on-build
             To automatically run dotnet pack whenever you run dotnet build set to 'true'.
         -->
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -257,7 +257,7 @@ Properties defined
         <SetDefaultCompanyRootNamespace Condition="'$(SetDefaultCompanyRootNamespace)' == ''">true</SetDefaultCompanyRootNamespace>
         <SetDefaultRootNamespace Condition="'$(SetDefaultRootNamespace)' == ''">$(SetDefaultCompanyRootNamespace)</SetDefaultRootNamespace>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(IsSyntonyFrameworkProject)' == 'true'">
         <RootNamespace>$(Company)</RootNamespace>
     </PropertyGroup>
@@ -279,16 +279,17 @@ Properties defined
         <!--
             IDE0018     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0018 (Inline variable declaration)
             IDE0034     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0034 (Simplify 'default' expression)
-            IDE0079     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0079 (Remove unnecessary suppression )
+            IDE0079     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0079 (Remove unnecessary suppression)
+            IDE0130     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0130 (Namespace does not match folder structure)
             IDE0290     ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0290 (Use primary constructor)
             CA1031      ... https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1031 (Do not catch general exception types)
             NU1603      ... https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1603 (A package dependency specified a version that could not be found.)
             MA0048      ... https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0048.md (File name must match type name) ... because partial classes have different names
-            AD0001      ... 
+            AD0001      ...
             MSB3491     ... https://learn.microsoft.com/en-us/visualstudio/msbuild/errors/msb3491?view=vs-2022
-            MSB3501     ... 
+            MSB3501     ...
         -->
-        <_CompanyNoWarn>IDE0018;IDE0034;IDE0079;IDE0290;CA1031;NU1603;MA0048;AD0001</_CompanyNoWarn>
+        <_CompanyNoWarn>IDE0018;IDE0034;IDE0079;IDE0130;IDE0290;CA1031;NU1603;MA0048;AD0001</_CompanyNoWarn>
         <NoWarn Condition="'$(NoWarn)' != ''">$(NoWarn);$(_CompanyNoWarn)</NoWarn>
         <NoWarn Condition="'$(NoWarn)' == ''">$(_CompanyNoWarn)</NoWarn>
         <_CompanyMSBuildWarningsAsMessages>MSB3491;MSB3501;MSB3952</_CompanyMSBuildWarningsAsMessages>

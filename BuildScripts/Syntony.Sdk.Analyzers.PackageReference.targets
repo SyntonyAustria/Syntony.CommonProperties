@@ -42,10 +42,10 @@ Properties defined
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="*" PrivateAssets="All" />
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="*" PrivateAssets="All" />
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="All" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.28.0.94264" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" PrivateAssets="All" />
         <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.12.4" PrivateAssets="All" />
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.160" PrivateAssets="All" />
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.163" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup Label="set analyzers package references for VSIX projects" Condition="'$(IsVsixProject)' == 'true'">

@@ -27,7 +27,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             DelteAllSubDirectories
     -->
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         StringContains
         ***********************************************************************************************
@@ -59,7 +59,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Target>
     -->
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         GetFirstItem
         ***********************************************************************************************
@@ -76,7 +76,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         FindUserFile
         ***********************************************************************************************
@@ -101,11 +101,11 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                     CurrentDirName = Directory.GetParent(CurrentDirName).FullName;
                 }
 
-                if(File.Exists(CurrentDirName + Path.DirectorySeparatorChar + FileToFind)) 
+                if(File.Exists(CurrentDirName + Path.DirectorySeparatorChar + FileToFind))
                 {
                     UserFileName = CurrentDirName + Path.DirectorySeparatorChar + FileToFind;
                 }
-                
+
                 Log.LogMessage("FindUserFile output properties:");
                 Log.LogMessage("UserFileName = " + UserFileName);
                 ]]>
@@ -113,7 +113,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         Sleep usage: <Sleep Delay="500"/> (500 ms)
         ***********************************************************************************************
@@ -132,9 +132,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
-        WriteLinesToFileWithRetry usage: 
+        WriteLinesToFileWithRetry usage:
         <PropertyGroup>
             <MyFile>CommonFile.txt</MyFile>
             <LinesToWrite>"Line 1","Line 2","Line 3"</LinesToWrite>
@@ -185,7 +185,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         IncrementValue usage:
             <PropertyGroup>
@@ -209,7 +209,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         SetEnvironmentVariable usage: <SetEnvironmentVariable Name="TEST_ENV_VAR" Value="$(MSBuildProjectName)" />
         ***********************************************************************************************
@@ -230,7 +230,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         </Task>
     </UsingTask>
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         DelteAllSubDirectories
         ***********************************************************************************************
@@ -258,7 +258,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
                   Log.LogErrorFromException(ex);
                   Log.LogMessage(MessageImportance.High, new string('*', 160));
                 }
-                  
+
                 return true;
                 ]]>
             </Code>
@@ -266,15 +266,12 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     </UsingTask>
 
 
-    <!-- 
+    <!--
         ***********************************************************************************************
         InsertIntoFile https://stackoverflow.com/questions/21491914/how-can-i-insert-lines-into-a-file-in-an-msbuild-task/21500030#21500030
         ***********************************************************************************************
     -->
-    <UsingTask
-        TaskName="InsertIntoFile"
-        TaskFactory="CodeTaskFactory"
-        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <UsingTask TaskName="InsertIntoFile" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
         <ParameterGroup>
             <FilePath ParameterType="System.String" Required="true" />
             <LineNumber ParameterType="System.Int32"  Required="true" />
@@ -286,8 +283,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
                 // By tradition, text file line numbering is 1-based
-                var lines = File.Exists(FilePath) 
-                                      ? File.ReadAllLines(FilePath).ToList() 
+                var lines = File.Exists(FilePath)
+                                      ? File.ReadAllLines(FilePath).ToList()
                                       : new List<String>(1);
                 lines.Insert(Math.Min(LineNumber - 1, lines.Count), Text);
                 File.WriteAllLines(FilePath, lines);
@@ -316,7 +313,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <Using Namespace="System.IO"/>
             <Using Namespace="System.Text.RegularExpressions" />
             <Code Type="Fragment" Language="cs">
-                <![CDATA[  
+                <![CDATA[
                   File.WriteAllText(OutputFilename, Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText));
                 ]]>
             </Code>
@@ -351,7 +348,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         if (Regex.Match(filecontent, MatchExpression).Success)
         {
           filecontent = Regex.Replace(filecontent, MatchExpression, ReplacementExpression);
-          isMatchFound = true;            
+          isMatchFound = true;
         }
       }
 
@@ -362,10 +359,24 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
           IsTextReplaced = true;
           Log.LogMessage(MessageImportance.Normal, "[ReplaceTextInFiles]: Replaced text in file:" + path);
         }
-      }       
+      }
     ]]>
             </Code>
         </Task>
     </UsingTask>
 
+    <UsingTask TaskName="SetEnvVar" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll" >
+        <ParameterGroup>
+            <EnvName ParameterType="System.String" Required="true" />
+            <EnvValue ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                System.Environment.SetEnvironmentVariable(EnvName, EnvValue);
+            ]]>
+            </Code>
+        </Task>
+    </UsingTask>
 </Project>

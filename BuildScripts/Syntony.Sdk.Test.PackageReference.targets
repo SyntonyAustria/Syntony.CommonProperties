@@ -62,7 +62,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
     <ItemGroup Condition="'$(IsSyntonyTestProject)'=='true' AND '$(IsBenchmarkProject)'!='true'">
         <!-- for TEST environment -->
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
         <PackageReference Include="MSTest.TestAdapter" Version="*" />
         <PackageReference Include="MSTest.TestFramework" Version="*" />
         <PackageReference Include="NUnit" Version="*"/>
