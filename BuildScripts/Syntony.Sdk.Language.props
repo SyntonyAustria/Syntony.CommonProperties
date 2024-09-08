@@ -56,6 +56,7 @@ Properties defined
     SetDefaultRootNamespace                     ...
     GeneratePackageOnBuild                      ... 'false' To automatically run dotnet pack set it to 'true'
     NoWarn                                      ... ignore this warning specified
+    NoWarn                                      ... ignore this warning specified
     IncludeGlobalAssemblyInfo                   ... 'true' to set a global assembyl info file, to fullfill all basic company needs
     TransformOnBuild                            ... 'false' Run the Transform task at the start of every build
     RestoreProjectStyle                         ... If you have no packages installed in a project (no PackageReferences in project file and no packages.config file),
@@ -289,9 +290,10 @@ Properties defined
             MSB3491     ... https://learn.microsoft.com/en-us/visualstudio/msbuild/errors/msb3491?view=vs-2022
             MSB3501     ...
         -->
-        <_CompanyNoWarn>IDE0018;IDE0034;IDE0079;IDE0130;IDE0290;CA1031;NU1603;MA0048;AD0001</_CompanyNoWarn>
-        <NoWarn Condition="'$(NoWarn)' != ''">$(NoWarn);$(_CompanyNoWarn)</NoWarn>
+        <_CompanyNoWarn>IDE0018,IDE0034,IDE0079,IDE0130,IDE0290,CA1031,NU1603,MA0048,AD0001</_CompanyNoWarn>
+        <NoWarn Condition="'$(NoWarn)' != ''">$(NoWarn),$(_CompanyNoWarn)</NoWarn>
         <NoWarn Condition="'$(NoWarn)' == ''">$(_CompanyNoWarn)</NoWarn>
+        <NoWarn Condition="'$(IsSyntonyTestProject)' == 'true'">$(NoWarn),CS1591</NoWarn> <!-- Missing XML comment for publicly visible type or member 'Type_or_Member' for TESTS only -->
         <_CompanyMSBuildWarningsAsMessages>MSB3491;MSB3501;MSB3952</_CompanyMSBuildWarningsAsMessages>
         <MSBuildWarningsAsMessages Condition="'$(MSBuildWarningsAsMessages)' != ''">$(MSBuildWarningsAsMessages);$(_CompanyMSBuildWarningsAsMessages)</MSBuildWarningsAsMessages>
         <MSBuildWarningsAsMessages Condition="'$(MSBuildWarningsAsMessages)' == ''">$(_CompanyMSBuildWarningsAsMessages)</MSBuildWarningsAsMessages>
