@@ -62,20 +62,20 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
     <ItemGroup Condition="'$(IsSyntonyTestProject)'=='true' AND '$(IsBenchmarkProject)'!='true'">
         <!-- for TEST environment -->
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="*" />
-        <PackageReference Include="MSTest.TestFramework" Version="*" />
-        <PackageReference Include="NUnit" Version="*"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.5.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.5.2" />
+        <PackageReference Include="NUnit" Version="4.2.2"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6" />
         <PackageReference Include="xunit" Version="2.9.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
         <!-- include Unit Test analyzers -->
-        <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="All" />
-        <PackageReference Include="xunit.analyzers" Version="1.15.0" PrivateAssets="All" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.3" PrivateAssets="All" />
+        <PackageReference Include="xunit.analyzers" Version="1.16.0" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup  Condition="'$(IsBenchmarkProject)'=='true'">
         <!-- for BENCHMARK environment -->
-        <PackageReference Include="BenchmarkDotNet" Version="*" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.14" />
     </ItemGroup>
 
     <!--
