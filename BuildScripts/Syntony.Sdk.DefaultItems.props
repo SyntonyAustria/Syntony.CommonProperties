@@ -121,9 +121,9 @@ Properties defined
 
         <!-- Syntony projects must fullfill special conditions -->
         <IsSyntonyProject>false</IsSyntonyProject>
-        <IsSyntonyProject Condition="$(MSBuildProjectName.StartsWith('_DefaultSyntonyName'))">true</IsSyntonyProject>
+        <IsSyntonyProject Condition="$(MSBuildProjectName.StartsWith('$(_DefaultSyntonyName)'))">true</IsSyntonyProject>
         <IsCompanyProject>false</IsCompanyProject>
-        <IsCompanyProject Condition="$(MSBuildProjectName.StartsWith('$Company'))">true</IsCompanyProject>
+        <IsCompanyProject Condition="$(MSBuildProjectName.StartsWith('$(Company)'))">true</IsCompanyProject>
 
         <IsSyntonyFrameworkProject>false</IsSyntonyFrameworkProject>
         <IsSyntonyFrameworkSubProject>false</IsSyntonyFrameworkSubProject>
@@ -139,43 +139,43 @@ Properties defined
 
     <!-- define all Syntony.Framework assemblie names  ... TODO: add new projects here -->
     <ItemGroup>
-        <SyntonyFrameworkProjectNames Include="Syntony.Application" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Benchmark" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Common" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Common.Core" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Application" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Benchmark" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Common" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Common.Core" />
         <SyntonyFrameworkProjectNames Include="$(SyntonyCommonCoreBasics)" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Common.Nullable" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Finance" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Mathematics" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.Linux" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.MacOs" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Interop.Windows" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Repositories" />
-        <SyntonyFrameworkProjectNames Include="Syntony.Platform.Repository.Ef" />
-        <SyntonyFrameworkProjectNames Include="Syntony.TestBase" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Common.Nullable" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Finance" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Mathematics" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Interop" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Interop.Linux" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Interop.MacOs" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Interop.Windows" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Repositories" />
+        <SyntonyFrameworkProjectNames Include="$(Company).Platform.Repository.Ef" />
+        <SyntonyFrameworkProjectNames Include="$(Company).TestsBase" />
     </ItemGroup>
 
     <PropertyGroup>
         <IsSyntonyFrameworkProject
             Condition="$(MSBuildProjectName.StartsWith('$(Company)')) AND
-            (  '$(MSBuildProjectName)' == 'Syntony.Application'
-            OR '$(MSBuildProjectName)' == 'Syntony.Benchmark'
-            OR '$(MSBuildProjectName)' == 'Syntony.Common'
-            OR '$(MSBuildProjectName)' == 'Syntony.Common.Core'
-            OR '$(MSBuildProjectName)' == 'Syntony.Common.Core.Basics'
-            OR '$(MSBuildProjectName)' == 'Syntony.Common.Nullable'
-            OR '$(MSBuildProjectName)' == 'Syntony.Finance'
-            OR '$(MSBuildProjectName)' == 'Syntony.Mathematics'
-            OR '$(MSBuildProjectName)' == 'Syntony.Platform'
-            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop'
-            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.Linux'
-            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.MacOs'
-            OR '$(MSBuildProjectName)' == 'Syntony.Platform.Interop.Windows'
-            OR '$(MSBuildProjectName)' == 'Syntony.Repositories'
-            OR '$(MSBuildProjectName)' == 'Syntony.Repository.Ef'
-            OR '$(MSBuildProjectName)' == 'Syntony.TestsBase')">true</IsSyntonyFrameworkProject>
+            (  '$(MSBuildProjectName)' == '$(Company).Application'
+            OR '$(MSBuildProjectName)' == '$(Company).Benchmark'
+            OR '$(MSBuildProjectName)' == '$(Company).Common'
+            OR '$(MSBuildProjectName)' == '$(Company).Common.Core'
+            OR '$(MSBuildProjectName)' == '$(Company).Common.Core.Basics'
+            OR '$(MSBuildProjectName)' == '$(Company).Common.Nullable'
+            OR '$(MSBuildProjectName)' == '$(Company).Finance'
+            OR '$(MSBuildProjectName)' == '$(Company).Mathematics'
+            OR '$(MSBuildProjectName)' == '$(Company).Platform'
+            OR '$(MSBuildProjectName)' == '$(Company).Platform.Interop'
+            OR '$(MSBuildProjectName)' == '$(Company).Platform.Interop.Linux'
+            OR '$(MSBuildProjectName)' == '$(Company).Platform.Interop.MacOs'
+            OR '$(MSBuildProjectName)' == '$(Company).Platform.Interop.Windows'
+            OR '$(MSBuildProjectName)' == '$(Company).Repositories'
+            OR '$(MSBuildProjectName)' == '$(Company).Repository.Ef'
+            OR '$(MSBuildProjectName)' == '$(Company).TestsBase')">true</IsSyntonyFrameworkProject>
     </PropertyGroup>
 
     <PropertyGroup Label="look for first assembly" Condition="'$(MSBuildProjectName)' == 'Syntony.Common.Core.Basics'">
@@ -185,22 +185,22 @@ Properties defined
     <PropertyGroup Condition="'$(IsSyntonyFrameworkProject)' != 'true'">
         <IsSyntonyFrameworkSubProject
             Condition="($(MSBuildProjectName.StartsWith('$(Company)'))) AND
-            (  $(MSBuildProjectName.StartsWith('Syntony.Application.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Benchmark.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Common.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Core.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Core.Basics.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Common.Nullable.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Finance.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Mathematics.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.Linux.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.MacOs.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Platform.Interop.Windows.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Repositories.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.Repository.Ef.'))
-            OR $(MSBuildProjectName.StartsWith('Syntony.TestsBase.')))">true</IsSyntonyFrameworkSubProject>
+            (  $(MSBuildProjectName.StartsWith('$(Company).Application.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Benchmark.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Common.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Common.Core.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Common.Core.Basics.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Common.Nullable.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Finance.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Mathematics.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Platform.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Platform.Interop.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Platform.Interop.Linux.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Platform.Interop.MacOs.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Platform.Interop.Windows.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Repositories.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Repository.Ef.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).TestsBase.')))">true</IsSyntonyFrameworkSubProject>
     </PropertyGroup>
     <PropertyGroup>
         <IsBaseProject>false</IsBaseProject>
@@ -211,7 +211,6 @@ Properties defined
                        AND '$(IsLocalizationProject)' == 'false'
                        AND '$(IsExampleProject)' == 'false'
                        AND '$(IsTrialAndErrorConsole)' == 'false'
-                       AND '$(IsNotCompileProject)' == 'false'
                        AND '$(IsNotCompileProject)' == 'false')
                        ">true</IsBaseProject>
     </PropertyGroup>

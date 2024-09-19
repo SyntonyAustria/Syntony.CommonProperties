@@ -37,7 +37,8 @@ Properties defined
     </ItemGroup>
 
     <ItemGroup Condition="'$(IncludeSyntonyCommonCoreBasics)' == 'true'">
-        <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestSyntonyFrameworkVersion)" />
+        <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestPublicSyntonyCommonCoreBasicsVersion)" />
+        <!--  <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestSyntonyFrameworkVersion)" /> -->
     </ItemGroup>
 
 </Project>

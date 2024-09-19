@@ -275,6 +275,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="MetacontentFile:                                '$(CommonPropertiesSharedSourcesDirectory)$(MetacontentFile)'" Importance="$(BuildMessageImportance)" Condition="'$(MetacontentFile)' != ''"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="DefaultCompanyName:                             '$(DefaultCompanyName)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Company:                                        '$(Company)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Author:                                         '$(Author)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="AuthorLongName:                                 '$(AuthorLongName)'" Importance="$(BuildMessageImportance)"/>
@@ -304,6 +305,16 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="IncludeDebugSymbolsInLocalVSIXDeployment:       '$(IncludeDebugSymbolsInLocalVSIXDeployment)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CopyBuildOutputToOutputDirectory:               '$(CopyBuildOutputToOutputDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CopyOutputSymbolsToOutputDirectory:             '$(CopyOutputSymbolsToOutputDirectory)'" Importance="$(BuildMessageImportance)"/>
+
+        <PropertyGroup>
+            <_CompanyIconExists Condition="Exists('Properties\$(Company).ico')">true</_CompanyIconExists>
+            <_IconExists Condition="Exists('Properties\Icon.ico')">true</_IconExists>
+            <_MSBuildProjectNameIconExists Condition="Exists('Properties\$(MSBuildProjectName).ico')">true</_MSBuildProjectNameIconExists>
+        </PropertyGroup>
+
+        <Message Text="Exists('Properties\$(Company).ico'):            '$(_CompanyIconExists)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Exists('Properties\Icon.ico'):                  '$(_IconExists)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Exists('Properties\$(MSBuildProjectName).ico'): '$(_MSBuildProjectNameIconExists)'" Importance="$(BuildMessageImportance)"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsSyntonyPackageReferenceFileImported:          '$(IsSyntonyPackageReferenceFileImported)'" Importance="$(BuildMessageImportance)"/>
@@ -339,9 +350,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputFileName)'==''" Text="TransformOnBuild is true but MetacontentOutputFileName is not defined."/>
         <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputDirectory)'==''" Text="TransformOnBuild is true but MetacontentOutputDirectory is not defined."/>
 
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND (!Exists('Properties\$(Company).ico') OR !Exists('Properties\Icon.ico') OR !Exists('Properties\$(MSBuildProjectName).ico'))" Text="Invalid Syntony Icon."/>
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(SignAssembly)' != 'true'" Text="Syntony project not signed."/>
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(SignAssembly)' == 'true' AND (!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') OR !Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx'))" Text="Syntony project invalid key for siging."/>
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND (!Exists('Properties\$(Company).ico') AND !Exists('Properties\Icon.ico') AND !Exists('Properties\$(MSBuildProjectName).ico'))" Text="Invalid Syntony Icon."/>
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' != 'true'" Text="Syntony project not signed."/>
+        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' == 'true' AND (!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx'))" Text="Syntony project invalid key for siging."/>
 
         <Error Condition="'$(BuildRootDirectory)'==''" Text="BuildRootDirectory property not defined."/>
         <Error Condition="!Exists('$(BuildRootDirectory)')" Text="BuildRootDirectory not found: '$(BuildRootDirectory)'."/>

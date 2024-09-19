@@ -2,7 +2,7 @@
 
 <!--
 **************************************************************************************
-Syntony.Common.Core.Basics.Build.props
+Syntony.Common.Core.TestBase.props
 **************************************************************************************
 WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
           created a backup copy.  Incorrect changes to this file will make it
@@ -18,13 +18,15 @@ Imported by:            '$(BuildRootName)' => build.root
 **************************************************************************************
 Properties defined
     IsProjectNameBuildPropsImported ... 'true'
-    IncludeSyntonyCommonCoreBasics  ... 'false'
+    IncludeSyntonyCommonCoreBasics  ... 'true'
+    IncludeSyntonyCommonTestsBase   ... 'false'
 **********************************************************************************
 -->
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup Label="Imported">
         <IsProjectNameBuildPropsImported>true</IsProjectNameBuildPropsImported>
-        <IncludeSyntonyCommonCoreBasics>false</IncludeSyntonyCommonCoreBasics>
+        <IncludeSyntonyCommonCoreBasics>true</IncludeSyntonyCommonCoreBasics>
+        <IncludeSyntonyCommonTestsBase>true</IncludeSyntonyCommonTestsBase>
     </PropertyGroup>
 </Project>
