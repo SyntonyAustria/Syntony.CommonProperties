@@ -1,22 +1,22 @@
 ﻿
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="SyntonyCommonCoreBasicsUnitTestsNetMetacontent.cs" company="Syntony® / Ing. Josef Hahnl, MBA">
-//     Copyright © 2017 - 2024 by Syntony® / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.
+// <copyright file="Metacontent.cs" company="Syntony® / Ing. Josef Hahnl, MBA">
+//     undefined
 // </copyright>
 // <author>Ing. Josef Hahnl, MBA - Hahnl</author>
 // <email>syntony@aon.at</email>
 // <date>08.02.2019 16:48:24</date>
-// <information solution="Syntony.Common.Core.Basics" project="Syntony.Common.Core.Basics.UnitTests.Net" framework="net8.0" kind="Windows (C#)">
-//     <file type=".cs" created="2024-02-02 13:56:35.389166" modified="2024-02-02 13:56:35.389166" lastAccess="2024-02-02 13:56:35.389166">
-//         D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\UnitTests.Net\Properties\SyntonyCommonCoreBasicsUnitTestsNetMetacontent.cs
+// <information solution="" project="" framework="" kind="Windows (C#)">
+//     <file type=".cs" created="2024-09-25 10:31:49.2321891" modified="2024-09-25 10:31:49.2321891" lastAccess="2024-09-25 10:31:49.2321891">
+//         Properties\Metacontent.cs
 //     </file>
 //     <lineStatistics total="624" netLines="481" blankLines ="143" codeLines="261" codeRatio="41.83 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="220"/>
 //     <language>C#</language>
-//     <namespace>Syntony.UnitTests.Properties</namespace>
-//     <class>SyntonyCommonCoreBasicsUnitTestsNetMetacontent</class>
+//     <namespace>Syntony.Properties</namespace>
+//     <class>Metacontent</class>
 //     <identifiers>
-//         <Namespace>Syntony.UnitTests.Properties</Namespace>
-//         <Class>SyntonyCommonCoreBasicsUnitTestsNetMetacontent</Class>
+//         <Namespace>Syntony.Properties</Namespace>
+//         <Class>Metacontent</Class>
 //     </identifiers>
 //     <codeMetric>
 //         <numberOfUsings>3</numberOfUsings>
@@ -25,22 +25,20 @@
 //     </codeMetric>
 // </information>
 // <summary>
-//     Define SyntonyCommonCoreBasicsUnitTestsNetMetacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
+//     Define Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-namespace Syntony.UnitTests.Properties;
+namespace Syntony.Properties;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
-using Syntony;
-
 #pragma warning disable CA1724, CC0021 // Type names should not match namespaces
 
-/// <summary>Define SyntonyCommonCoreBasicsUnitTestsNetMetacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.</summary>
-/// <remarks>SyntonyCommonCoreBasicsUnitTestsNetMetacontent defines a hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
+/// <summary>Define Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.</summary>
+/// <remarks>Metacontent defines a hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
 /// while not strictly enforcing it to allow older 4-digit versioning schemes to continue working.</remarks>
 /// <devdoc>
 /// <a href="http://stackoverflow.com/questions/64602/what-are-differences-between-assemblyversion-assemblyfileversion-and-assemblyin"/>,
@@ -52,7 +50,7 @@ using Syntony;
 [SuppressMessage("ReSharper", "RedundantNameQualifier", Justification = "okay here")]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "okay here")]
 [PublicAPI]
-internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
+internal static partial class Metacontent
 {
 #if SYNTONY_CODE_ANALYSIS || CODE_ANALYSIS
 
@@ -141,26 +139,26 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
 
 #endif
 
-    /// <summary>The last MSBUILD configuration with which this file was created: Release.</summary>
+    /// <summary>The last MSBUILD configuration with which this file was created: undefined.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string FileCreationConfiguration = "Release";
+    public const string FileCreationConfiguration = "undefined";
 
     /// <summary>The current release type.</summary>
-    public const Syntony.Annotations.ReleaseType ReleaseType = Syntony.Annotations.ReleaseType.None;
+    public const Syntony.Annotations.ReleaseType ReleaseType = Syntony.Annotations.ReleaseType.Release;
 
-    /// <summary>The current used language version: "Preview".</summary>
+    /// <summary>The current used language version: "latest".</summary>
     /// <remarks><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version"/>.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string LangVersion = "Preview";
+    public const string LangVersion = "latest";
 
-    /// <summary>Deterministic compilation can be used for establishing whether a binary is compiled from a trusted source: "true".</summary>
+    /// <summary>Deterministic compilation can be used for establishing whether a binary is compiled from a trusted source: "false".</summary>
     /// <remarks><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/code-generation#deterministic"/>.</remarks>
-    public const bool Deterministic = true;
+    public const bool Deterministic = false;
 
-    /// <summary>Defines the nullable warnings: "enable".</summary>
+    /// <summary>Defines the nullable warnings: "disabled".</summary>
     /// <remarks><a href="https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-contexts"/>.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string Nullable = "enable";
+    public const string Nullable = "disabled";
 
     /// <summary>The defined company: "Syntony".</summary>
     [JetBrains.Annotations.NotNull]
@@ -170,166 +168,166 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [JetBrains.Annotations.NotNull]
     public const string CompanyUppercase = "SYNTONY";
 
-    /// <summary>The current NuGet authors: "Ing. Josef Hahnl, MBA;Syntony".</summary>
+    /// <summary>The current NuGet authors: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Authors = "Ing. Josef Hahnl, MBA;Syntony";
+    public const string Authors = "undefined";
 
-    /// <summary>The default author: "Ing. Josef Hahnl, MBA".</summary>
+    /// <summary>The default author: "Syntony".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Author = "Ing. Josef Hahnl, MBA";
+    public const string Author = "Syntony";
 
-    /// <summary>The assembly name: <see cref="TargetFileName"/>: "Syntony.Common.Core.Basics.UnitTests.Net.exe".</summary>
+    /// <summary>The assembly name: <see cref="TargetFileName"/>: "".</summary>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyName = TargetFileName;
 
-    /// <summary>The current MSBuildProjectName: "Syntony.Common.Core.Basics.UnitTests.Net".</summary>
+    /// <summary>The current MSBuildProjectName: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ProjectName = "Syntony.Common.Core.Basics.UnitTests.Net";
+    public const string ProjectName = "";
 
-    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-02-02 13:56:35.389166".</summary>
+    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-09-25 10:31:49.2321891".</summary>
     /// <seealso cref="BuildDateTimeFormat"/>
     [JetBrains.Annotations.NotNull]
-    public const string BuildDateTimeString = "2024-02-02 13:56:35.389166";
+    public const string BuildDateTimeString = "2024-09-25 10:31:49.2321891";
 
     /// <summary>The used format to build <see cref="BuildDateTimeString"/> string: "yyyy-MM-dd HH:mm:ss.FFFFFFF".</summary>
     /// <seealso cref="BuildDateTime"/>
     [JetBrains.Annotations.NotNull]
     public const string BuildDateTimeFormat = "yyyy-MM-dd HH:mm:ss.FFFFFFF";
 
-    /// <summary>The current MSBUILD Configurations: "Release;Debug;CodeAnalysis;PushNuGetPackage".</summary>
+    /// <summary>The current MSBUILD Configurations: "Debug".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Configurations = "Release;Debug;CodeAnalysis;PushNuGetPackage";
+    public const string Configurations = "Debug";
 
-    /// <summary>The major version number when you make incompatible API change: 0.</summary>
-    public const int Major = 0;
+    /// <summary>The major version number when you make incompatible API change: 1.</summary>
+    public const int Major = 1;
 
-    /// <summary>The minor version number when you add functionality in a backwards-compatible manner: 1.</summary>
-    public const int Minor = 1;
+    /// <summary>The minor version number when you add functionality in a backwards-compatible manner: 0.</summary>
+    public const int Minor = 0;
 
-    /// <summary>The patch version number when you make backwards-compatible bug fixes: 2.</summary>
-    public const int Patch = 2;
+    /// <summary>The patch version number when you make backwards-compatible bug fixes: 0.</summary>
+    public const int Patch = 0;
 
-    /// <summary>The build version number: 2.</summary>
+    /// <summary>The build version number: 0.</summary>
     /// <remarks>A difference in build number represents a recompilation of the same source. This would be appropriate because of processor, platform, or compiler changes.</remarks>
-    public const int Build = 2;
+    public const int Build = 0;
 
-    /// <summary>The build number used for none-stable builds: 220.</summary>
+    /// <summary>The build number used for none-stable builds: 1.</summary>
     /// <remarks>A difference in build number represents a recompilation of the same source. This would be appropriate because of processor, platform, or compiler changes.</remarks>
-    public const int BuildNumber = 220;
+    public const int BuildNumber = 1;
 
-    /// <summary>The revision version number: 25097.</summary>
+    /// <summary>The revision version number: 18954.</summary>
     /// <remarks>Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable.</remarks>
-    public const int Revision = 25097;
+    public const int Revision = 18954;
 
-    /// <summary>The build counter: 0.</summary>
+    /// <summary>The build counter: 1.</summary>
     /// <remarks>Represents the number of total builds for this project.</remarks>
-    public const int ProjectBuildCounter = 0;
+    public const int ProjectBuildCounter = 1;
 
-    /// <summary>The build counter for the 'Release' configuration: 0.</summary>
+    /// <summary>The build counter for the 'Release' configuration: 1.</summary>
     /// <remarks>Represents the number of builds for the 'Release' configuration.</remarks>
-    public const int ReleaseBuildCounter = 0;
+    public const int ReleaseBuildCounter = 1;
 
-    /// <summary>The metacontent build counter: 220.</summary>
+    /// <summary>The metacontent build counter: 1.</summary>
     /// <remarks>Represents the number of metacontent builds.</remarks>
-    public const int MetacontentBuildCounter = 220;
+    public const int MetacontentBuildCounter = 1;
 
-    /// <summary>The current NuGet PackageVersion: "0.1.2".</summary>
+    /// <summary>The current NuGet PackageVersion: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string PackageVersion = "0.1.2";
+    public const string PackageVersion = "undefined";
 
     /// <summary>The current NuGet SemVersion BuildMetaData: "".</summary>
     [JetBrains.Annotations.NotNull]
     public const string BuildMetaData = "";
 
-    /// <summary>The major version string: "0".</summary>
+    /// <summary>The major version string: "1".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string MajorVersionInfo = "0";
+    public const string MajorVersionInfo = "1";
 
-    /// <summary>The minor version string: "1".</summary>
+    /// <summary>The minor version string: "0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string MinorVersionInfo = "1";
+    public const string MinorVersionInfo = "0";
 
-    /// <summary>The patch version string: "2".</summary>
+    /// <summary>The patch version string: "0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string PatchVersionInfo = "2";
+    public const string PatchVersionInfo = "0";
 
-    /// <summary>The build version string: "2".</summary>
+    /// <summary>The build version string: "0".</summary>
     /// <remarks>That's the number that is changed on every build.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string BuildVersionInfo = "2";
+    public const string BuildVersionInfo = "0";
 
-    /// <summary>The revision version string: "25097".</summary>
+    /// <summary>The revision version string: "18954".</summary>
     /// <remarks>No revision number should be greater than 65535.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string RevisionVersionInfo = "25097";
+    public const string RevisionVersionInfo = "18954";
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> version short: "0.1".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> version short: "1.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string VersionShortInfo = MajorVersionInfo + FrameworkConstants.DotString + MinorVersionInfo;
 
-    /// <summary>All possible development types of this assembly: "PLANNING;PREALPHA;DEVELOP;ALPHA;BETA;SYSTEMUNDERTEST;RELEASECANDIDATE;RC;RELEASETOMANUFACTURING;RTM;RELEASE".</summary>
+    /// <summary>All possible development types of this assembly: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string DevelopmentTypes = "PLANNING;PREALPHA;DEVELOP;ALPHA;BETA;SYSTEMUNDERTEST;RELEASECANDIDATE;RC;RELEASETOMANUFACTURING;RTM;RELEASE";
+    public const string DevelopmentTypes = "undefined";
 
-    /// <summary>The current ProjectFileName: "Syntony.Common.Core.Basics.UnitTests.Net.csproj".</summary>
+    /// <summary>The current ProjectFileName: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ProjectFileName = "Syntony.Common.Core.Basics.UnitTests.Net.csproj";
+    public const string ProjectFileName = "";
 
-    /// <summary>The current project target file name: "Syntony.Common.Core.Basics.UnitTests.Net.exe".</summary>
+    /// <summary>The current project target file name: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string TargetFileName = "Syntony.Common.Core.Basics.UnitTests.Net.exe";
+    public const string TargetFileName = "";
 
-    /// <summary>The current project target name without extension: "Syntony.Common.Core.Basics.UnitTests.Net".</summary>
+    /// <summary>The current project target name without extension: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string TargetName = "Syntony.Common.Core.Basics.UnitTests.Net";
+    public const string TargetName = "";
 
-    /// <summary>The last prefix of Assembly: "Basics".</summary>
+    /// <summary>The last prefix of Assembly: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string LastPrefix = "Basics";
+    public const string LastPrefix = "";
 
-    /// <summary>The Test prefix of Assembly: "UnitTests.Net".</summary>
+    /// <summary>The Test prefix of Assembly: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string TestPrefix = "UnitTests.Net";
+    public const string TestPrefix = "";
 
-    /// <summary>The class prefix for content class: "SyntonyCommonCoreBasicsUnitTestsNet".</summary>
+    /// <summary>The class prefix for content class: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ClassPrefix = "SyntonyCommonCoreBasicsUnitTestsNet";
+    public const string ClassPrefix = "";
 
-    /// <summary>The current NuGet PackageDescription: "Represents tests for Syntony.Common.Core.Basics.".</summary>
+    /// <summary>The current NuGet PackageDescription: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string PackageDescription = "Represents tests for Syntony.Common.Core.Basics.";
+    public const string PackageDescription = "undefined";
 
-    /// <summary>The current NuGet PackageId: "Syntony.Common.Core.Basics.UnitTests.Net".</summary>
+    /// <summary>The current NuGet PackageId: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string PackageId = "Syntony.Common.Core.Basics.UnitTests.Net";
+    public const string PackageId = "undefined";
 
-    /// <summary>The current NuGet Title: "Syntony.Common.Core.Basics.UnitTests.Net".</summary>
+    /// <summary>The current NuGet Title: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Title = "Syntony.Common.Core.Basics.UnitTests.Net";
+    public const string Title = "undefined";
 
-    /// <summary>The current NuGet Description: "Represents tests for Syntony.Common.Core.Basics.".</summary>
+    /// <summary>The current NuGet Description: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Description = "Represents tests for Syntony.Common.Core.Basics.";
+    public const string Description = "undefined";
 
-    /// <summary>The current NuGet PackageTags: "Syntony.Common.Core.Basics.UnitTests.Net;".</summary>
+    /// <summary>The current NuGet PackageTags: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string PackageTags = "Syntony.Common.Core.Basics.UnitTests.Net;";
+    public const string PackageTags = "undefined";
 
-    /// <summary>The current NuGet VersionPrefix: "0.1.2".</summary>
+    /// <summary>The current NuGet VersionPrefix: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionPrefix = "0.1.2";
+    public const string VersionPrefix = "undefined";
 
-    /// <summary>The current NuGet VersionSuffix: "pre.197550837+local.220".</summary>
+    /// <summary>The current NuGet VersionSuffix: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionSuffix = "pre.197550837+local.220";
+    public const string VersionSuffix = "";
 
-    /// <summary>The current NuGet InformationalVersion: "0.1.2".</summary>
+    /// <summary>The current NuGet InformationalVersion: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string InformationalVersion = "0.1.2";
+    public const string InformationalVersion = "undefined";
 
-    /// <summary>The current NuGet Copyright: "Copyright © 2017 - 2024 by Syntony® / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.".</summary>
+    /// <summary>The current NuGet Copyright: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Copyright = "Copyright © 2017 - 2024 by Syntony® / Ing. Josef Hahnl, MBA - syntony@aon.at - All rights reserved.";
+    public const string Copyright = "undefined";
 
     /// <summary>The current NuGet Trademark: "Syntony®".</summary>
     [JetBrains.Annotations.NotNull]
@@ -345,21 +343,21 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     /// <summary>Controls accessibility of all types within an assembly by default, to COM.: "true".</summary>
     public const bool ComVisibleAttribute = true;
 
-    /// <summary>The current TargetFramework: "net8.0".</summary>
+    /// <summary>The current TargetFramework: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string TargetFramework = "net8.0";
+    public const string TargetFramework = "";
 
-    /// <summary>The TargetFrameworks built: "net8.0".</summary>
+    /// <summary>The TargetFrameworks built: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string TargetFrameworks = "net8.0";
+    public const string TargetFrameworks = "";
 
-    /// <summary>The current Platform: "AnyCPU".</summary>
+    /// <summary>The current Platform: "Win32".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string Platform = "AnyCPU";
+    public const string Platform = "Win32";
 
-    /// <summary>The current RootNamespace: "Syntony.UnitTests".</summary>
+    /// <summary>The current RootNamespace: "Syntony".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string RootNamespace = "Syntony.UnitTests";
+    public const string RootNamespace = "Syntony";
 
     /// <summary>Defines if the assembly source code is based for a cross-targeting build: "false".</summary>
     /// <remarks>
@@ -379,12 +377,12 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     /// <devdoc><a href="https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting"/></devdoc>
     public const bool IsCrossTargetingBuild = false;
 
-    /// <summary>Defines if this assembly represents a test assembly: "true".</summary>
-    public const bool IsTestAssembly = true;
+    /// <summary>Defines if this assembly represents a test assembly: "false".</summary>
+    public const bool IsTestAssembly = false;
 
-    /// <summary>The assembly to be tested: "Syntony.Common.Core.Basics.dll".</summary>
+    /// <summary>The assembly to be tested: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyToTest = "Syntony.Common.Core.Basics.dll";
+    public const string AssemblyToTest = "";
 
     /// <summary>Defines if this assembly represents an example assembly: "false".</summary>
     public const bool IsExampleProject = false;
@@ -428,7 +426,7 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     /// <summary>If this assembly is designated to be release: "false".</summary>
     public const bool IsReleaseVersion = false;
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "0.1.0.0".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "1.0.0.0".</summary>
     /// <remarks>Every assembly you produce as part of your build process has a version number embedded in it, which forms an important part of the assembly's identity.
     /// It's stored in the assembly manifest and is used by the runtime to ensure correct versions are loaded etc.
     /// The <seealso cref="System.Reflection.AssemblyVersionAttribute"/> is used along with name, public key token and culture information only if the assemblies are strong-named signed.
@@ -436,16 +434,16 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionInfo = VersionShortInfo + ".0.0";
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "0.1.2.25097".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "1.0.0.18954".</summary>
     [JetBrains.Annotations.NotNull]
     public const string FullVersionInfo = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + FrameworkConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "0.1.2.25097-pre.197550837+local.220+2024-2-2-13-56-35".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "1.0.0.18954+2024-9-25-10-31-49".</summary>
     /// <devdoc>https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ http://semver.org .</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string FullSyntonyVersionInfo = FullVersionInfo + "-" + VersionSuffix + "+" + VersionMetadata;
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "0.1.2.25097".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "1.0.0.18954".</summary>
     /// <remarks>
     /// The file version is literally the version number exposed by the DLL to the file system. It's the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to.
     /// The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are concerned.
@@ -453,28 +451,28 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyFileVersionInfo = FullVersionInfo;
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> file version:"0.1.2.0".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> file version:"1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string CompanyFileVersion = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + ".0"; // "15.2.3.0"
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> package version: "0.1.2.0-pre.197550837+local.220".</summary>
+    /// <summary>The <see cref="FrameworkConstants.Company"/> package version: "1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string PackageVersionInfo = CompanyFileVersion + "-" + VersionSuffix;
 
-    /// <summary>The current marketing information of this version: "pre.197550837+local.220".</summary>
+    /// <summary>The current marketing information of this version: "".</summary>
     /// <devdoc>Change string if product is in distribution state.</devdoc>
     [JetBrains.Annotations.NotNull]
-    public const string MarketingInfo = "pre.197550837+local.220";
+    public const string MarketingInfo = "";
 
     /// <summary>The product state.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ProductState = "pre.197550837+local.220";
+    public const string ProductState = "";
 
-    /// <summary>The marketing version: "Syntony.Common.Core.Basics.UnitTests.Net.exe 0.1.2.0-pre.197550837+local.220".</summary>
+    /// <summary>The marketing version: " 1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string MarketingVersion = TargetFileName + FrameworkConstants.SpaceString + PackageVersionInfo;
 
-    /// <summary>The product version used by <see cref="System.Reflection.AssemblyInformationalVersionAttribute"/>: "Syntony.Common.Core.Basics.UnitTests.Net.exe 0.1.2.0-pre.197550837+local.220".</summary>
+    /// <summary>The product version used by <see cref="System.Reflection.AssemblyInformationalVersionAttribute"/>: " 1.0.0.0".</summary>
     /// <remarks>
     /// The Product version of the assembly. This is the version you would use when talking to customers or for display on your website.
     /// The InformationalVersion is a bit of an odd-one out, in that it doesn't need to contain a "traditional" version number per-se, it can contain any text you like.
@@ -483,42 +481,42 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyInformationalVersionInfo = MarketingVersion;
 
-    /// <summary>The product name: "Syntony.Common.Core.Basics.UnitTests.Net.exe 0.1.2.0-pre.197550837+local.220".</summary>
+    /// <summary>The product name: " 1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string Product = MarketingVersion;
 
-    /// <summary>The current pre-release information of this version: "pre.197550837+local.220".</summary>
+    /// <summary>The current pre-release information of this version: "".</summary>
     /// <devdoc>Change string to <see cref="string.Empty"/> or "RTM" if product is in distribution state.</devdoc>
     [JetBrains.Annotations.NotNull]
-    public const string PreReleaseVersion = "pre.197550837+local.220";
+    public const string PreReleaseVersion = "";
 
-    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-2-2-13-56-35.</summary>
+    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-9-25-10-31-49.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionMetadata = "2024" + FrameworkConstants.HyphenString + "2" + FrameworkConstants.HyphenString + "2" + FrameworkConstants.HyphenString + "13" + FrameworkConstants.HyphenString + "56" + FrameworkConstants.HyphenString + "35";
+    public const string VersionMetadata = "2024" + FrameworkConstants.HyphenString + "9" + FrameworkConstants.HyphenString + "25" + FrameworkConstants.HyphenString + "10" + FrameworkConstants.HyphenString + "31" + FrameworkConstants.HyphenString + "49";
 
-    /// <summary>The full assembly version extension: ", Version=0.1.2.25097, Culture=neutral, PublicKeyToken=...".</summary>
+    /// <summary>The full assembly version extension: ", Version=1.0.0.18954, Culture=neutral, PublicKeyToken=...".</summary>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + FrameworkConstants.SyntonyPublicKeyToken;
 
-    /// <summary>The satellite contract version: "0.1.0.0".</summary>
+    /// <summary>The satellite contract version: "1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string SatelliteContractVersionInfo = VersionShortInfo + ".0.0";
 
-    /// <summary>The version suffix without separator: "v0.1".</summary>
+    /// <summary>The version suffix without separator: "v1.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string VersionSuffixWithoutSeparator = "v" + VersionShortInfo;
 
-    /// <summary>The version suffix: ".v0.1".</summary>
+    /// <summary>The version suffix: ".v1.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string VersionSuffixWithSeparator = FrameworkConstants.DotString + VersionSuffixWithoutSeparator;
 
-    /// <summary>The full product name info: "Syntony.Common.Core.Basics.UnitTests.Net.exe © pre.197550837+local.220".</summary>
+    /// <summary>The full product name info: " © ".</summary>
     [JetBrains.Annotations.NotNull]
     public const string ProductNameInformation = MarketingVersion + FrameworkConstants.SpaceString + VersionSuffix;
 
-    /// <summary>The neutral resource language: "en-US".</summary>
+    /// <summary>The neutral resource language: "en-us".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string NeutralResourcesLanguage = "en-US";
+    public const string NeutralResourcesLanguage = "en-us";
 
     /// <summary>The company email: "syntony@aon.at".</summary>
     [JetBrains.Annotations.NotNull]
@@ -533,48 +531,48 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "It's a hard coded url")]
     public const string RepositoryUrl = "https://syntonyblog.wordpress.com/";
 
-    /// <summary>The copyright time span: "2017 - 2024".</summary>
+    /// <summary>The copyright time span: "2024".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string CopyrightTimeSpan = "2017 - 2024";
+    public const string CopyrightTimeSpan = "2024";
 
-    /// <summary>The start date: "2017-01-01".</summary>
+    /// <summary>The start date: "2019-12-17".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string StartDate = "2017-01-01";
+    public const string StartDate = "2019-12-17";
 
     /// <summary>The expiration date: "9999-12-31".</summary>
     [JetBrains.Annotations.NotNull]
     public const string ExpirationDate = "9999-12-31";
 
-    /// <summary>The conditional compilation symbols: "SYNTONY_TEST;TRACE;SYNTONY;SignAssembly;RELEASE;NET;NET8_0;NETCOREAPP".</summary>
+    /// <summary>The conditional compilation symbols: "".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string DefineConstants = "SYNTONY_TEST;TRACE;SYNTONY;SignAssembly;RELEASE;NET;NET8_0;NETCOREAPP";
+    public const string DefineConstants = "";
 
-    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute"/>: ".</summary>
+    /// <summary>The default resource location of the assembly used by <see cref="Syntony.Annotations.DefaultResourceLocationAttribute"/>: "".</summary>
     /// <devdoc>The resources file inside the Resources directory.</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string DefaultResourceLocation = "";
 
-    /// <summary>The Syntony.Common.Core.Basics.UnitTests.Net assembly token: "001-800000000".</summary>
+    /// <summary>The  assembly token: "000-863E9FFB6".</summary>
     /// <seealso cref="AssemblyGuid"/>
     /// <seealso cref="ExtensionToken"/>
     /// <devdoc>Be sure to add 9 unique digits to <see cref="FrameworkGuidConstants.SolutionTokenFramework"/>.</devdoc>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyToken = FrameworkGuidConstants.SolutionTokenFramework + "800000000";
+    public const string AssemblyToken = FrameworkGuidConstants.SolutionTokenFramework + "863E9FFB6";
 
-    /// <summary>The Syntony.Common.Core.Basics.UnitTests.Net extension token: "F01".</summary>
+    /// <summary>The  extension token: "000".</summary>
     /// <seealso cref="AssemblyToken"/>
     /// <seealso cref="AssemblyGuid"/>
-    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenNetUnitTests"/>
+    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>
     [JetBrains.Annotations.NotNull]
-    public const string ExtensionToken = FrameworkGuidConstants.ExtensionTokenNetUnitTests;
+    public const string ExtensionToken = FrameworkGuidConstants.ExtensionTokenSyntony;
 
-    /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8001-800000000F01".</summary>
-    /// <remarks>For details see <see cref="FrameworkGuidConstants.CompanyToken"/> and <see cref="FrameworkGuidConstants.ExtensionTokenNetUnitTests"/>.</remarks>
+    /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8000-863E9FFB6000".</summary>
+    /// <remarks>For details see <see cref="FrameworkGuidConstants.CompanyToken"/> and <see cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>.</remarks>
     /// <seealso cref="FrameworkGuidConstants.CompanyToken"/>
     /// <seealso cref="AssemblyToken"/>
     /// <seealso cref="ExtensionToken"/>
     /// <seealso cref="FrameworkGuidConstants.SolutionTokenFramework"/>
-    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenNetUnitTests"/>
+    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyGuid = FrameworkGuidConstants.CompanyToken + AssemblyToken + ExtensionToken;
 
@@ -586,32 +584,32 @@ internal static partial class SyntonyCommonCoreBasicsUnitTestsNetMetacontent
     [JetBrains.Annotations.NotNull]
     public const string UserSecretsId = "312f415f-7cab-4532-9cfb-90d449705d2d";
 
-    /// <summary>The number of items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int CompileItems = 81;
+    /// <summary>The number of items compiled for this "" assembly.</summary>
+    public const int CompileItems = FrameworkConstants.InvalidIdentifier;
 
-    /// <summary>The number of EmbeddedResource items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int EmbeddedResourceItems = 2;
+    /// <summary>The number of EmbeddedResource items compiled for this "" assembly.</summary>
+    public const int EmbeddedResourceItems = FrameworkConstants.InvalidIdentifier;
 
-    /// <summary>The number of Content items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int ContentItems = 2;
+    /// <summary>The number of Content items compiled for this "" assembly.</summary>
+    public const int ContentItems = FrameworkConstants.InvalidIdentifier;
 
-    /// <summary>The number of Reference items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int ReferenceItems = 89;
+    /// <summary>The number of Reference items compiled for this "" assembly.</summary>
+    public const int ReferenceItems = FrameworkConstants.InvalidIdentifier;
 
-    /// <summary>The number of ProjectReference items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int ProjectReferenceItems = 2;
+    /// <summary>The number of ProjectReference items compiled for this "" assembly.</summary>
+    public const int ProjectReferenceItems = FrameworkConstants.InvalidIdentifier;
 
-    /// <summary>The number of PackageReference items compiled for this "Syntony.Common.Core.Basics.UnitTests.Net.exe" assembly.</summary>
-    public const int PackageReferenceItems = 17;
+    /// <summary>The number of PackageReference items compiled for this "" assembly.</summary>
+    public const int PackageReferenceItems = FrameworkConstants.InvalidIdentifier;
 
     /// <summary>If this assembly uses <PackageReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "false".</summary>
     public const bool UsePackageReference = false;
 
-    /// <summary>If this assembly uses <UseProjectReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "true".</summary>
-    public const bool UseProjectReference = true;
+    /// <summary>If this assembly uses <UseProjectReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "false".</summary>
+    public const bool UseProjectReference = false;
 
-    /// <summary>Date and time of building this version in UTC: 2024-2-2 13:56:35.389166.</summary>
-    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 2, 2, 13, 56, 35, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.389166));
+    /// <summary>Date and time of building this version in UTC: 2024-9-25 10:31:49.2321891.</summary>
+    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 9, 25, 10, 31, 49, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.2321891));
 
     /// <summary>Date of starting development: 2019-1-7 08:17:05 local time.</summary>
     /// <seealso cref="BuildDateTime"/>
