@@ -67,7 +67,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <PackageReference Include="MSTest.TestFramework" Version="3.6.0" />
         <PackageReference Include="NUnit" Version="4.2.2"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.6" />
-        <PackageReference Include="xunit" Version="2.9.1" />
+        <PackageReference Include="xunit" Version="2.9.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
         <!-- include Unit Test analyzers -->
         <PackageReference Include="NUnit.Analyzers" Version="4.3" PrivateAssets="All" />
