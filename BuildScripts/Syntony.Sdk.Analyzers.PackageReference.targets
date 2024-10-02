@@ -38,13 +38,13 @@ Properties defined
         <!-- https://security-code-scan.github.io/ https://github.com/security-code-scan/security-code-scan <PackageReference Include="SecurityCodeScan.VS2019" Version="5.2.1" PrivateAssets="All" /> -->
         <!-- have a look at https://nugetmusthaves.com/Tag/analyzers for good analyzers -->
         <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enablenetanalyzers NET code quality analysis is enabled, by default, for projects that target .NET 5 or a later version. -->
-        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*" PrivateAssets="All" />
-        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="*" PrivateAssets="All" />
-        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="*" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
+        <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
         <PackageReference Condition="'$(EnableNETAnalyzers)' != 'true'" Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" PrivateAssets="All" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" PrivateAssets="All" />
         <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.12.6" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.7" PrivateAssets="All" />
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.169" PrivateAssets="All" />
     </ItemGroup>
 
@@ -53,4 +53,5 @@ Properties defined
         <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" PrivateAssets="All" />
         <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text" Version="4.9.2" PrivateAssets="All" />
     </ItemGroup>
+
 </Project>

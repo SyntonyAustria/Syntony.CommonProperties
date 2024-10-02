@@ -350,9 +350,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputFileName)'==''" Text="TransformOnBuild is true but MetacontentOutputFileName is not defined."/>
         <Error Condition="'$(TransformOnBuild)'=='true' AND '$(MetacontentOutputDirectory)'==''" Text="TransformOnBuild is true but MetacontentOutputDirectory is not defined."/>
 
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND (!Exists('Properties\$(Company).ico') AND !Exists('Properties\Icon.ico') AND !Exists('Properties\$(MSBuildProjectName).ico'))" Text="Invalid Syntony Icon."/>
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' != 'true'" Text="Syntony project not signed."/>
-        <Error Condition="'$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' == 'true' AND (!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx'))" Text="Syntony project invalid key for siging."/>
+        <Error Condition="'$(IsNotSignableProject)'!='true' AND '$(IsSyntonyProject)'=='true' AND (!Exists('Properties\$(Company).ico') AND !Exists('Properties\Icon.ico') AND !Exists('Properties\$(MSBuildProjectName).ico'))" Text="Invalid Syntony Icon."/>
+        <Error Condition="'$(IsNotSignableProject)'!='true' AND '$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' != 'true'" Text="Syntony project not signed."/>
+        <Error Condition="'$(IsNotSignableProject)'!='true' AND '$(IsSyntonyProject)'=='true' AND '$(IsPackable)' == 'true' AND '$(SignAssembly)' == 'true' AND (!Exists('$(MSBuildProjectDirectory)\Properties\$(Company)KeyPair.pfx') AND !Exists('$(MSBuildProjectDirectory)\Properties\KeyPair.pfx'))" Text="Syntony project invalid key for siging."/>
 
         <Error Condition="'$(BuildRootDirectory)'==''" Text="BuildRootDirectory property not defined."/>
         <Error Condition="!Exists('$(BuildRootDirectory)')" Text="BuildRootDirectory not found: '$(BuildRootDirectory)'."/>

@@ -610,7 +610,7 @@
     // =====================================================================================================================================
     // The currently supported Assemblies:
     // "800000000" "Syntony.Common.Core.Basics
-    // "80000000A" "Syntony.Common.Core.Disposables
+    // "80000000D" "Syntony.Common.Core.Disposables
     // "800000001" "Syntony.Common.Core
     // "8000008FF" "Syntony.TestBase
     // "801000000" "Syntony.Common
@@ -643,7 +643,7 @@
             { this.company + ".Common", ("FrameworkGuidConstants.SolutionTokenFramework", "801000000", "FrameworkGuidConstants.ExtensionTokenCore") },
             { this.company + ".Common.Core", ("FrameworkGuidConstants.SolutionTokenFramework", "800000001", "FrameworkGuidConstants.ExtensionTokenCore") },
             { this.company + ".Common.Core.Basics", ("FrameworkGuidConstants.SolutionTokenFramework", "800000000", "FrameworkGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core.Disposables", ("FrameworkGuidConstants.SolutionTokenFramework", "80000000A", "FrameworkGuidConstants.ExtensionTokenCore") },
+            { this.company + ".Common.Core.Disposables", ("FrameworkGuidConstants.SolutionTokenFramework", "80000000D", "FrameworkGuidConstants.ExtensionTokenCore") },
             { this.company + ".Common.Core.Unsafe", ("FrameworkGuidConstants.SolutionTokenFramework", "800000002", "FrameworkGuidConstants.ExtensionTokenCore") },
             { this.company + ".Configuration", ("FrameworkGuidConstants.SolutionTokenFramework", "850000000", "FrameworkGuidConstants.ExtensionTokenCore") },
             { this.company + ".Core", ("FrameworkGuidConstants.SolutionTokenFramework", "810000000", "FrameworkGuidConstants.ExtensionTokenCore") },
@@ -958,7 +958,7 @@
 //     </codeMetric>
 // </information>
 // <summary>
-//     Define <#= this.targetName #> constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
+//     Defines <#= this.targetName #> constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 namespace <#= this.rootNamespace #>.Properties;

@@ -178,6 +178,8 @@ Properties defined
             OR '$(MSBuildProjectName)' == '$(Company).Repositories'
             OR '$(MSBuildProjectName)' == '$(Company).Repository.Ef'
             OR '$(MSBuildProjectName)' == '$(Company).TestsBase')">true</IsSyntonyFrameworkProject>
+        <IsNotSignableProject Condition="$(MSBuildProjectName.StartsWith('$(Company)')) AND
+                              ( '$(MSBuildProjectName)' == '$(Company).Common.Nullable')">true</IsNotSignableProject>
     </PropertyGroup>
 
     <PropertyGroup Label="look for first assembly" Condition="'$(MSBuildProjectName)' == 'Syntony.Common.Core.Basics'">

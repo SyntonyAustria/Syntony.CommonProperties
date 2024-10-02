@@ -7,6 +7,9 @@ is_global = true
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
 
+# NOTE: .editorconfig
+# https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options?view=vs-2022
+
 # CA1309: Use ordinal StringComparison
 # https://github.com/dotnet/aspnetcore/pull/30111#issuecomment-777817003
 # dotnet_diagnostic.CA1309.severity = suggestion
@@ -33,10 +36,11 @@ dotnet_diagnostic.MA0026.severity = none
 
 #MA0007 - Add a comma after the last value
 dotnet_diagnostic.MA0007.severity = none
+
 ##' Severity	Code	Description	Project	File	Line	Suppression State
 # Warning	MultipleGlobalAnalyzerKeys	Multiple global analyzer config files set the same key 'dotnet_diagnostic.ma0026.severity' in section 'Global Section'. It has been unset. 
 # Key was set by the following files: 
 # D:\Syntony\Proj\Syntony\.globalconfig
-# D:\Syntony\Proj\Syntony\.globalconfig
+# D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\.globalconfig
 # D:\Syntony\Proj\Syntony\.globalconfig
 
