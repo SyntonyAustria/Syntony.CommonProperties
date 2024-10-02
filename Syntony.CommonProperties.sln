@@ -26,8 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedSources", "SharedSour
 	ProjectSection(SolutionItems) = preProject
 		SharedSources\AssemblyInfo - TEMPLATE.cs = SharedSources\AssemblyInfo - TEMPLATE.cs
 		SharedSources\Global.AssemblyInfo.cs = SharedSources\Global.AssemblyInfo.cs
-		SharedSources\Metacontent.tt = SharedSources\Metacontent.tt
 		SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs = SharedSources\InternalsVisibleTo.AssemblyInfo - TEMPLATE.cs
+		SharedSources\Metacontent.tt = SharedSources\Metacontent.tt
 		..\Syntony.Proj.Syntony.Readme.txt = ..\Syntony.Proj.Syntony.Readme.txt
 	EndProjectSection
 EndProject
@@ -435,7 +435,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Build", "Solution.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs USER", ".configs USER", "{3DE47D0A-CD49-479E-9BFE-17B4EC461602}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\Josef\AppData\Roaming\NuGet\NuGet.Config = C:\Users\Josef\AppData\Roaming\NuGet\NuGet.Config
+		..\..\..\NuGet.config = ..\..\..\NuGet.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".configs COMPUTER", ".configs COMPUTER", "{3D408E36-179D-4E7E-9116-CCDDAF120DDB}"
