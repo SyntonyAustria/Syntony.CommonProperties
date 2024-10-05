@@ -224,12 +224,12 @@ Properties defined
     <Import Project="$(_DefaultSdkImportPreFilename)ProjectEnvironment.props" Condition="'$(IsProjectEnvironmentFileImported)' != 'true'" />
 
     <PropertyGroup Label="Project- or PackageReference" Condition="'$(IsSyntonyTestProject)' == 'true' OR '$(IsExampleProject)' == 'true' OR '$(IsQuickBenchmarkProject)' == 'true' OR '$(IsTrialAndErrorConsole)' == 'true' OR '$(IsNotCompileProject)' == 'true'">
-        <!-- By default we use ProjectReference for test projects. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
+        <!-- By default: we use ProjectReference for test projects. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
         <UsePackageReference Condition="'$(UsePackageReference)' == ''">false</UsePackageReference>
         <UseProjectReference Condition="'$(UseProjectReference)' == ''">true</UseProjectReference>
     </PropertyGroup>
     <PropertyGroup>
-        <!-- By default we use PackageReference for all Solutions. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
+        <!-- By default: we use PackageReference for all Solutions. This can be overwritten in $(SolutionName).Build.props or $(MSBuildProjectName).Build.props file. -->
         <UsePackageReference Condition="'$(UsePackageReference)' == ''">true</UsePackageReference>
         <UseProjectReference Condition="'$(UseProjectReference)' == ''">false</UseProjectReference>
     </PropertyGroup>

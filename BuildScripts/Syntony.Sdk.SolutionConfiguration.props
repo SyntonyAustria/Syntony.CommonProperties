@@ -33,7 +33,7 @@ Properties defined
 
     <PropertyGroup Label="DEBUG / CODEANALYSIS" Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'CodeAnalysis'">
         <SignAssembly>false</SignAssembly>
-        <SignAssembly Condition="'$(IsSyntonyFrameworkProject)' == 'true' OR '$(IsSyntonyTestProject)' == 'true'">true</SignAssembly>
+        <SignAssembly Condition="'$(IsSyntonyProject)' == 'true' OR '$(IsSyntonyTestProject)' == 'true'">true</SignAssembly>
         <IncludeSymbols>true</IncludeSymbols>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
