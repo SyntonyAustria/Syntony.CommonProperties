@@ -70,7 +70,8 @@ Properties defined
 
     <!-- latest version $(Company).Framework -->
     <PropertyGroup Label="Framework Version">
-        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.5</LatestSyntonyFrameworkVersion> <!-- UPDATE also D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\Source\build\Version.targets -->
+        <!-- ATTENTION: UPDATE also D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\Source\build\Version.targets -->
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.5</LatestSyntonyFrameworkVersion>
         <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
         <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">0.1.5</LatestPublicSyntonyCommonCoreBasicsVersion>

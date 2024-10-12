@@ -7,7 +7,7 @@
 // <email>syntony@aon.at</email>
 // <date>08.02.2019 16:48:24</date>
 // <information solution="" project="" framework="" kind="Windows (C#)">
-//     <file type=".cs" created="2024-09-25 10:31:49.2321891" modified="2024-09-25 10:31:49.2321891" lastAccess="2024-09-25 10:31:49.2321891">
+//     <file type=".cs" created="2024-10-11 09:50:53.5269016" modified="2024-10-11 09:50:53.5269016" lastAccess="2024-10-11 09:50:53.5269016">
 //         Properties\Metacontent.cs
 //     </file>
 //     <lineStatistics total="624" netLines="481" blankLines ="143" codeLines="261" codeRatio="41.83 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="220"/>
@@ -25,7 +25,7 @@
 //     </codeMetric>
 // </information>
 // <summary>
-//     Define Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
+//     Defines Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 namespace Syntony.Properties;
@@ -184,10 +184,10 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string ProjectName = "";
 
-    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-09-25 10:31:49.2321891".</summary>
+    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-10-11 09:50:53.5269016".</summary>
     /// <seealso cref="BuildDateTimeFormat"/>
     [JetBrains.Annotations.NotNull]
-    public const string BuildDateTimeString = "2024-09-25 10:31:49.2321891";
+    public const string BuildDateTimeString = "2024-10-11 09:50:53.5269016";
 
     /// <summary>The used format to build <see cref="BuildDateTimeString"/> string: "yyyy-MM-dd HH:mm:ss.FFFFFFF".</summary>
     /// <seealso cref="BuildDateTime"/>
@@ -215,9 +215,9 @@ internal static partial class Metacontent
     /// <remarks>A difference in build number represents a recompilation of the same source. This would be appropriate because of processor, platform, or compiler changes.</remarks>
     public const int BuildNumber = 1;
 
-    /// <summary>The revision version number: 18954.</summary>
+    /// <summary>The revision version number: 17726.</summary>
     /// <remarks>Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable.</remarks>
-    public const int Revision = 18954;
+    public const int Revision = 17726;
 
     /// <summary>The build counter: 1.</summary>
     /// <remarks>Represents the number of total builds for this project.</remarks>
@@ -256,10 +256,10 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string BuildVersionInfo = "0";
 
-    /// <summary>The revision version string: "18954".</summary>
+    /// <summary>The revision version string: "17726".</summary>
     /// <remarks>No revision number should be greater than 65535.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string RevisionVersionInfo = "18954";
+    public const string RevisionVersionInfo = "17726";
 
     /// <summary>The <see cref="FrameworkConstants.Company"/> version short: "1.0".</summary>
     [JetBrains.Annotations.NotNull]
@@ -434,16 +434,16 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionInfo = VersionShortInfo + ".0.0";
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "1.0.0.18954".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "1.0.0.17726".</summary>
     [JetBrains.Annotations.NotNull]
     public const string FullVersionInfo = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + FrameworkConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "1.0.0.18954+2024-9-25-10-31-49".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "1.0.0.17726+2024-10-11-9-50-53".</summary>
     /// <devdoc>https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ http://semver.org .</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string FullSyntonyVersionInfo = FullVersionInfo + "-" + VersionSuffix + "+" + VersionMetadata;
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "1.0.0.18954".</summary>
+    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "1.0.0.17726".</summary>
     /// <remarks>
     /// The file version is literally the version number exposed by the DLL to the file system. It's the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to.
     /// The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are concerned.
@@ -490,11 +490,11 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string PreReleaseVersion = "";
 
-    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-9-25-10-31-49.</summary>
+    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-10-11-9-50-53.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionMetadata = "2024" + FrameworkConstants.HyphenString + "9" + FrameworkConstants.HyphenString + "25" + FrameworkConstants.HyphenString + "10" + FrameworkConstants.HyphenString + "31" + FrameworkConstants.HyphenString + "49";
+    public const string VersionMetadata = "2024" + FrameworkConstants.HyphenString + "10" + FrameworkConstants.HyphenString + "11" + FrameworkConstants.HyphenString + "9" + FrameworkConstants.HyphenString + "50" + FrameworkConstants.HyphenString + "53";
 
-    /// <summary>The full assembly version extension: ", Version=1.0.0.18954, Culture=neutral, PublicKeyToken=...".</summary>
+    /// <summary>The full assembly version extension: ", Version=1.0.0.17726, Culture=neutral, PublicKeyToken=...".</summary>
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + FrameworkConstants.SyntonyPublicKeyToken;
 
@@ -552,12 +552,12 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string DefaultResourceLocation = "";
 
-    /// <summary>The  assembly token: "000-863E9FFB6".</summary>
+    /// <summary>The  assembly token: "000-8EACDA256".</summary>
     /// <seealso cref="AssemblyGuid"/>
     /// <seealso cref="ExtensionToken"/>
     /// <devdoc>Be sure to add 9 unique digits to <see cref="FrameworkGuidConstants.SolutionTokenFramework"/>.</devdoc>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyToken = FrameworkGuidConstants.SolutionTokenFramework + "863E9FFB6";
+    public const string AssemblyToken = FrameworkGuidConstants.SolutionTokenFramework + "8EACDA256";
 
     /// <summary>The  extension token: "000".</summary>
     /// <seealso cref="AssemblyToken"/>
@@ -566,7 +566,7 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string ExtensionToken = FrameworkGuidConstants.ExtensionTokenSyntony;
 
-    /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8000-863E9FFB6000".</summary>
+    /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8000-8EACDA256000".</summary>
     /// <remarks>For details see <see cref="FrameworkGuidConstants.CompanyToken"/> and <see cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>.</remarks>
     /// <seealso cref="FrameworkGuidConstants.CompanyToken"/>
     /// <seealso cref="AssemblyToken"/>
@@ -608,8 +608,8 @@ internal static partial class Metacontent
     /// <summary>If this assembly uses <UseProjectReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "false".</summary>
     public const bool UseProjectReference = false;
 
-    /// <summary>Date and time of building this version in UTC: 2024-9-25 10:31:49.2321891.</summary>
-    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 9, 25, 10, 31, 49, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.2321891));
+    /// <summary>Date and time of building this version in UTC: 2024-10-11 9:50:53.5269016.</summary>
+    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 10, 11, 9, 50, 53, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.5269016));
 
     /// <summary>Date of starting development: 2019-1-7 08:17:05 local time.</summary>
     /// <seealso cref="BuildDateTime"/>

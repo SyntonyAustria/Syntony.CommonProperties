@@ -63,8 +63,8 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     <ItemGroup Condition="'$(IsSyntonyTestProject)'=='true' AND '$(IsBenchmarkProject)'!='true'">
         <!-- for TEST environment -->
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.6.0" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.6.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.6.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
         <PackageReference Include="NUnit" Version="4.2.2"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.6" />
         <PackageReference Include="xunit" Version="2.9.2" />

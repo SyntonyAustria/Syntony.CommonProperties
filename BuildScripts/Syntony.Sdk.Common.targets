@@ -223,6 +223,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="InternalsVisibleTo: %(InternalsVisibleTo.Identity)" Importance="$(BuildMessageImportance)"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
+        <Message Text="Version:                                        '$(Version)'" Importance="$(BuildMessageImportance)" />
         <Message Text="SyntonyVersion:                                 '$(SyntonyVersion)'" Importance="$(BuildMessageImportance)" />
         <Message Text="VersionPrefix:                                  '$(VersionPrefix)'" Importance="$(BuildMessageImportance)" />
         <Message Text="VersionSuffix:                                  '$(VersionSuffix)'" Importance="$(BuildMessageImportance)" />
@@ -883,7 +884,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="[$(MSBuildThisFileName)] Package @(_FoundPackage) has been unzipped to $(_UnzipPackageDestinationDirectory)" Importance="$(BuildMessageImportance)" Condition="'@(_FoundPackage)' != ''" />
     </Target>
 
-
     <!--
         ***********************************************************************************************
         ForceGenerationOfBindingRedirects
@@ -898,7 +898,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
         </PropertyGroup>
     </Target>
-
 
     <!-- ################################################################################ -->
     <!-- Integration "SyntonyPreBuild" into the normal build process -->
@@ -920,7 +919,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <CallTarget Targets="TransformAll"/>
         -->
     </Target>
-
 
     <!-- EXTEND BUILD PROCESS WITH -->
     <Target Name="PreBeforeBuild" BeforeTargets="BeforeBuild">
@@ -1106,7 +1104,6 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="SyntonyAssemblyAttributesPath:                  '$(SyntonyAssemblyAttributesPath)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Language:                                       '$(Language)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="GenerateSyntonyInternalsVisibleToAttributesForTests:    '$(GenerateSyntonyInternalsVisibleToAttributesForTests)'" Importance="$(BuildMessageImportance)"/>
-
 
         <WriteCodeFragment Condition="'$(GenerateSyntonyInternalsVisibleToAttributesForTests)' == 'true'"
                            AssemblyAttributes="@(SyntonyAssemblyAttributes)"

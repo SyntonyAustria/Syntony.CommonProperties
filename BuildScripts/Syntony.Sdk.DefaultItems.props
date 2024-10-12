@@ -145,6 +145,7 @@ Properties defined
         <SyntonyFrameworkProjectNames Include="$(Company).Common.Core" />
         <SyntonyFrameworkProjectNames Include="$(Company).Common.Core.Disposables" />
         <SyntonyFrameworkProjectNames Include="$(SyntonyCommonCoreBasics)" />
+        <SyntonyFrameworkProjectNames Include="$(SyntonyCommonCoreBasics).Base" />
         <SyntonyFrameworkProjectNames Include="$(Company).Common.Nullable" />
         <SyntonyFrameworkProjectNames Include="$(Company).Finance" />
         <SyntonyFrameworkProjectNames Include="$(Company).Mathematics" />
@@ -167,6 +168,7 @@ Properties defined
             OR '$(MSBuildProjectName)' == '$(Company).Common.Core'
             OR '$(MSBuildProjectName)' == '$(Company).Common.Core.Disposables'
             OR '$(MSBuildProjectName)' == '$(SyntonyCommonCoreBasics)'
+            OR '$(MSBuildProjectName)' == '$(SyntonyCommonCoreBasics).Base'
             OR '$(MSBuildProjectName)' == '$(Company).Common.Nullable'
             OR '$(MSBuildProjectName)' == '$(Company).Finance'
             OR '$(MSBuildProjectName)' == '$(Company).Mathematics'

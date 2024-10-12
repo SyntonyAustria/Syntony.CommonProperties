@@ -606,7 +606,8 @@
     }
 
     // =====================================================================================================================================
-    // ATTENTION: this dictionary is used by FrameworkGuidConstants.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
+    // ATTENTION: this dictionary is used by AssemblyTokenDefinitions.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
+    // D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\Source\Constants\FrameworkGuidConstants.cs
     // =====================================================================================================================================
     // The currently supported Assemblies:
     // "800000000" "Syntony.Common.Core.Basics
