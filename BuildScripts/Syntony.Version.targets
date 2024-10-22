@@ -70,11 +70,9 @@ Properties defined
 
     <!-- latest version $(Company).Framework -->
     <PropertyGroup Label="Framework Version">
-        <!-- ATTENTION: UPDATE also D:\Syntony\Proj\Syntony\Framework\Source\Syntony.Common.Core.Basics\Source\build\Version.targets -->
-        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.5</LatestSyntonyFrameworkVersion>
         <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
-        <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">0.1.5</LatestPublicSyntonyCommonCoreBasicsVersion>
+        <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</LatestPublicSyntonyCommonCoreBasicsVersion>
     </PropertyGroup>
 
     <PropertyGroup Label="OfficialRelease">
@@ -88,6 +86,7 @@ Properties defined
         <!-- default $(Company) Framework and C$(Company) VisualStudio Framework libraries -->
         <When Condition="('$(SolutionName)' == '$(Company).Framework' AND ('$(MSBuildProjectName.StartsWith($(Company)))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
               OR (('$(MSBuildProjectName.StartsWith($(Company).VisualStudio))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
+              OR (('$(MSBuildProjectName.StartsWith($(Company).Base))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))
               OR (('$(MSBuildProjectName.StartsWith($(Company).Common))' AND ('$(Version)' == '$(DefaultEverythingVersion)' OR '$(Version)' == '')))">
             <!-- Version, a specific version number in the form Major.Minor.Patch[-Suffix] where -Suffix identifies pre-release versions. If not specified, the default value is 1.0.0. -->
             <PropertyGroup>

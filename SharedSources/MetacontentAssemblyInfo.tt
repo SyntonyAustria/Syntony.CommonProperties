@@ -437,37 +437,37 @@
     this._compileItems = this.Host.ResolveParameterValue(".", ".", "_CompileItems");
     if (string.IsNullOrEmpty(this._compileItems))
     {
-        this._compileItems = "-1";
+        this._compileItems = CommonConstants.InvalidIdentifier;
     }
 
     this._embeddedResourceItems = this.Host.ResolveParameterValue(".", ".", "_EmbeddedResourceItems");
     if (string.IsNullOrEmpty(this._embeddedResourceItems))
     {
-        this._embeddedResourceItems = "-1";
+        this._embeddedResourceItems = CommonConstants.InvalidIdentifier;
     }
 
     this._contentItems = this.Host.ResolveParameterValue(".", ".", "_ContentItems");
     if (string.IsNullOrEmpty(this._contentItems))
     {
-        this._contentItems = "-1";
+        this._contentItems = CommonConstants.InvalidIdentifier;
     }
 
     this._referenceItems = this.Host.ResolveParameterValue(".", ".", "_ReferenceItems");
     if (string.IsNullOrEmpty(this._referenceItems))
     {
-        this._referenceItems = "-1";
+        this._referenceItems = CommonConstants.InvalidIdentifier;
     }
 
     this._projectReferenceItems = this.Host.ResolveParameterValue(".", ".", "_ProjectReferenceItems");
     if (string.IsNullOrEmpty(this._projectReferenceItems))
     {
-        this._projectReferenceItems = "-1";
+        this._projectReferenceItems = CommonConstants.InvalidIdentifier;
     }
 
     this._packageReferenceItems = this.Host.ResolveParameterValue(".", ".", "_PackageReferenceItems");
     if (string.IsNullOrEmpty(this._packageReferenceItems))
     {
-        this._packageReferenceItems = "-1";
+        this._packageReferenceItems = CommonConstants.InvalidIdentifier;
     }
 
     this.companyLinkHomepage = this.Host.ResolveParameterValue(".", ".", "CompanyLinkHomepage");
@@ -542,151 +542,6 @@
         this.projectTargetName = "";
     }
 
-    // =====================================================================================================================================
-    // ATTENTION: this dictionary is used by SyntonyGuidConstants.cs inside Syntony.Common.Core.Basics.dll copy any changes to this file
-    // =====================================================================================================================================
-    // The currently supported Assemblies:
-    // "800000000" "Syntony.Common.Core.Basics
-    // "800000001" "Syntony.Common.Core
-    // "8000008FF" "Syntony.TestBase
-    // "801000000" "Syntony.Common
-    // "810000000" "Syntony.Core                   
-    // "810100000" "Syntony.Core.Primitives        
-    // "820000000" "Syntony.Metadata               
-    // "820100000" "Syntony.Metadata.Configuration 
-    // "820A00000" "Syntony.Mathematics               
-    // "830000000" "Syntony.Extensions             
-    // "830100000" "Syntony.Extensions.Core        
-    // "830200000" "Syntony.Extensions.Event       
-    // "840000000" "Syntony.Environment            
-    // "850000000" "Syntony.Configuration          
-    // "860000000" "Syntony.Extensibility          
-    // "870000000" "Syntony.Application            
-    // "880000000" "Syntony.Diagnostics            
-    // "8A0000000" "Syntony.VisualStudioFramework 
-    // "8A0100000" "Syntony.GetSharper 
-    // "8EF000000" "Syntony.Platform               
-    // "8EF010000" "Syntony.Platform.Interop       
-    // "8EF010100" "Syntony.Platform.Interop.Windows
-    // "8EF010200" "Syntony.Platform.Interop.Linux 
-    // "8EF010300" "Syntony.Platform.Interop.MacOs 
-    // "8F00008FF" "Syntony.DebuggerVisualizers
-    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "yyyyyyyyy" part, 9 hex numbers.
-    Dictionary<string, (string solution, string assembly, string extension)> supportedAssemblies = new Dictionary<string, (string solution, string assembly, string extension)>
-                                                                {
-            { this.company + ".Common.NullableAttributes", ("SyntonyGuidConstants.SolutionTokenAll", "000000000", "SyntonyGuidConstants.ExtensionTokenSyntony") },
-            { this.company + ".Application", ("SyntonyGuidConstants.SolutionTokenFramework", "870000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common", ("SyntonyGuidConstants.SolutionTokenFramework", "801000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "800000001", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Common.Core.Basics", ("SyntonyGuidConstants.SolutionTokenFramework", "800000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "850000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Core", ("SyntonyGuidConstants.SolutionTokenFramework", "810000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Core.Primitives", ("SyntonyGuidConstants.SolutionTokenFramework", "810100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Diagnostics", ("SyntonyGuidConstants.SolutionTokenFramework", "880000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Environment", ("SyntonyGuidConstants.SolutionTokenFramework", "840000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensibility", ("SyntonyGuidConstants.SolutionTokenFramework", "860000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions", ("SyntonyGuidConstants.SolutionTokenFramework", "830000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions.Core", ("SyntonyGuidConstants.SolutionTokenFramework", "830100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Extensions.Event", ("SyntonyGuidConstants.SolutionTokenFramework", "830200000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Mathematics", ("SyntonyGuidConstants.SolutionTokenFramework", "820A00000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Metadata", ("SyntonyGuidConstants.SolutionTokenFramework", "820000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Metadata.Configuration", ("SyntonyGuidConstants.SolutionTokenFramework", "820100000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.Windows", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010100", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.Linux", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010200", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".Platform.Interop.MacOs", ("SyntonyGuidConstants.SolutionTokenFramework", "8EF010300", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".VisualStudioFramework", ("SyntonyGuidConstants.SolutionTokenFramework", "8A0000000", "SyntonyGuidConstants.ExtensionTokenCore") },
-            { this.company + ".TestsBase", ("SyntonyGuidConstants.SolutionTokenTestFramework", "8000008FF", "SyntonyGuidConstants.ExtensionTokenTestsBase") },
-            { this.company + ".GetSharper", ("SyntonyGuidConstants.SolutionTokenVisualStudioExtension", "8A0100000", "SyntonyGuidConstants.ExtensionTokenVisualStudioExtension") },
-            { this.company + ".DebuggerVisualizers", ("SyntonyGuidConstants.SolutionTokenVisualStudioDebuggerVisualizers", "8F00008FF", "SyntonyGuidConstants.ExtensionTokenVisualStudioDebuggerVisualizers") },
-                                                                };  
-
-    Dictionary<string, string> supportedTests = new Dictionary<string, string>
-                                                                {
-                                                                    { "UnitTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests" },
-                                                                    { "UnitTests.Net", "SyntonyGuidConstants.ExtensionTokenNetUnitTests" },
-                                                                    { "IntegrationTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests" },
-                                                                    { "IntegrationTests.Net", "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests" },
-                                                                    { "PerformanceTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests" },
-                                                                    { "PerformanceTests.Net", "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests" },
-                                                                    { "SecurityTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests" },
-                                                                    { "SecurityTests.Net", "SyntonyGuidConstants.ExtensionTokenNetSecurityTests" },
-                                                                    { "BenchmarkTests.NetFramework", "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests" },
-                                                                    { "BenchmarkTests.Net", "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests" },
-                                                                };
-
-    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "TTT-" part, 3 hex numbers one hyphen.
-    Dictionary<string, string> solutionTokenValues = new Dictionary<string, string>
-                                                                {
-                                                                    { "SyntonyGuidConstants.SolutionTokenAll", "000-" }, // or undefined
-                                                                    { "SyntonyGuidConstants.SolutionTokenFramework", "001-" },
-                                                                };
-
-    // "<b>xxxxxxxx-xxxx-4xxx-8TTT-yyyyyyyyyZZZ</b>" ... Value represents the "ZZZ" part, 3 hex numbers.
-    Dictionary<string, string> extensionTokenValues = new Dictionary<string, string>
-                                                                {
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkUnitTests", "F00" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetUnitTests", "F01" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkIntegrationTests", "F10" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetIntegrationTests", "F11" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkPerformanceTests", "F20" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetPerformanceTests", "F21" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkSecurityTests", "F30" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetSecurityTests", "F31" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetFrameworkBenchmarkTests", "FB0" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenNetBenchmarkTests", "FB1" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenTestsBase", "8FF" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenSyntony", "000" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenCore", "001" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenAbstractions", "010" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenDefaultImplementations", "011" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenTrialAndErrorConsole", "EFE" },
-                                                                    { "SyntonyGuidConstants.ExtensionTokenWarehouseRepository", "EFF" },
-                                                                };
-    int index;
-    string coreAssembly = this.projectTargetName;
-    if (this.isTestProject)
-    {
-        // if this.isTestProject == true  (like "Syntony.Common.UnitTests.NetFramework.dll", "Syntony.Common.UnitTests.Net.dll")
-        index = this.projectTargetName.Substring(0, this.projectTargetName.LastIndexOf('.')).LastIndexOf('.');
-        this.testPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
-        if (this.projectTargetName.EndsWith(this.testPrefix, StringComparison.Ordinal))
-        {
-            coreAssembly = this.projectTargetName.Substring(0, this.projectTargetName.LastIndexOf(this.testPrefix, StringComparison.Ordinal) - 1);
-            index = coreAssembly.LastIndexOf('.');
-            this.lastPrefix = index > 0 ? coreAssembly.Substring(index + 1) : this.projectTargetName;
-        }
-        else
-        {
-            // should not happen!!!
-            index = this.projectTargetName.LastIndexOf('.');
-            this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
-        }
-    
-        this.extensionTokenName = supportedTests.ContainsKey(this.testPrefix) ? supportedTests[this.testPrefix] : this.extensionTokenName;
-        this.extensionTokenValue = extensionTokenValues.ContainsKey(this.extensionTokenName) ? extensionTokenValues[this.extensionTokenName] : this.extensionTokenValue;
-    }
-    else
-    {
-        // Syntony*.dll 
-        index = this.projectTargetName.LastIndexOf('.');
-        this.lastPrefix = index > 0 ? this.projectTargetName.Substring(index + 1) : this.projectTargetName;
-    }
-
-    if (supportedAssemblies.ContainsKey(coreAssembly))
-    {
-        this.solutionTokenName = supportedAssemblies[coreAssembly].solution;
-        this.assemblyGuidAssemblyPart = supportedAssemblies[coreAssembly].assembly;
-        this.solutionTokenValue = solutionTokenValues.ContainsKey(this.solutionTokenName) ? solutionTokenValues[this.solutionTokenName] : this.solutionTokenValue;
-        this.extensionTokenName = this.isTestProject ? this.extensionTokenName : supportedAssemblies[coreAssembly].extension;
-    }
-    else
-    {
-        this.assemblyGuidAssemblyPart = "8" + CreateRandomString(); // this.assemblyGuidAssemblyPart = this.assemblyGuidAssemblyPart; // invalid GUID
-    }
-
-
     this.metacontentOutputFileName = this.Host.ResolveParameterValue(".", ".", "MetacontentOutputFileName");
     if (string.IsNullOrEmpty(this.metacontentOutputFileName))
     {
@@ -695,7 +550,7 @@
 
     try
     {
-        string host = this.Host.TemplateFile; // "D:\\Syntony\\Proj\\Syntony\\CommonProperties\\SharedSources\\Metacontent.tt"
+        string host = this.Host.TemplateFile; // "D:\\Syntony\\Proj\\Syntony\\CommonProperties\\SharedSources\\MetacontentAssemblyInfo.tt"
         this.targetFile = this.metacontentOutputDirectory + "\\" + this.metacontentOutputFileName + ".cs";
         this.targetFile = File.Exists(this.targetFile) ? this.targetFile : Path.ChangeExtension(this.targetFile, "cs");
         this.targetName = File.Exists(this.targetFile) ? Path.GetFileNameWithoutExtension(this.targetFile) : this.classPrefix +  Path.GetFileNameWithoutExtension(host);
@@ -1037,19 +892,12 @@ using MetaData = Syntony.Properties.<#= this.targetName #>;
     bool rebuildT4;
     string rebuildT4String;
     string isReleaseVersion;
-    string lastPrefix = "";
-    string testPrefix = "";
-    string solutionTokenName = "SyntonyGuidConstants.SolutionTokenFramework";
-    string solutionTokenValue = "000-";
-    string assemblyGuidAssemblyPart = "FFFFFFFFF"; // length 9 - defines an INVALID GUID
-    string extensionTokenName = "SyntonyGuidConstants.ExtensionTokenSyntony";
-    string extensionTokenValue = "000";
-    string _compileItems = "-1";
-    string _embeddedResourceItems = "-1";
-    string _contentItems = "-1";
-    string _referenceItems = "-1";
-    string _projectReferenceItems = "-1";
-    string _packageReferenceItems = "-1";
+    string _compileItems = "CommonConstants.InvalidIdentifier";
+    string _embeddedResourceItems = "CommonConstants.InvalidIdentifier";
+    string _contentItems = "CommonConstants.InvalidIdentifier";
+    string _referenceItems = "CommonConstants.InvalidIdentifier";
+    string _projectReferenceItems = "CommonConstants.InvalidIdentifier";
+    string _packageReferenceItems = "CommonConstants.InvalidIdentifier";
     bool useProjectReference;
     string useProjectReferenceString;
     bool usePackageReference;

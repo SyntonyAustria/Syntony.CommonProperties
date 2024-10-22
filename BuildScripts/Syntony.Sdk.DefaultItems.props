@@ -164,12 +164,13 @@ Properties defined
             Condition="$(MSBuildProjectName.StartsWith('$(Company)')) AND
             (  '$(MSBuildProjectName)' == '$(Company).Application'
             OR '$(MSBuildProjectName)' == '$(Company).Benchmark'
+            OR '$(MSBuildProjectName)' == '$(Company).Base'
             OR '$(MSBuildProjectName)' == '$(Company).Common'
             OR '$(MSBuildProjectName)' == '$(Company).Common.Core'
             OR '$(MSBuildProjectName)' == '$(Company).Common.Core.Disposables'
             OR '$(MSBuildProjectName)' == '$(SyntonyCommonCoreBasics)'
             OR '$(MSBuildProjectName)' == '$(SyntonyCommonCoreBasics).Base'
-            OR '$(MSBuildProjectName)' == '$(Company).Common.Nullable'
+            OR '$(MSBuildProjectName)' == '$(Company).Base.Nullable'
             OR '$(MSBuildProjectName)' == '$(Company).Finance'
             OR '$(MSBuildProjectName)' == '$(Company).Mathematics'
             OR '$(MSBuildProjectName)' == '$(Company).Platform'
@@ -193,11 +194,12 @@ Properties defined
             Condition="($(MSBuildProjectName.StartsWith('$(Company)'))) AND
             (  $(MSBuildProjectName.StartsWith('$(Company).Application.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Benchmark.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Base.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Common.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Common.Core.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Common.Core.Disposables.'))
             OR $(MSBuildProjectName.StartsWith('$(SyntonyCommonCoreBasics).'))
-            OR $(MSBuildProjectName.StartsWith('$(Company).Common.Nullable.'))
+            OR $(MSBuildProjectName.StartsWith('$(Company).Base.Nullable.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Finance.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Mathematics.'))
             OR $(MSBuildProjectName.StartsWith('$(Company).Platform.'))

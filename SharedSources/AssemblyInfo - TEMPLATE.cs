@@ -20,8 +20,8 @@
 #define TRUE
 
 // ReSharper disable FilesNotPartOfProjectWarning
-using Syntony;
 using Syntony.Annotations;
+using Syntony.Constants;
 
 using System;
 using System.Reflection;
@@ -65,12 +65,12 @@ using MetaData = {Company_Metacontent};
         MetaData.TargetFileName,
         MetaData.StartDate,
         MetaData.ExpirationDate,
-        FrameworkConstants.DefaultUpdateUrl,
-        FrameworkConstants.DefaultUpdateLinkText,
+        CommonConstants.Default.UpdateUrl,
+        CommonConstants.Default.UpdateLinkText,
         MetaData.PreReleaseVersion,
         MetaData.VersionMetadata,
         Active = true,
-        Identifier = FrameworkConstants.DefaultIdentifier,
+        Identifier = CommonConstants.CompanyIdentifier,
         PackageGuidValue = MetaData.AssemblyGuid,
         BuildDate = MetaData.BuildDateTimeString,
         DateTimeInfo = MetaData.BuildDateTimeString,

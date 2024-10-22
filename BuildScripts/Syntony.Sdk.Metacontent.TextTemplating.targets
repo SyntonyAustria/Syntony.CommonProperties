@@ -54,7 +54,7 @@ Properties defined
         <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(MSBuildProjectName.Replace(".", ""))</MetacontentClassPrefix>
         <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(AssemblyName.Replace(".", ""))</MetacontentClassPrefix>
         <MetacontentClassPrefix Condition="'$(MetacontentClassPrefix)' == ''">$(PackageId.Replace(".", ""))</MetacontentClassPrefix>
-        <MetacontentFile Condition="'$(MetacontentFile)' == ''">Metacontent</MetacontentFile>
+        <MetacontentFile Condition="'$(MetacontentFile)' == ''">MetaContent</MetacontentFile>
         <MetacontentOutputFileName Condition="'$(MetacontentOutputFileName)' == ''">$(MetacontentClassPrefix)$(MetacontentFile)</MetacontentOutputFileName>
         <MetacontentOutputDirectory Condition="'$(MetacontentOutputDirectory)' == ''">$([MSBuild]::EnsureTrailingSlash($(MSBuildProjectDirectory)))Properties</MetacontentOutputDirectory>
 

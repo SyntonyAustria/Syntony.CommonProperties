@@ -22,5 +22,7 @@ Properties defined
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup Label="Imported">
         <IsCompanyCommonPropsFileImported>true</IsCompanyCommonPropsFileImported>
+
+        <LatestSyntonyFrameworkVersion Condition="'$(LatestSyntonyFrameworkVersion)' == ''">0.1.5</LatestSyntonyFrameworkVersion>
     </PropertyGroup>
 </Project>

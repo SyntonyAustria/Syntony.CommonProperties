@@ -1,22 +1,22 @@
 ﻿
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="Metacontent.cs" company="Syntony® / Ing. Josef Hahnl, MBA">
+// <copyright file="MetaContent.cs" company="Syntony® / Ing. Josef Hahnl, MBA">
 //     undefined
 // </copyright>
 // <author>Ing. Josef Hahnl, MBA - Hahnl</author>
 // <email>syntony@aon.at</email>
 // <date>08.02.2019 16:48:24</date>
 // <information solution="" project="" framework="" kind="Windows (C#)">
-//     <file type=".cs" created="2024-10-11 09:50:53.5269016" modified="2024-10-11 09:50:53.5269016" lastAccess="2024-10-11 09:50:53.5269016">
-//         Properties\Metacontent.cs
+//     <file type=".cs" created="2024-10-21 20:00:21.0518963" modified="2024-10-21 20:00:21.0518963" lastAccess="2024-10-21 20:00:21.0518963">
+//         Properties\MetaContent.cs
 //     </file>
 //     <lineStatistics total="624" netLines="481" blankLines ="143" codeLines="261" codeRatio="41.83 %" allCommentLines="33" commentLines="3" headerLines="30" documentationLines="220"/>
 //     <language>C#</language>
 //     <namespace>Syntony.Properties</namespace>
-//     <class>Metacontent</class>
+//     <class>MetaContent</class>
 //     <identifiers>
 //         <Namespace>Syntony.Properties</Namespace>
-//         <Class>Metacontent</Class>
+//         <Class>MetaContent</Class>
 //     </identifiers>
 //     <codeMetric>
 //         <numberOfUsings>3</numberOfUsings>
@@ -25,7 +25,7 @@
 //     </codeMetric>
 // </information>
 // <summary>
-//     Defines Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
+//     Defines MetaContent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 namespace Syntony.Properties;
@@ -35,10 +35,12 @@ using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
+using Syntony.Constants;
+
 #pragma warning disable CA1724, CC0021 // Type names should not match namespaces
 
-/// <summary>Define Metacontent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.</summary>
-/// <remarks>Metacontent defines a hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
+/// <summary>Define MetaContent constants mostly read from project file. The vocabularies used to assemble metadata (metacontent) statements.</summary>
+/// <remarks>MetaContent defines a hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
 /// while not strictly enforcing it to allow older 4-digit versioning schemes to continue working.</remarks>
 /// <devdoc>
 /// <a href="http://stackoverflow.com/questions/64602/what-are-differences-between-assemblyversion-assemblyfileversion-and-assemblyin"/>,
@@ -50,7 +52,7 @@ using JetBrains.Annotations;
 [SuppressMessage("ReSharper", "RedundantNameQualifier", Justification = "okay here")]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "okay here")]
 [PublicAPI]
-internal static partial class Metacontent
+internal static partial class MetaContent
 {
 #if SYNTONY_CODE_ANALYSIS || CODE_ANALYSIS
 
@@ -184,10 +186,10 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string ProjectName = "";
 
-    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-10-11 09:50:53.5269016".</summary>
+    /// <summary>The current <see cref="DateTime"/> UTC string when this file was built with format "yyyy-MM-dd HH:mm:ss.FFFFFFF": "2024-10-21 20:00:21.0518963".</summary>
     /// <seealso cref="BuildDateTimeFormat"/>
     [JetBrains.Annotations.NotNull]
-    public const string BuildDateTimeString = "2024-10-11 09:50:53.5269016";
+    public const string BuildDateTimeString = "2024-10-21 20:00:21.0518963";
 
     /// <summary>The used format to build <see cref="BuildDateTimeString"/> string: "yyyy-MM-dd HH:mm:ss.FFFFFFF".</summary>
     /// <seealso cref="BuildDateTime"/>
@@ -215,9 +217,9 @@ internal static partial class Metacontent
     /// <remarks>A difference in build number represents a recompilation of the same source. This would be appropriate because of processor, platform, or compiler changes.</remarks>
     public const int BuildNumber = 1;
 
-    /// <summary>The revision version number: 17726.</summary>
+    /// <summary>The revision version number: 36010.</summary>
     /// <remarks>Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable.</remarks>
-    public const int Revision = 17726;
+    public const int Revision = 36010;
 
     /// <summary>The build counter: 1.</summary>
     /// <remarks>Represents the number of total builds for this project.</remarks>
@@ -256,14 +258,14 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string BuildVersionInfo = "0";
 
-    /// <summary>The revision version string: "17726".</summary>
+    /// <summary>The revision version string: "36010".</summary>
     /// <remarks>No revision number should be greater than 65535.</remarks>
     [JetBrains.Annotations.NotNull]
-    public const string RevisionVersionInfo = "17726";
+    public const string RevisionVersionInfo = "36010";
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> version short: "1.0".</summary>
+    /// <summary>The <see cref="CommonConstants.Company"/> version short: "1.0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionShortInfo = MajorVersionInfo + FrameworkConstants.DotString + MinorVersionInfo;
+    public const string VersionShortInfo = MajorVersionInfo + CommonConstants.DotString + MinorVersionInfo;
 
     /// <summary>All possible development types of this assembly: "undefined".</summary>
     [JetBrains.Annotations.NotNull]
@@ -426,7 +428,7 @@ internal static partial class Metacontent
     /// <summary>If this assembly is designated to be release: "false".</summary>
     public const bool IsReleaseVersion = false;
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "1.0.0.0".</summary>
+    /// <summary>The <see cref="CommonConstants.Company"/> version used by <see cref="System.Reflection.AssemblyVersionAttribute"/>: "1.0.0.0".</summary>
     /// <remarks>Every assembly you produce as part of your build process has a version number embedded in it, which forms an important part of the assembly's identity.
     /// It's stored in the assembly manifest and is used by the runtime to ensure correct versions are loaded etc.
     /// The <seealso cref="System.Reflection.AssemblyVersionAttribute"/> is used along with name, public key token and culture information only if the assemblies are strong-named signed.
@@ -434,16 +436,16 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyVersionInfo = VersionShortInfo + ".0.0";
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "1.0.0.17726".</summary>
+    /// <summary>The full <see cref="CommonConstants.Company"/> version including <see cref="VersionShortInfo"/>, <see cref="BuildVersionInfo"/> and <see cref="RevisionVersionInfo"/>: "1.0.0.36010".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string FullVersionInfo = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + FrameworkConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
+    public const string FullVersionInfo = VersionShortInfo + CommonConstants.DotString + BuildVersionInfo + CommonConstants.DotString + RevisionVersionInfo; // The format of the version string is: major. minor. build. revision.
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> semantic version: "1.0.0.17726+2024-10-11-9-50-53".</summary>
+    /// <summary>The full <see cref="CommonConstants.Company"/> semantic version: "1.0.0.36010+2024-10-21-20-0-21".</summary>
     /// <devdoc>https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ http://semver.org .</devdoc>
     [JetBrains.Annotations.NotNull]
     public const string FullSyntonyVersionInfo = FullVersionInfo + "-" + VersionSuffix + "+" + VersionMetadata;
 
-    /// <summary>The full <see cref="FrameworkConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "1.0.0.17726".</summary>
+    /// <summary>The full <see cref="CommonConstants.Company"/> version used by <see cref="System.Reflection.AssemblyFileVersionAttribute"/>: "1.0.0.36010".</summary>
     /// <remarks>
     /// The file version is literally the version number exposed by the DLL to the file system. It's the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to.
     /// The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are concerned.
@@ -451,11 +453,11 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string AssemblyFileVersionInfo = FullVersionInfo;
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> file version:"1.0.0.0".</summary>
+    /// <summary>The <see cref="CommonConstants.Company"/> file version:"1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string CompanyFileVersion = VersionShortInfo + FrameworkConstants.DotString + BuildVersionInfo + ".0"; // "15.2.3.0"
+    public const string CompanyFileVersion = VersionShortInfo + CommonConstants.DotString + BuildVersionInfo + ".0"; // "15.2.3.0"
 
-    /// <summary>The <see cref="FrameworkConstants.Company"/> package version: "1.0.0.0".</summary>
+    /// <summary>The <see cref="CommonConstants.Company"/> package version: "1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
     public const string PackageVersionInfo = CompanyFileVersion + "-" + VersionSuffix;
 
@@ -470,7 +472,7 @@ internal static partial class Metacontent
 
     /// <summary>The marketing version: " 1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string MarketingVersion = TargetFileName + FrameworkConstants.SpaceString + PackageVersionInfo;
+    public const string MarketingVersion = TargetFileName + CommonConstants.SpaceString + PackageVersionInfo;
 
     /// <summary>The product version used by <see cref="System.Reflection.AssemblyInformationalVersionAttribute"/>: " 1.0.0.0".</summary>
     /// <remarks>
@@ -490,13 +492,13 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string PreReleaseVersion = "";
 
-    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-10-11-9-50-53.</summary>
+    /// <summary>The metadata information of this version includes the build date and time as UTC: 2024-10-21-20-0-21.</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionMetadata = "2024" + FrameworkConstants.HyphenString + "10" + FrameworkConstants.HyphenString + "11" + FrameworkConstants.HyphenString + "9" + FrameworkConstants.HyphenString + "50" + FrameworkConstants.HyphenString + "53";
+    public const string VersionMetadata = "2024" + CommonConstants.HyphenString + "10" + CommonConstants.HyphenString + "21" + CommonConstants.HyphenString + "20" + CommonConstants.HyphenString + "0" + CommonConstants.HyphenString + "21";
 
-    /// <summary>The full assembly version extension: ", Version=1.0.0.17726, Culture=neutral, PublicKeyToken=...".</summary>
+    /// <summary>The full assembly version extension: ", Version=1.0.0.36010, Culture=neutral, PublicKeyToken=...".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + FrameworkConstants.SyntonyPublicKeyToken;
+    public const string AssemblyVersionExtension = ", Version=" + FullVersionInfo + ", Culture=neutral, PublicKeyToken=" + CommonConstants.SyntonyPublicKeyToken;
 
     /// <summary>The satellite contract version: "1.0.0.0".</summary>
     [JetBrains.Annotations.NotNull]
@@ -508,11 +510,11 @@ internal static partial class Metacontent
 
     /// <summary>The version suffix: ".v1.0".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string VersionSuffixWithSeparator = FrameworkConstants.DotString + VersionSuffixWithoutSeparator;
+    public const string VersionSuffixWithSeparator = CommonConstants.DotString + VersionSuffixWithoutSeparator;
 
     /// <summary>The full product name info: " © ".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string ProductNameInformation = MarketingVersion + FrameworkConstants.SpaceString + VersionSuffix;
+    public const string ProductNameInformation = MarketingVersion + CommonConstants.SpaceString + VersionSuffix;
 
     /// <summary>The neutral resource language: "en-us".</summary>
     [JetBrains.Annotations.NotNull]
@@ -552,29 +554,9 @@ internal static partial class Metacontent
     [JetBrains.Annotations.NotNull]
     public const string DefaultResourceLocation = "";
 
-    /// <summary>The  assembly token: "000-8EACDA256".</summary>
-    /// <seealso cref="AssemblyGuid"/>
-    /// <seealso cref="ExtensionToken"/>
-    /// <devdoc>Be sure to add 9 unique digits to <see cref="FrameworkGuidConstants.SolutionTokenFramework"/>.</devdoc>
+    /// <summary>The unique identifier for this module: "fdf6dd00-0000-4000-8000-652ff8ee81cb".</summary>
     [JetBrains.Annotations.NotNull]
-    public const string AssemblyToken = FrameworkGuidConstants.SolutionTokenFramework + "8EACDA256";
-
-    /// <summary>The  extension token: "000".</summary>
-    /// <seealso cref="AssemblyToken"/>
-    /// <seealso cref="AssemblyGuid"/>
-    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>
-    [JetBrains.Annotations.NotNull]
-    public const string ExtensionToken = FrameworkGuidConstants.ExtensionTokenSyntony;
-
-    /// <summary>The unique identifier for this module: "32BE232A-ACEC-44D6-8000-8EACDA256000".</summary>
-    /// <remarks>For details see <see cref="FrameworkGuidConstants.CompanyToken"/> and <see cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>.</remarks>
-    /// <seealso cref="FrameworkGuidConstants.CompanyToken"/>
-    /// <seealso cref="AssemblyToken"/>
-    /// <seealso cref="ExtensionToken"/>
-    /// <seealso cref="FrameworkGuidConstants.SolutionTokenFramework"/>
-    /// <seealso cref="FrameworkGuidConstants.ExtensionTokenSyntony"/>
-    [JetBrains.Annotations.NotNull]
-    public const string AssemblyGuid = FrameworkGuidConstants.CompanyToken + AssemblyToken + ExtensionToken;
+    public const string AssemblyGuid = "fdf6dd00-0000-4000-8000-652ff8ee81cb";
 
     /// <summary>The user secrets Id for this assembly: 312f415f-7cab-4532-9cfb-90d449705d2d.</summary>
     /// <devdoc><a href="https://makolyte.com/csharp-user-secrets-arent-being-loaded-when-youre-using-generateassemblyinfofalse/"/>
@@ -585,22 +567,22 @@ internal static partial class Metacontent
     public const string UserSecretsId = "312f415f-7cab-4532-9cfb-90d449705d2d";
 
     /// <summary>The number of items compiled for this "" assembly.</summary>
-    public const int CompileItems = FrameworkConstants.InvalidIdentifier;
+    public const int CompileItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>The number of EmbeddedResource items compiled for this "" assembly.</summary>
-    public const int EmbeddedResourceItems = FrameworkConstants.InvalidIdentifier;
+    public const int EmbeddedResourceItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>The number of Content items compiled for this "" assembly.</summary>
-    public const int ContentItems = FrameworkConstants.InvalidIdentifier;
+    public const int ContentItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>The number of Reference items compiled for this "" assembly.</summary>
-    public const int ReferenceItems = FrameworkConstants.InvalidIdentifier;
+    public const int ReferenceItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>The number of ProjectReference items compiled for this "" assembly.</summary>
-    public const int ProjectReferenceItems = FrameworkConstants.InvalidIdentifier;
+    public const int ProjectReferenceItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>The number of PackageReference items compiled for this "" assembly.</summary>
-    public const int PackageReferenceItems = FrameworkConstants.InvalidIdentifier;
+    public const int PackageReferenceItems = CommonConstants.InvalidIdentifier;
 
     /// <summary>If this assembly uses <PackageReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "false".</summary>
     public const bool UsePackageReference = false;
@@ -608,8 +590,8 @@ internal static partial class Metacontent
     /// <summary>If this assembly uses <UseProjectReference Include="..."/> for <see cref="Company"/> dependent assemblies inside its build process: "false".</summary>
     public const bool UseProjectReference = false;
 
-    /// <summary>Date and time of building this version in UTC: 2024-10-11 9:50:53.5269016.</summary>
-    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 10, 11, 9, 50, 53, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.5269016));
+    /// <summary>Date and time of building this version in UTC: 2024-10-21 20:0:21.0518963.</summary>
+    public static readonly DateTimeOffset BuildDateTime = new(new DateTime(2024, 10, 21, 20, 0, 21, DateTimeKind.Utc) + TimeSpan.FromSeconds(0.0518963));
 
     /// <summary>Date of starting development: 2019-1-7 08:17:05 local time.</summary>
     /// <seealso cref="BuildDateTime"/>

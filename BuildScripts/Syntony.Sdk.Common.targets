@@ -257,6 +257,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="GlobalCommonPropertiesToolsDirectory:           '$(GlobalCommonPropertiesToolsDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="GlobalCommonPropertiesLicensesDirectory:        '$(GlobalCommonPropertiesLicensesDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="GlobalCommonPropertiesIconsDirectory:           '$(GlobalCommonPropertiesIconsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="_PackageSourceDirectory:                        '$(_PackageSourceDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="Project-Build-Version file:                     '$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsProjectVersionTargetsFileImported:            '$(IsProjectVersionTargetsFileImported)'" Importance="$(BuildMessageImportance)"/>
 
@@ -392,10 +393,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
     <!--
         ***********************************************************************************************
-        PostBuild
+        PostBuildCopyTargetFiles
         ***********************************************************************************************
     -->
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Target Name="PostBuildCopyTargetFiles" AfterTargets="PostBuildEvent">
         <!-- copy files to topmost (global) CommonPropertiesDirectory -->
         <Exec Command="xcopy %22$(TargetDir)$(TargetName).*%22 $(GlobalCommonPropertiesDirectory)Assemblies\Syntony /y" />
     </Target>
@@ -465,6 +466,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
         <Exec Command="$(_nuget) add $(_outputPath) -source $(_PackageSourceDirectory)" Condition="'$(_outputPath)'!=''" ContinueOnError="true"/>
         <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
+
+        <!-- copy also to local feed defined inside D:\Syntony\NuGet.config ... should be on the long side a Custom MSBuild Task: -->
+        <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
+        
 
         <Message Text="ERROR: nuget add failed" Condition="'$(_outputPath)'==''" Importance="high"/>
     </Target>

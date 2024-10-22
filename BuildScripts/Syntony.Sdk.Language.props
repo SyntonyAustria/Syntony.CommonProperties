@@ -107,7 +107,7 @@ Properties defined
             When a project contains this property set to True, the following assembly-level attribute is added to the AssemblyInfo.cs file:
             [assembly: RequiresPreviewFeatures]
         -->
-        <EnablePreviewFeatures>true</EnablePreviewFeatures>
+        <EnablePreviewFeatures>false</EnablePreviewFeatures>
 
         <!--
             https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version#c-language-version-reference
