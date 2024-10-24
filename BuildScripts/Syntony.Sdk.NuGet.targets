@@ -181,7 +181,7 @@ Properties defined
     <ItemGroup Condition="'$(EnableSourceLink)'=='true'">
         <!-- https://blog.ndepend.com/improved-net-debugging-experience-with-source-link/ -->
         <!-- Reference this package to enable SourceLink used with the source control GitHub -->
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

@@ -1431,11 +1431,6 @@ internal static partial class <#= this.targetName #>
     /// <summary>The full assembly version.</summary>
     [PublicAPI]
     public static readonly Version AssemblyVersion = new(Major, Minor, Build, Revision);
-
-    /// <summary>A hybrid implementation of semantic version that supports semantic versioning as described at <a href="http://semver.org">Semantic Versioning</a>
-    /// while not strictly enforcing it to allow older 4-digit versioning schemes to continue working.</summary>
-    [PublicAPI]
-    public static readonly FrameworkVersion Version = new(AssemblyVersion, PreReleaseVersion, VersionMetadata);
 }
 <#+
     const string Undefined = "undefined";

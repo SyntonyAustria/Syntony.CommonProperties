@@ -156,8 +156,6 @@ Properties defined
 
         <GlobalCommonPropertiesIconsDirectory>$([MSBuild]::NormalizeDirectory($(GlobalCommonPropertiesDirectory), $(IconsDirectoryName)))</GlobalCommonPropertiesIconsDirectory>
         <GlobalCommonPropertiesIconsDirectory>$([MSBuild]::EnsureTrailingSlash($(GlobalCommonPropertiesIconsDirectory)))</GlobalCommonPropertiesIconsDirectory>
-
-        <_PackageSourceDirectory>$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>
     </PropertyGroup>
 
     <PropertyGroup Label="Language" Condition="'$(MSBuildProjectExtension)' == '.csproj'">

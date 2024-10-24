@@ -439,8 +439,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     -->
     <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(GeneratePackageOnBuild)'=='true' AND '$(IsPackable)'=='true'">
         <PropertyGroup>
-            <!-- $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
+            <!-- $(_PackageSourceDirectory) specifies the LOCAL FEED, that is the folder-based package source to which the package will be added. compare with NuGet.config -->
             <_PackageSourceDirectory Condition="'$(_PackageSourceDirectory)' == ''">$(GlobalCommonPropertiesDirectory)Packages\$(Company)</_PackageSourceDirectory>
+            <_globalPackagesFolder Condition="'$(_globalPackagesFolder)' == ''">$(GlobalCommonPropertiesSharedBinariesDirectory)NuGetPackages</_globalPackagesFolder>
             <_nuget Condition="Exists('$(CommonPropertiesToolsDirectory)')">$(CommonPropertiesToolsDirectory)nuget.exe</_nuget>
             <_nuget Condition="'$(_nuget)'==''">nuget.exe</_nuget>
 
@@ -451,6 +452,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
         <PropertyGroup>
             <_DirectoryToDelete>$(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)</_DirectoryToDelete>
+            <_DirectoryToDelete>$(_globalPackagesFolder)\$(PackageId)\$(PackageVersion)</_DirectoryToDelete>
         </PropertyGroup>
 
         <Message Text="$(Company) Nuget Directory to delete: '$(_DirectoryToDelete)'" Importance="$(BuildMessageImportance)" />
@@ -460,16 +462,14 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="ERROR: Directory '$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)' STILL Exists!" Importance="high" Condition="Exists('$(NuGetPackageRoot)$(PackageId)\$(PackageVersion)')"/>
 
         <Message Text="nuget $(_nuget)" Importance="high"/>
-        <Message Text="STARTING nuget add $(PackageId).$(PackageVersion).nupkg -source $(_PackageSourceDirectory)" Importance="high"/>
-
         <!-- https://learn.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-add Adds a specified package to a non-HTTP package source.
         $(_PackageSourceDirectory) specifies the folder-based package source to which the package will be added. -->
+        <Message Text="STARTING nuget add $(PackageId).$(PackageVersion).nupkg -source $(_PackageSourceDirectory)" Importance="high"/>
         <Exec Command="$(_nuget) add $(_outputPath) -source $(_PackageSourceDirectory)" Condition="'$(_outputPath)'!=''" ContinueOnError="true"/>
-        <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
 
         <!-- copy also to local feed defined inside D:\Syntony\NuGet.config ... should be on the long side a Custom MSBuild Task: -->
-        <Exec Command="xcopy $(snupkg_outputPath) $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion) /y" Condition="Exists('$(snupkg_outputPath)')" ContinueOnError="true"/>
-        
+        <Message Text="STARTING xcopy $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)\*.* $(_globalPackagesFolder)\$(PackageId)\$(PackageVersion)\" Importance="high"/>
+        <Exec Command="xcopy $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)\*.* $(_globalPackagesFolder)\$(PackageId)\$(PackageVersion)\ /y" Condition="Exists('$(_outputPath)')" ContinueOnError="true"/>
 
         <Message Text="ERROR: nuget add failed" Condition="'$(_outputPath)'==''" Importance="high"/>
     </Target>
