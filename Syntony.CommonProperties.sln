@@ -410,7 +410,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project.Build", "Project.Build", "{7D3F552C-04C8-4878-866A-BDAF908A60BF}"
 	ProjectSection(SolutionItems) = preProject
 		BuildScripts\Syntony.Common.Core.Basics.Build.props = BuildScripts\Syntony.Common.Core.Basics.Build.props
-		BuildScripts\Syntony.Common.Nullable.Build.props = BuildScripts\Syntony.Common.Nullable.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{A1A7CC17-BACF-401D-AA2A-EFE20F6A01F5}"
