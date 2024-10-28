@@ -36,9 +36,12 @@ Properties defined
         <PackageReference Include="$(_ReferenceItemToSet)" Version="*" />
     </ItemGroup>
 
+    <ItemGroup Condition="'$(IncludeSyntonyBaseCore)' == 'true'">
+        <PackageReference Include="$(SyntonyBaseCore)" Version="$(LatestPublicSyntonyBaseCoreVersion)" />
+        <!--  <PackageReference Include="$(SyntonyBaseCore)" Version="$(LatestSyntonyFrameworkVersion)" /> -->
+    </ItemGroup>
     <ItemGroup Condition="'$(IncludeSyntonyCommonCoreBasics)' == 'true'">
         <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestPublicSyntonyCommonCoreBasicsVersion)" />
         <!--  <PackageReference Include="$(SyntonyCommonCoreBasics)" Version="$(LatestSyntonyFrameworkVersion)" /> -->
     </ItemGroup>
-
 </Project>

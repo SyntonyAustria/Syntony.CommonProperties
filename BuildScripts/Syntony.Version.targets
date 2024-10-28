@@ -73,6 +73,7 @@ Properties defined
         <SyntonyVersion Condition="'$(SyntonyVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyVersion>
         <SyntonyCommonCoreBasicsVersion Condition="'$(SyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</SyntonyCommonCoreBasicsVersion>
         <LatestPublicSyntonyCommonCoreBasicsVersion Condition="'$(LatestPublicSyntonyCommonCoreBasicsVersion)' == ''">$(LatestSyntonyFrameworkVersion)</LatestPublicSyntonyCommonCoreBasicsVersion>
+        <LatestPublicSyntonyBaseCoreVersion Condition="'$(LatestPublicSyntonyBaseCoreVersion)' == ''">$(LatestSyntonyFrameworkVersion)</LatestPublicSyntonyBaseCoreVersion>
     </PropertyGroup>
 
     <PropertyGroup Label="OfficialRelease">

@@ -49,6 +49,24 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 
     <!-- https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2017 -->
 
+    <Target Name="CheckIfProjectIsInSyntonyFramework" BeforeTargets="PrintProperties">
+        <!-- Iterate through the SyntonyFrameworkProjectNames to find a match -->
+        <ItemGroup>
+            <_MatchedProject Condition="'%(SyntonyFrameworkProjectNames.Identity)' == '$(MSBuildProjectName)'" />
+        </ItemGroup>
+
+        <ItemGroup>
+            <_MatchedProject Include="@(SyntonyFrameworkProjectNames)" Condition="'%(SyntonyFrameworkProjectNames.Identity)' == '$(MSBuildProjectName)'"/>
+        </ItemGroup>
+
+        <PropertyGroup>
+            <IsFoundInSyntonyFrameworkProjectNames>false</IsFoundInSyntonyFrameworkProjectNames>
+        </PropertyGroup>
+        <PropertyGroup Condition="@(_MatchedProject->Count()) > 0">
+            <IsFoundInSyntonyFrameworkProjectNames>true</IsFoundInSyntonyFrameworkProjectNames>
+        </PropertyGroup>
+    </Target>
+
     <!--
         ***********************************************************************************************
         PrintProperties
@@ -67,6 +85,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="MSBuildProjectDirectory:                        '$(MSBuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="BuildProjectDirectory:                          '$(BuildProjectDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IncludeSyntonyCommonCoreBasics:                 '$(IncludeSyntonyCommonCoreBasics)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyCommonCoreBasics:                        '$(SyntonyCommonCoreBasics)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="IncludeSyntonyBaseCore:                         '$(IncludeSyntonyBaseCore)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SyntonyBaseCore:                                '$(SyntonyBaseCore)'" Importance="$(BuildMessageImportance)"/>
 
         <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="MSBuildDebug:                                   '$(MSBuildDebug)'" Importance="$(BuildMessageImportance)"/>
@@ -180,8 +201,13 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="UsingMicrosoftNETSdk:                           '$(UsingMicrosoftNETSdk)'" Importance="$(BuildMessageImportance)" />
         <Message Text="IsSyntonyProject:                               '$(IsSyntonyProject)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsCompanyProject:                               '$(IsCompanyProject)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="MSBuildProjectName:                             '$(MSBuildProjectName)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="SyntonyFrameworkProjectNames:                   '$(SyntonyFrameworkProjectNames)'" Importance="$(BuildMessageImportance)" />
         <Message Text="IsSyntonyFrameworkProject:                      '$(IsSyntonyFrameworkProject)'" Importance="$(BuildMessageImportance)" />
-        <Message Text="IsSyntonyFrameworkSubProject:                   '$(IsSyntonyFrameworkSubProject)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="IsFoundInSyntonyFrameworkProjectNames:          '$(IsFoundInSyntonyFrameworkProjectNames)'" Importance="$(BuildMessageImportance)" />
+        <Message Text="_MatchedProject:                                '$(_MatchedProject)'" Importance="$(BuildMessageImportance)" />
+
+        <Message Text="$(MessageSeparator)" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsSyntonyTestProject:                           '$(IsSyntonyTestProject)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsBenchmarkProject:                             '$(IsBenchmarkProject)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="IsQuickBenchmarkProject:                        '$(IsQuickBenchmarkProject)'" Importance="$(BuildMessageImportance)"/>
@@ -467,10 +493,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="STARTING nuget add $(PackageId).$(PackageVersion).nupkg -source $(_PackageSourceDirectory)" Importance="high"/>
         <Exec Command="$(_nuget) add $(_outputPath) -source $(_PackageSourceDirectory)" Condition="'$(_outputPath)'!=''" ContinueOnError="true"/>
 
-        <!-- copy also to local feed defined inside D:\Syntony\NuGet.config ... should be on the long side a Custom MSBuild Task: -->
+        <!-- copy also to local feed defined inside D:\Syntony\NuGet.config ... should be on the long side a Custom MSBuild Task: 
         <Message Text="STARTING xcopy $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)\*.* $(_globalPackagesFolder)\$(PackageId)\$(PackageVersion)\" Importance="high"/>
         <Exec Command="xcopy $(_PackageSourceDirectory)\$(PackageId)\$(PackageVersion)\*.* $(_globalPackagesFolder)\$(PackageId)\$(PackageVersion)\ /y" Condition="Exists('$(_outputPath)')" ContinueOnError="true"/>
-
+        -->
         <Message Text="ERROR: nuget add failed" Condition="'$(_outputPath)'==''" Importance="high"/>
     </Target>
 
@@ -1031,6 +1057,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
             <__AssemblyInfoText Condition="'$(Author)' != ''">$(__AssemblyInfoText.Replace("{Author}", '$(Author)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(AuthorEmail)' != ''">$(__AssemblyInfoText.Replace("{AuthorEmail}", '$(AuthorEmail)'))</__AssemblyInfoText>
             <__AssemblyInfoText Condition="'$(SolutionName)' != ''">$(__AssemblyInfoText.Replace("{SolutionName}", '$(SolutionName)'))</__AssemblyInfoText>
+
+            <__AssemblyInfoText Condition="'$(IsSyntonyTestProject)' == 'true'">$(__AssemblyInfoText.Replace("{CLSCompliant}", "false"))</__AssemblyInfoText>
+            <__AssemblyInfoText >$(__AssemblyInfoText.Replace("{CLSCompliant}", "true"))</__AssemblyInfoText>
+
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{Now}", '$(Now)'))</__AssemblyInfoText>
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{MSBuildProjectName}", '$(MSBuildProjectName)'))</__AssemblyInfoText>
             <__AssemblyInfoText>$(__AssemblyInfoText.Replace("{TargetFramework}", '$(TargetFramework)'))</__AssemblyInfoText>

@@ -308,6 +308,7 @@ Properties defined
         <IncludeSyntonyAssemblyInfo>true</IncludeSyntonyAssemblyInfo>
         <!-- Include a InternalsVisibleTo.AssemblyInfo.cs by default -->
         <IncludeInternalsVisibleToSyntonyAssemblyInfo>true</IncludeInternalsVisibleToSyntonyAssemblyInfo>
+        <IncludeInternalsVisibleToSyntonyAssemblyInfo Condition="'$(IsSyntonyTestProject)' == 'true'">false</IncludeInternalsVisibleToSyntonyAssemblyInfo>
 
         <!-- for updating Target GenerateProperties -->
         <_PropertiesUpdated>false</_PropertiesUpdated>

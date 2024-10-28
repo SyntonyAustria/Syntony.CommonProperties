@@ -19,6 +19,7 @@ Imported by:            '$(BuildRootName)' => build.root
 Properties defined
     IsProjectNameBuildPropsImported ... 'true'
     IncludeSyntonyCommonCoreBasics  ... 'false'
+    IncludeSyntonyBaseCore          ... 'true'
 **********************************************************************************
 -->
 
@@ -26,5 +27,6 @@ Properties defined
     <PropertyGroup Label="Imported">
         <IsProjectNameBuildPropsImported>true</IsProjectNameBuildPropsImported>
         <IncludeSyntonyCommonCoreBasics>false</IncludeSyntonyCommonCoreBasics>
+        <IncludeSyntonyBaseCore>true</IncludeSyntonyBaseCore>
     </PropertyGroup>
 </Project>

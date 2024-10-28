@@ -859,7 +859,7 @@ using JetBrains.Annotations;
 
 using Syntony.Constants;
 <#
- if (!this.rootNamespace.Equals(this.company))
+ if (!this.rootNamespace.Equals(this.company) && !this.rootNamespace.Equals(this.company + ".UnitTests"))
  {   //  "{" REQUIRED
 #>
 

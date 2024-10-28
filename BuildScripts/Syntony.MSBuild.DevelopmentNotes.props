@@ -114,7 +114,6 @@ $([System.IO.Path]::GetFileNameWithoutExtension('%(PackageReference.Identity)'))
 <!-- 
     USE:
         IsSyntonyFrameworkProject 
-        IsSyntonyFrameworkSubProject
     -->
 
 

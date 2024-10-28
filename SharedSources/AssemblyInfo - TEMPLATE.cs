@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
 using MetaData = {Company_Metacontent};
 
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant({CLSCompliant})]
 
 [assembly: AssemblyVersion(MetaData.AssemblyVersionInfo)]
 [assembly: AssemblyFileVersion(MetaData.AssemblyFileVersionInfo)]
