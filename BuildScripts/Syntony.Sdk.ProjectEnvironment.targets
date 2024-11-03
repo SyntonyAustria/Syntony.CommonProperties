@@ -124,7 +124,7 @@ Properties defined
             Solution with RegularExpressions.RegEx:
         -->
         <JetBrainsAnnotationsSet Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*JETBRAINS_ANNOTATIONS(;.*)*$'))">true</JetBrainsAnnotationsSet>
-        <JetBrainsAnnotationsVersion>2024.2.*</JetBrainsAnnotationsVersion>
+        <JetBrainsAnnotationsVersion>2024.3.*</JetBrainsAnnotationsVersion>
     </PropertyGroup>
     <ItemGroup Label="JetBrainsAnnotations">
         <!-- for all environments

@@ -299,6 +299,11 @@
         this.authors = Undefined;
     }
 
+    if (!string.IsNullOrEmpty(this.authors) && char.IsLower(this.authors[0]))
+    {
+        this.authors = char.ToUpper(this.authors[0]) + this.authors.Substring(1);
+    }
+
     this.developmentTypes = this.Host.ResolveParameterValue(".", ".", "DevelopmentTypes");
     if (string.IsNullOrEmpty(this.developmentTypes))
     {
@@ -382,6 +387,11 @@
         char[] charSeparators = {';'};
         string[] result = this.authors.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
         this.author = result.Length > 0 ? result[0].Trim() : this.company;
+    }
+
+    if (!string.IsNullOrEmpty(this.author) && char.IsLower(this.author[0]))
+    {
+        this.author = char.ToUpper(this.author[0]) + this.author.Substring(1);
     }
 
     try

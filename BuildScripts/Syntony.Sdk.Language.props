@@ -289,8 +289,12 @@ Properties defined
             AD0001      ...
             MSB3491     ... https://learn.microsoft.com/en-us/visualstudio/msbuild/errors/msb3491?view=vs-2022
             MSB3501     ...
+            CS8602      ... Dereference of a possibly null reference ... this can be a false positive in Netstandard and Net4.72
+            CS8603      ... Possible null reference return ... this can be a false positive in Netstandard and Net4.72
+            CS8603      ... Possible null reference argument ... this can be a false positive in Netstandard and Net4.72
         -->
         <_CompanyNoWarn>IDE0018,IDE0034,IDE0079,IDE0130,IDE0290,CA1031,NU1603,MA0048,AD0001</_CompanyNoWarn>
+        <_CompanyNoWarn Condition="'$(TargetFramework)' != '$(SyntonyDefaultTargetFramework)'">$(_CompanyNoWarn),CS8600,CS8602,CS8603,CS8604</_CompanyNoWarn>
         <NoWarn Condition="'$(NoWarn)' != ''">$(NoWarn),$(_CompanyNoWarn)</NoWarn>
         <NoWarn Condition="'$(NoWarn)' == ''">$(_CompanyNoWarn)</NoWarn>
         <NoWarn Condition="'$(IsSyntonyTestProject)' == 'true'">$(NoWarn),CS1591</NoWarn> <!-- Missing XML comment for publicly visible type or member 'Type_or_Member' for TESTS only -->
