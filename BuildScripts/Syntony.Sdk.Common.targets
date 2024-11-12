@@ -269,9 +269,9 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Message Text="BuildSolutionDirectory:                         '$(BuildSolutionDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="SolutionDrive:                                  '$(SolutionDrive)'" Importance="$(BuildMessageImportance)"/>
 
-        <Message Text="CommonPropertiesDirectory:                      '$(CommonPropertiesDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SdkDirectory:                      '$(SdkDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CommonPropertiesSharedSourcesDirectory:         '$(CommonPropertiesSharedSourcesDirectory)'" Importance="$(BuildMessageImportance)"/>
-        <Message Text="CommonPropertiesBuildScriptsDirectory:          '$(CommonPropertiesBuildScriptsDirectory)'" Importance="$(BuildMessageImportance)"/>
+        <Message Text="SdkBuildScriptsDirectory:          '$(SdkBuildScriptsDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CommonPropertiesSharedBinariesDirectory:        '$(CommonPropertiesSharedBinariesDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CommonPropertiesToolsDirectory:                 '$(CommonPropertiesToolsDirectory)'" Importance="$(BuildMessageImportance)"/>
         <Message Text="CommonPropertiesLicensesDirectory:              '$(CommonPropertiesLicensesDirectory)'" Importance="$(BuildMessageImportance)"/>
@@ -388,12 +388,12 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         <Error Condition="!Exists('$(BuildSolutionDirectory)')" Text="BuildSolutionDirectory not found: '$(BuildSolutionDirectory)'."/>
         <Error Condition="'$(BuildProjectDirectory)'==''" Text="BuildProjectDirectory property not defined."/>
         <Error Condition="!Exists('$(BuildProjectDirectory)')" Text="BuildProjectDirectory not found: '$(BuildProjectDirectory)'."/>
-        <Error Condition="'$(CommonPropertiesDirectory)'==''" Text="CommonPropertiesDirectory property not defined."/>
-        <Error Condition="!Exists('$(CommonPropertiesDirectory)')" Text="CommonPropertiesDirectory not found: '$(CommonPropertiesDirectory)'."/>
+        <Error Condition="'$(SdkDirectory)'==''" Text="SdkDirectory property not defined."/>
+        <Error Condition="!Exists('$(SdkDirectory)')" Text="SdkDirectory not found: '$(SdkDirectory)'."/>
         <Error Condition="'$(CommonPropertiesSharedSourcesDirectory)'==''" Text="CommonPropertiesSharedSourcesDirectory property not defined."/>
         <Error Condition="!Exists('$(CommonPropertiesSharedSourcesDirectory)')" Text="CommonPropertiesSharedSourcesDirectory not found: '$(CommonPropertiesSharedSourcesDirectory)'."/>
-        <Error Condition="'$(CommonPropertiesBuildScriptsDirectory)'==''" Text="CommonPropertiesBuildScriptsDirectory property not defined."/>
-        <Error Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')" Text="CommonPropertiesBuildScriptsDirectory not found: '$(CommonPropertiesBuildScriptsDirectory)'."/>
+        <Error Condition="'$(SdkBuildScriptsDirectory)'==''" Text="SdkBuildScriptsDirectory property not defined."/>
+        <Error Condition="!Exists('$(SdkBuildScriptsDirectory)')" Text="SdkBuildScriptsDirectory not found: '$(SdkBuildScriptsDirectory)'."/>
         <Error Condition="'$(CommonPropertiesIconsDirectory)'==''" Text="CommonPropertiesIconsDirectory property not defined."/>
         <Error Condition="!Exists('$(CommonPropertiesIconsDirectory)')" Text="CommonPropertiesIconsDirectory not found: '$(CommonPropertiesIconsDirectory)'."/>
 
@@ -423,7 +423,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
         ***********************************************************************************************
     -->
     <Target Name="PostBuildCopyTargetFiles" AfterTargets="PostBuildEvent">
-        <!-- copy files to topmost (global) CommonPropertiesDirectory -->
+        <!-- copy files to topmost (global) SdkDirectory -->
         <Exec Command="xcopy %22$(TargetDir)$(TargetName).*%22 $(GlobalCommonPropertiesDirectory)Assemblies\Syntony /y" />
     </Target>
 
@@ -612,7 +612,7 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
     <Target Name="SyntonyAfterClean" Condition="'$(IsReleaseConfiguration)'=='true'" AfterTargets="AfterClean">
         <PropertyGroup>
             <__PackageAndVersion>Packages\$(Company)\$(PackageId)\$(PackageVersion)</__PackageAndVersion>
-            <_DirectoryToDelete>$(CommonPropertiesDirectory)$(__PackageAndVersion)</_DirectoryToDelete>
+            <_DirectoryToDelete>$(SdkDirectory)$(__PackageAndVersion)</_DirectoryToDelete>
             <_GlobalDirectoryToDelete>$(GlobalCommonPropertiesDirectory)$(__PackageAndVersion)</_GlobalDirectoryToDelete>
         </PropertyGroup>
         <Message Text="In AfterClean for TargetFramework $(TargetFramework)" Importance="$(BuildMessageImportance)" />

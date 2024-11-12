@@ -13,10 +13,10 @@ Copyright © Ing. Josef Hahnl, MBA - HahnlJosef@msn.com           All rights res
 Function: identify the "CommonProperties" directory for a project 
 **********************************************************************************************************************************************
 Imported by:    'Directory.Build.props'
-    Imports:    'Company.props' from $(CommonPropertiesBuildScriptsDirectory) (throws error if not exists)
+    Imports:    'Company.props' from $(SdkBuildScriptsDirectory) (throws error if not exists)
     Imports:    'Company.props' from $(ProjectBuildScriptsDirectory) (if exists)
     Imports:    'BeforeCommon.props' from $(ProjectBuildScriptsDirectory) (if exists)
-    Imports:    '$(_DefaultSdkImportPreFilename)DefaultItems.props' from $(CommonPropertiesBuildScriptsDirectory) (throws error if not exists)
+    Imports:    '$(_DefaultSdkImportPreFilename)DefaultItems.props' from $(SdkBuildScriptsDirectory) (throws error if not exists)
 **********************************************************************************************************************************************
 Properties defined
     IsBuildRootFileImported               ... 'true'
@@ -24,15 +24,15 @@ Properties defined
     BuildProjectDirectory                   ... $(MSBuildProjectDirectory) ... The absolute path of the directory where the project file is located. Include the final backslash in the path.
     BuildProjectPropertiesDirectory         ... $([MSBuild]::EnsureTrailingSlash($(BuildProjectDirectory)Properties)
     SolutionDrive                           ... $([System.IO.Path]::GetPathRoot($(MSBuildProjectDirectory))) like D
-    CommonPropertiesDirectoryName           ... 'CommonProperties' if not already set
+    SdkDirectoryName           ... 'CommonProperties' if not already set
     BuildScriptsDirectoryName               ... 'BuildScripts'
     BuildDirectoryName                      ... 'Build'
     BeforeCommonPropsName                   ... 'BeforeCommon.props'
     AfterCommonPropsName                    ... 'AfterCommon.props'
     ProjectBuildScriptsDirectory            ... the absolute path of the directory where we find the project specific build scripts. Include the final backslash in the path.
-    CommonPropertiesDirectory               ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
-    CommonPropertiesBuildScriptsDirectory   ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common build scripts. Include the final backslash in the path.
-    _DefaultSyntonyName                     ... 'Syntony'
+    SdkDirectory               ... the absolute path of the first found $(SdkDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
+    SdkBuildScriptsDirectory   ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common build scripts. Include the final backslash in the path.
+    _DefaultCompanyName                     ... 'Syntony'
     DefaultCompanyName                      ... 'Syntony'
     Syntony                                 ... 'false'
     Company                                 ... '$(DefaultCompanyName)'
@@ -63,7 +63,7 @@ Properties defined
         <SolutionDrive>$([System.IO.Path]::GetPathRoot($(MSBuildProjectDirectory)))</SolutionDrive>
 
         <!-- define the common properties directory name and  the default build directory names where build scripts can be stored -->
-        <CommonPropertiesDirectoryName Condition="'$(CommonPropertiesDirectoryName)' == ''">CommonProperties</CommonPropertiesDirectoryName>
+        <SdkDirectoryName Condition="'$(SdkDirectoryName)' == ''">CommonProperties</SdkDirectoryName>
         <BuildScriptsDirectoryName Condition="'$(BuildScriptsDirectoryName)' == ''">BuildScripts</BuildScriptsDirectoryName>
         <BuildDirectoryName Condition="'$(BuildDirectoryName)' == ''">Build</BuildDirectoryName>
         <BeforeCommonPropsName>BeforeCommon.props</BeforeCommonPropsName>
@@ -77,43 +77,48 @@ Properties defined
         <ProjectBuildScriptsDirectory>$([MSBuild]::EnsureTrailingSlash($(_ProjectBuildDirectory)))</ProjectBuildScriptsDirectory>
 
         <!-- now we try to find the first common properties directory upside the $(BuildProjectDirectory) e.g.: D:\Syntony\Proj\Syntony\CommonProperties -->
-        <_FirstCommonPropertiesDirectory Condition="'$(_FirstCommonPropertiesDirectory)' == '' OR !Exists('$(_FirstCommonPropertiesDirectory)')">$(BuildProjectDirectory)$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
-        <_FirstCommonPropertiesDirectory Condition="!Exists('$(_FirstCommonPropertiesDirectory)') OR '$(_FirstCommonPropertiesDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_FirstCommonPropertiesDirectory>
+        <_FirstSdkDirectory Condition="'$(_FirstSdkDirectory)' == '' OR !Exists('$(_FirstSdkDirectory)')">$(BuildProjectDirectory)$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
+        <_FirstSdkDirectory Condition="!Exists('$(_FirstSdkDirectory)') OR '$(_FirstSdkDirectory)' == ''">$(BuildProjectDirectory)..\..\..\..\..\..\..\$(SdkDirectoryName)</_FirstSdkDirectory>
     </PropertyGroup>
 
-    <PropertyGroup Condition="Exists('$(_FirstCommonPropertiesDirectory)')">
-        <CommonPropertiesDirectory>$([MSBuild]::NormalizePath('$(_FirstCommonPropertiesDirectory)'))</CommonPropertiesDirectory>
-        <CommonPropertiesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesDirectory)))</CommonPropertiesDirectory>
-        <CommonPropertiesBuildScriptsDirectory>$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory)$(BuildScriptsDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
-        <CommonPropertiesBuildScriptsDirectory Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory)$(BuildDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
-        <CommonPropertiesBuildScriptsDirectory Condition="!Exists('$(CommonPropertiesBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(CommonPropertiesDirectory).$(BuildDirectoryName)'))</CommonPropertiesBuildScriptsDirectory>
-        <CommonPropertiesBuildScriptsDirectory Condition="'$(CommonPropertiesBuildScriptsDirectory)' != ''">$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesBuildScriptsDirectory)))</CommonPropertiesBuildScriptsDirectory>
+    <PropertyGroup Condition="Exists('$(_FirstSdkDirectory)')">
+        <SdkDirectory>$([MSBuild]::NormalizePath('$(_FirstSdkDirectory)'))</SdkDirectory>
+        <SdkDirectory>$([MSBuild]::EnsureTrailingSlash($(SdkDirectory)))</SdkDirectory>
+        <SdkBuildScriptsDirectory>$([MSBuild]::NormalizePath('$(SdkDirectory)$(BuildScriptsDirectoryName)'))</SdkBuildScriptsDirectory>
+        <SdkBuildScriptsDirectory Condition="!Exists('$(SdkBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(SdkDirectory)$(BuildDirectoryName)'))</SdkBuildScriptsDirectory>
+        <SdkBuildScriptsDirectory Condition="!Exists('$(SdkBuildScriptsDirectory)')">$([MSBuild]::NormalizePath('$(SdkDirectory).$(BuildDirectoryName)'))</SdkBuildScriptsDirectory>
+        <SdkBuildScriptsDirectory Condition="'$(SdkBuildScriptsDirectory)' != ''">$([MSBuild]::EnsureTrailingSlash($(SdkBuildScriptsDirectory)))</SdkBuildScriptsDirectory>
     </PropertyGroup>
 
-    <PropertyGroup Label="Syntony Globals">
-        <_DefaultSyntonyName>Syntony</_DefaultSyntonyName>
+    <!-- this represents the name of the company that is developing with this SDK
+         Using uppercase with underscores for spaces is the standard convention for environment variables, and it’s a good idea to keep them descriptive yet concise. 
+         So, if this is for Syntony, COMPANY_NAME="Syntony" would work well.
+    -->
+    <PropertyGroup Label="Company Globals">
+        <_DefaultCompanyName>$(COMPANY_NAME)</_DefaultCompanyName>
+        <_DefaultCompanyName Condition="'$(_DefaultCompanyName)' == ''">Syntony</_DefaultCompanyName>
     </PropertyGroup>
 
     <!-- set the Company property to import the magic of our SDK implementation -->
-    <Import Label="Company" Project="$(CommonPropertiesBuildScriptsDirectory)Company.props" />
+    <Import Label="Company" Project="$(SdkBuildScriptsDirectory)Company.props" Condition="Exists('$(SdkBuildScriptsDirectory)Company.props')"/>
     <Import Label="Company" Project="$(ProjectBuildScriptsDirectory)Company.props" Condition="Exists('$(ProjectBuildScriptsDirectory)Company.props')"/>
 
-    <PropertyGroup Label="Syntony Globals">
-        <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">$(_DefaultSyntonyName)</DefaultCompanyName>
+    <PropertyGroup Label="Company Globals">
+        <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">$(_DefaultCompanyName)</DefaultCompanyName>
         <Company Condition="'$(Company)' == ''">$(DefaultCompanyName)</Company>
-        <Syntony Condition="'$(Company)' == '$(_DefaultSyntonyName)'">true</Syntony>
+        <Syntony Condition="'$(Company)' == '$(_DefaultCompanyName)'">true</Syntony>
     </PropertyGroup>
 
     <PropertyGroup Label="Set SDK name">
         <_DefaultSdkImportPreFilename>$(Company).Sdk.</_DefaultSdkImportPreFilename>
         <_DefaultImportFilename>$(_DefaultSdkImportPreFilename)DefaultItems.props</_DefaultImportFilename>
-        <_ImportCommonPropertiesDefaultSettingsFile>$(CommonPropertiesBuildScriptsDirectory)$(_DefaultImportFilename)</_ImportCommonPropertiesDefaultSettingsFile>
+        <_ImportCommonPropertiesDefaultSettingsFile>$(SdkBuildScriptsDirectory)$(_DefaultImportFilename)</_ImportCommonPropertiesDefaultSettingsFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="Exists('$(_ProjectBuildDirectory)')">

@@ -66,70 +66,70 @@ Properties defined
     <Import Project="$(ProjectBuildScriptsDirectory)BeforeCommon.targets" Condition="Exists('$(ProjectBuildScriptsDirectory)BeforeCommon.targets')"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)DefaulItems.targets -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)DefaultItems.targets"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)DefaultItems.targets"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)VSIX.targets if $(IsVsixProject) -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets" Condition="'$(IsVsixProject)' == 'true' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets" Condition="'$(IsVsixProject)' == 'true' AND Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)VSIX.targets')"/>
 
     <!-- IMPORT $(Company).Version.targets AND / OR $(MSBuildProjectName).Version.targets AND / OR $(ProjectBuildScriptsDirectory).Version.targets -->
     <PropertyGroup>
-        <_VersionTargetsFileName>Version.targets</_VersionTargetsFileName>
+        <_VersionTargetsFileName>.Version.targets</_VersionTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_VersionTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_VersionTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_VersionTargetsFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_VersionTargetsFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_VersionTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company)$(_VersionTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company)$(_VersionTargetsFileName)')"/>
 
     <!-- IMPORT $(Company).Shipping.targets AND / OR $(MSBuildProjectName).Shipping.targets AND / OR Shipping.targets -->
     <PropertyGroup>
-        <_ShippingTargetsFileName>Shipping.targets</_ShippingTargetsFileName>
+        <_ShippingTargetsFileName>.Shipping.targets</_ShippingTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_ShippingTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_ShippingTargetsFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_ShippingTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_ShippingTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company)$(_ShippingTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company)$(_ShippingTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_ShippingTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_ShippingTargetsFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(_ShippingTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_ShippingTargetsFileName)')"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)RootNamespace.targets - RootNamespace for project -->
     <PropertyGroup>
         <_SetDefaultRootNamespace Condition="'$(SetDefaultRootNamespace)' == 'true' AND '$(SetDefaultCompanyRootNamespace)' == 'true'">true</_SetDefaultRootNamespace>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets" Condition="'$(_SetDefaultRootNamespace)' == 'true' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets" Condition="'$(_SetDefaultRootNamespace)' == 'true' AND Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)RootNamespace.targets')"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)ProjectEnvironment.targets -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)ProjectEnvironment.targets"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)ProjectEnvironment.targets"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)PackageReference.targets -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets" Condition="Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)PackageReference.targets')"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)Test.PackageReference.targets -->
-    <Import Label="Test.PackageReference" Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets')"/>
+    <Import Label="Test.PackageReference" Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets" Condition="Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Test.PackageReference.targets')"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)NuGet.targets -->
-    <Import Label="NuGet" Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets')"/>
+    <Import Label="NuGet" Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets" Condition="Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)NuGet.targets')"/>
 
-    <!-- CodeAnalysis.targets  must be imported before any analyzer is imported -->
+    <!-- CodeAnalysis.targets must be imported before any analyzer is imported -->
     <!-- IMPORT $(Company).CodeAnalysis.targets AND / OR $(MSBuildProjectName).CodeAnalysis.targets AND / OR CodeAnalysis.targets -->
     <PropertyGroup >
-        <_CodeAnalysisTargetsFileName>CodeAnalysis.targets</_CodeAnalysisTargetsFileName>
+        <_CodeAnalysisTargetsFileName>.CodeAnalysis.targets</_CodeAnalysisTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CodeAnalysisTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CodeAnalysisTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_CodeAnalysisTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_CodeAnalysisTargetsFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(_CodeAnalysisTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_CodeAnalysisTargetsFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CodeAnalysisTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CodeAnalysisTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company)$(_CodeAnalysisTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company)$(_CodeAnalysisTargetsFileName)')"/>
 
     <!-- Import the default analyzers for our projects -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Analyzers.PackageReference.targets" />
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Analyzers.PackageReference.targets" />
     
     <!-- IMPORT Microsoft.TextTemplating.targets OLD: <Import Project="$(VSToolsPath)TextTemplating\Microsoft.TextTemplating.targets"/> https://github.com/github/VisualStudio/blob/master/lib/Microsoft.TextTemplating.targets -->
     <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\TextTemplating\Microsoft.TextTemplating.targets" />
 
     <!-- IMPORT Metacontent.TextTemplating.targets at least because it needs Version and Shipping info -->
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Metacontent.TextTemplating.targets"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Metacontent.TextTemplating.targets"/>
 
     <!-- IMPORT $(_DefaultSdkImportPreFilename)Common.targets AND / OR (Company).Common.targets AND / OR $(MSBuildProjectName).Common.targets AND / OR Common.targets -->
     <PropertyGroup>
         <_CommonTargetsFileName>Common.targets</_CommonTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Common.targets"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)Common.targets"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company).$(_CommonTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)" Condition="'$(Company)'!='$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName).$(_CommonTargetsFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(_CommonTargetsFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(_CommonTargetsFileName)')"/>
 
     <!-- IMPORT PROJECT AfterCommon.targets -->
@@ -139,7 +139,7 @@ Properties defined
     <PropertyGroup>
         <_CommonTasksTargetsFileName>Common.tasks</_CommonTasksTargetsFileName>
     </PropertyGroup>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(_DefaultSdkImportPreFilename)$(_CommonTasksTargetsFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company).$(_CommonTasksTargetsFileName)')"/>
 
 </Project>

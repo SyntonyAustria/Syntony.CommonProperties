@@ -33,19 +33,19 @@ Properties defined
     SharedToolsDirectoryName                            ... 'Tools'
     LicensesDirectoryName                               ... 'Licenses'
     IconsDirectoryName                                  ... 'Icons'
-    CommonPropertiesSharedBinariesDirectory             ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
-    CommonPropertiesSharedSourcesDirectory              ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
-    CommonPropertiesToolsDirectory                      ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common tools. Include the final backslash in the path.
-    CommonPropertiesLicensesDirectory                   ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
-    CommonPropertiesIconsDirectory                      ... the absolute path of the first found $(CommonPropertiesDirectoryName) directory where we find the common icons. Include the final backslash in the path.
+    CommonPropertiesSharedBinariesDirectory             ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    CommonPropertiesSharedSourcesDirectory              ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
+    CommonPropertiesToolsDirectory                      ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common tools. Include the final backslash in the path.
+    CommonPropertiesLicensesDirectory                   ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
+    CommonPropertiesIconsDirectory                      ... the absolute path of the first found $(SdkDirectoryName) directory where we find the common icons. Include the final backslash in the path.
     
-    GlobalCommonPropertiesDirectory                     ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
-    GlobalCommonPropertiesBuildScriptsDirectory         ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
-    GlobalCommonPropertiesSharedBinariesDirectory       ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
-    GlobalCommonPropertiesSharedSourcesDirectory        ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
-    GlobalCommonPropertiesToolsDirectory                ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common tools. Include the final backslash in the path.
-    GlobalCommonPropertiesLicensesDirectory             ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
-    GlobalCommonPropertiesIconsDirectory                ... the absolute path of the topmost (global) found $(CommonPropertiesDirectoryName) directory where we find the common icons. Include the final backslash in the path.
+    GlobalCommonPropertiesDirectory                     ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where the common tools and scripts are stored. Include the final backslash in the path.
+    GlobalCommonPropertiesBuildScriptsDirectory         ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    GlobalCommonPropertiesSharedBinariesDirectory       ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common shared binaries. Include the final backslash in the path.
+    GlobalCommonPropertiesSharedSourcesDirectory        ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common shared sources. Include the final backslash in the path.
+    GlobalCommonPropertiesToolsDirectory                ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common tools. Include the final backslash in the path.
+    GlobalCommonPropertiesLicensesDirectory             ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common licenses. Include the final backslash in the path.
+    GlobalCommonPropertiesIconsDirectory                ... the absolute path of the topmost (global) found $(SdkDirectoryName) directory where we find the common icons. Include the final backslash in the path.
     
     DiscoverEditorConfigFiles                           ... 'true'
     DiscoverGlobalAnalyzerConfigFiles                   ... 'true'
@@ -104,33 +104,33 @@ Properties defined
         <IconsDirectoryName Condition="'$(IconsDirectoryName)' == ''">Icons</IconsDirectoryName>
     </PropertyGroup>
 
-    <PropertyGroup Label="The $(CommonPropertiesDirectory) sub-directories" Condition="Exists('$(CommonPropertiesDirectory)')">
-        <CommonPropertiesSharedBinariesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedBinariesDirectoryName)))</CommonPropertiesSharedBinariesDirectory>
+    <PropertyGroup Label="The $(SdkDirectory) sub-directories" Condition="Exists('$(SdkDirectory)')">
+        <CommonPropertiesSharedBinariesDirectory>$([MSBuild]::NormalizeDirectory($(SdkDirectory), $(SharedBinariesDirectoryName)))</CommonPropertiesSharedBinariesDirectory>
         <CommonPropertiesSharedBinariesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesSharedBinariesDirectory)))</CommonPropertiesSharedBinariesDirectory>
 
-        <CommonPropertiesSharedSourcesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedSourcesDirectoryName)))</CommonPropertiesSharedSourcesDirectory>
+        <CommonPropertiesSharedSourcesDirectory>$([MSBuild]::NormalizeDirectory($(SdkDirectory), $(SharedSourcesDirectoryName)))</CommonPropertiesSharedSourcesDirectory>
         <CommonPropertiesSharedSourcesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesSharedSourcesDirectory)))</CommonPropertiesSharedSourcesDirectory>
 
-        <CommonPropertiesToolsDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(SharedToolsDirectoryName)))</CommonPropertiesToolsDirectory>
+        <CommonPropertiesToolsDirectory>$([MSBuild]::NormalizeDirectory($(SdkDirectory), $(SharedToolsDirectoryName)))</CommonPropertiesToolsDirectory>
         <CommonPropertiesToolsDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesToolsDirectory)))</CommonPropertiesToolsDirectory>
 
-        <CommonPropertiesLicensesDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(LicensesDirectoryName)))</CommonPropertiesLicensesDirectory>
+        <CommonPropertiesLicensesDirectory>$([MSBuild]::NormalizeDirectory($(SdkDirectory), $(LicensesDirectoryName)))</CommonPropertiesLicensesDirectory>
         <CommonPropertiesLicensesDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesLicensesDirectory)))</CommonPropertiesLicensesDirectory>
 
-        <CommonPropertiesIconsDirectory>$([MSBuild]::NormalizeDirectory($(CommonPropertiesDirectory), $(IconsDirectoryName)))</CommonPropertiesIconsDirectory>
+        <CommonPropertiesIconsDirectory>$([MSBuild]::NormalizeDirectory($(SdkDirectory), $(IconsDirectoryName)))</CommonPropertiesIconsDirectory>
         <CommonPropertiesIconsDirectory>$([MSBuild]::EnsureTrailingSlash($(CommonPropertiesIconsDirectory)))</CommonPropertiesIconsDirectory>
     </PropertyGroup>
 
     <PropertyGroup Label="GLOBAL common properties build directory">
         <!-- The global common properties e.g.: D:\Syntony\CommonProperties\  -->
-        <_GlobalCommonPropertiesDirectory Condition="(('$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')) AND '$(Company)' != '') ">$(SolutionDrive)$(Company)\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
-        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\$(CommonPropertiesDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="(('$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')) AND '$(Company)' != '') ">$(SolutionDrive)$(Company)\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
+        <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' == '' OR !Exists('$(_GlobalCommonPropertiesDirectory)')">$(BuildSolutionDirectory)..\$(SdkDirectoryName)</_GlobalCommonPropertiesDirectory>
         <_GlobalCommonPropertiesDirectory Condition="'$(_GlobalCommonPropertiesDirectory)' != '' AND !Exists('$(_GlobalCommonPropertiesDirectory)')"></_GlobalCommonPropertiesDirectory>
     </PropertyGroup>
 
@@ -189,10 +189,10 @@ Properties defined
     <Import Project="$(_DefaultSdkImportPreFilename)NuGet.props" Condition="'$(IsNuGetPropsFileImported)' != 'true'" />
 
     <PropertyGroup>
-        <_BuildPropsFileName>Build.props</_BuildPropsFileName>
+        <_BuildPropsFileName>.Build.props</_BuildPropsFileName>
     </PropertyGroup>
-    <Import Label="$(SolutionName).Build.props" Project="$(CommonPropertiesBuildScriptsDirectory)$(SolutionName).$(_BuildPropsFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(SolutionName).$(_BuildPropsFileName)')" />
-    <Import Label="$(MSBuildProjectName).Build.props" Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_BuildPropsFileName)" Condition="'$(SolutionName)' != '$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(_BuildPropsFileName)')" />
+    <Import Label="$(SolutionName).Build.props" Project="$(SdkBuildScriptsDirectory)$(SolutionName)$(_BuildPropsFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(SolutionName)$(_BuildPropsFileName)')" />
+    <Import Label="$(MSBuildProjectName).Build.props" Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_BuildPropsFileName)" Condition="'$(SolutionName)' != '$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName)$(_BuildPropsFileName)')" />
 
     <PropertyGroup Label=".editorconfig, .globalconfig ">
         <!-- 

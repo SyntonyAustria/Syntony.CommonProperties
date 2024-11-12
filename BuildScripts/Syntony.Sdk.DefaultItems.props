@@ -53,10 +53,6 @@ Properties defined
     <!-- ATTENTION: only import *.props files -->
     <Import Project="$(ProjectBuildScriptsDirectory)ImportBefore\*.props" Condition="'$(ImportByWildcardBeforeMicrosoftCommonTargets)' == 'true' AND Exists('$(ProjectBuildScriptsDirectory)ImportBefore')" />
 
-    <!-- Import company specific props => e.g. Syntony.props -->
-    <Import Label="Company" Project="$(Company).props" Condition="Exists('$(Company).props')" />
-    <Import Label="Company" Project="$(ProjectBuildScriptsDirectory)$(Company).props" Condition="Exists('$(ProjectBuildScriptsDirectory)$(Company).props')" />
-
     <!-- Import default user specific props -->
     <Import Project="$(_DefaultSdkImportPreFilename)User.props" />
 
@@ -120,7 +116,7 @@ Properties defined
 
         <!-- Syntony projects must fullfill special conditions -->
         <IsSyntonyProject>false</IsSyntonyProject>
-        <IsSyntonyProject Condition="$(MSBuildProjectName.StartsWith('$(_DefaultSyntonyName)'))">true</IsSyntonyProject>
+        <IsSyntonyProject Condition="$(MSBuildProjectName.StartsWith('$(_DefaultCompanyName)'))">true</IsSyntonyProject>
         <IsCompanyProject>false</IsCompanyProject>
         <IsCompanyProject Condition="$(MSBuildProjectName.StartsWith('$(Company)'))">true</IsCompanyProject>
 

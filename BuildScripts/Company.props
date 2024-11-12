@@ -32,7 +32,8 @@ Properties defined
     </PropertyGroup>
 
     <PropertyGroup Label="Company settings">
-        <!-- Condition because an environment-variable 'DefaultCompanyName' could overwrite the property -->
+        <!-- Condition because an environment-variable 'DefaultCompanyName' could overwrite the property - we use COMPANY_NAME as Environment variable to check -->
+        <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">$(COMPANY_NAME)</DefaultCompanyName>
         <DefaultCompanyName Condition="'$(DefaultCompanyName)' == ''">Syntony</DefaultCompanyName>
         <Company Condition="'$(Company)' == ''">$(DefaultCompanyName)</Company>
         <CompanyEmail>syntony@aon.at</CompanyEmail>

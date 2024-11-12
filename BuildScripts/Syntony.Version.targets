@@ -200,7 +200,7 @@ Properties defined
         <ReleaseNotesFileName>ReleaseNotes.props</ReleaseNotesFileName>
     </PropertyGroup>
 
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)" Condition="Exists('$(CommonPropertiesBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)')"/>
-    <Import Project="$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)" Condition="'$(Company)' != '$(MSBuildProjectName)' AND Exists('$(CommonPropertiesBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)" Condition="Exists('$(SdkBuildScriptsDirectory)$(Company).$(ReleaseNotesFileName)')"/>
+    <Import Project="$(SdkBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)" Condition="'$(Company)' != '$(MSBuildProjectName)' AND Exists('$(SdkBuildScriptsDirectory)$(MSBuildProjectName).$(ReleaseNotesFileName)')"/>
     <Import Project="$(ProjectBuildScriptsDirectory)$(ReleaseNotesFileName)" Condition="Exists('$(ProjectBuildScriptsDirectory)$(ReleaseNotesFileName)')"/>
 </Project>

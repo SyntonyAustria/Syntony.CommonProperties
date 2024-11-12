@@ -157,7 +157,7 @@ Properties defined
 
     <!-- RunSettingsFilePath PROPERTIES -->
     <PropertyGroup Condition="'$(RunSettingsFilePath)' == '' AND '$(IsSyntonyTestProject)' == 'true'">
-        <RunSettingsFilePath Condition="Exists('$(CommonPropertiesDirectory)runsettings.xml')">$(CommonPropertiesDirectory)runsettings.xml</RunSettingsFilePath>
+        <RunSettingsFilePath Condition="Exists('$(SdkDirectory)runsettings.xml')">$(SdkDirectory)runsettings.xml</RunSettingsFilePath>
         <RunSettingsFilePath Condition="'$(RunSettingsFilePath)' == '' AND Exists('$(GlobalCommonPropertiesDirectory)runsettings.xml')">$(GlobalCommonPropertiesDirectory)runsettings.xml</RunSettingsFilePath>
     </PropertyGroup>
 
